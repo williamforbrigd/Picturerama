@@ -7,7 +7,7 @@ Image database project in Systemutvikling 1 at NTNU
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
-- Java 11 SDK
+- Java 12 SDK
 - IntelliJ IDEA or another code editor
 
 ### Installing
