@@ -5,6 +5,7 @@ module JavaFxApplication {
     requires java.sql;
     requires mysql.connector.java;
     requires java.sql.rowset;
+    requires javaxt.core;
 
     opens Scenes;
     opens Main;
