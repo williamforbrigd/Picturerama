@@ -14,6 +14,9 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 git clone git@gitlab.stud.idi.ntnu.no:gruppe-12/picturerama.git
 ```
+```
+Download JavaFX 11 SDK from https://gluonhq.com/products/javafx/
+```
 
 In order to be able to connect to our database you'll need a ```config.properties``` file in the project root. It should look like this:
 ```
@@ -22,15 +25,15 @@ password=your_password
 ```
 Contact one of the developers to get the username and password.
 
-You should now have the files you need. In order to be able to run, you have to add the libraries.
-**Steps to add libraries in IntelliJ IDEA:**
+You should now have the files you need. In order to be able to run, you have to add the libraries and modules.
+**Steps to add Global Libraries in IntelliJ IDEA:**
 1. File
 2. Project Structure
-3. Libraries
+3. Global Libraries
 4. Plus Icon (+)
-5. Java
-5. Select all .jar files and the lib folder inside lib-folder
-6. Press OK
+5. Select all .jar files inside the lib-folder in the locally downloaded JavaFX 11 SDK
+6. Press OK and OK again to add to local libraries
+7. Select the .jar files inside the lib-folder in this project and press OK and OK again to add to local libraries
 
 ## Rules
 
