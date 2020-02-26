@@ -1,5 +1,6 @@
 package Scenes;
 
+import Css.Css;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -43,6 +44,8 @@ public abstract class SceneBuilder {
         header = new Header();
         borderPane.setTop(Header.getGridPane());
         borderPane.setCenter(gridPane);
+        //Css.setBorderPane(borderPane);
+        //Css.setGridPane(gridPane);
     }
 
     public void setPageTitle(String title){
@@ -56,6 +59,4 @@ public abstract class SceneBuilder {
     public Scene getScene() {
         return scene;
     }
-
-    //TODO add method to close program properly
 }

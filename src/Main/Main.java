@@ -5,12 +5,15 @@ import Components.Photo;
 import Components.UserInfo;
 import Database.DBConnection;
 import Scenes.LogIn;
+import Scenes.StageInitializer;
 import javafx.application.Application;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
 public class Main extends Application {
+
 
     public static void main(String[] args) {
         /*System.out.println("Start");
@@ -26,8 +29,6 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		LogIn logIn = new LogIn();
-		stage.setScene(logIn.getScene());
-		stage.show();
+		StageInitializer.initialize(stage);
 	}
 }

@@ -2,19 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af0fe9cb-1238-4d9f-9ee0-587a8bf269a1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Css/Css.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Scenes/ConfirmationBox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Scenes/StageInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JavaFxApplication.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFxApplication.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx-swt.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.base.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.controls.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.fxml.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.graphics.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.media.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.swing.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/lib/javafx.web.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scenes/LogIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scenes/LogIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scenes/SceneBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scenes/SceneBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,8 +78,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="module-info" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -137,26 +132,23 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/Scenes" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Scenes" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Scenes" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.Main">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -168,12 +160,6 @@
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
-    </configuration>
-    <configuration default="true" type="Applet">
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="sample.Main" />
@@ -252,7 +238,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
+      <changelist id="af0fe9cb-1238-4d9f-9ee0-587a8bf269a1" name="Default Changelist" comment="" />
       <created>1359379246138</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -261,6 +247,9 @@
       <workItem from="1582536923582" duration="10978000" />
       <workItem from="1582555165352" duration="1729000" />
       <workItem from="1582615163965" duration="3480000" />
+      <workItem from="1582640360804" duration="3507000" />
+      <workItem from="1582701520469" duration="37000" />
+      <workItem from="1582708311383" duration="2504000" />
     </task>
     <task id="LOCAL−00001" summary="Added a photo-class and changed the getphotos and getphoto method">
       <created>1582549632083</created>
@@ -319,26 +308,30 @@
     <state x="151" y="23" key="CommitChangelistDialog2/0.23.1280.737@0.23.1280.737" timestamp="1582555722200" />
     <state x="151" y="23" key="CommitChangelistDialog2/0.23.1280.738@0.23.1280.738" timestamp="1582617525619" />
     <state x="151" y="23" key="CommitChangelistDialog2/0.23.1280.739@0.23.1280.739" timestamp="1582617309015" />
-    <state width="1238" height="183" key="GridCell.Tab.0.bottom" timestamp="1582618674329">
+    <state width="1238" height="182" key="GridCell.Tab.0.bottom" timestamp="1582710067795">
       <screen x="0" y="23" width="1280" height="737" />
     </state>
-    <state width="1238" height="183" key="GridCell.Tab.0.bottom/0.23.1280.737@0.23.1280.737" timestamp="1582618674329" />
-    <state width="1238" height="227" key="GridCell.Tab.0.bottom/0.23.1280.738@0.23.1280.738" timestamp="1582616014210" />
-    <state width="1238" height="183" key="GridCell.Tab.0.center" timestamp="1582618674328">
+    <state width="1238" height="182" key="GridCell.Tab.0.bottom/0.23.1280.737@0.23.1280.737" timestamp="1582710067795" />
+    <state width="1238" height="183" key="GridCell.Tab.0.bottom/0.23.1280.738@0.23.1280.738" timestamp="1582701558430" />
+    <state width="1238" height="183" key="GridCell.Tab.0.bottom/0.23.1280.739@0.23.1280.739" timestamp="1582643917949" />
+    <state width="1238" height="182" key="GridCell.Tab.0.center" timestamp="1582710067793">
       <screen x="0" y="23" width="1280" height="737" />
     </state>
-    <state width="1238" height="183" key="GridCell.Tab.0.center/0.23.1280.737@0.23.1280.737" timestamp="1582618674328" />
-    <state width="1238" height="227" key="GridCell.Tab.0.center/0.23.1280.738@0.23.1280.738" timestamp="1582616014202" />
-    <state width="1238" height="183" key="GridCell.Tab.0.left" timestamp="1582618674326">
+    <state width="1238" height="182" key="GridCell.Tab.0.center/0.23.1280.737@0.23.1280.737" timestamp="1582710067793" />
+    <state width="1238" height="183" key="GridCell.Tab.0.center/0.23.1280.738@0.23.1280.738" timestamp="1582701558427" />
+    <state width="1238" height="183" key="GridCell.Tab.0.center/0.23.1280.739@0.23.1280.739" timestamp="1582643917948" />
+    <state width="1238" height="182" key="GridCell.Tab.0.left" timestamp="1582710067792">
       <screen x="0" y="23" width="1280" height="737" />
     </state>
-    <state width="1238" height="183" key="GridCell.Tab.0.left/0.23.1280.737@0.23.1280.737" timestamp="1582618674326" />
-    <state width="1238" height="227" key="GridCell.Tab.0.left/0.23.1280.738@0.23.1280.738" timestamp="1582616014201" />
-    <state width="1238" height="183" key="GridCell.Tab.0.right" timestamp="1582618674328">
+    <state width="1238" height="182" key="GridCell.Tab.0.left/0.23.1280.737@0.23.1280.737" timestamp="1582710067792" />
+    <state width="1238" height="183" key="GridCell.Tab.0.left/0.23.1280.738@0.23.1280.738" timestamp="1582701558426" />
+    <state width="1238" height="183" key="GridCell.Tab.0.left/0.23.1280.739@0.23.1280.739" timestamp="1582643917946" />
+    <state width="1238" height="182" key="GridCell.Tab.0.right" timestamp="1582710067794">
       <screen x="0" y="23" width="1280" height="737" />
     </state>
-    <state width="1238" height="183" key="GridCell.Tab.0.right/0.23.1280.737@0.23.1280.737" timestamp="1582618674328" />
-    <state width="1238" height="227" key="GridCell.Tab.0.right/0.23.1280.738@0.23.1280.738" timestamp="1582616014208" />
+    <state width="1238" height="182" key="GridCell.Tab.0.right/0.23.1280.737@0.23.1280.737" timestamp="1582710067794" />
+    <state width="1238" height="183" key="GridCell.Tab.0.right/0.23.1280.738@0.23.1280.738" timestamp="1582701558429" />
+    <state width="1238" height="183" key="GridCell.Tab.0.right/0.23.1280.739@0.23.1280.739" timestamp="1582643917949" />
     <state width="1238" height="227" key="GridCell.Tab.1.bottom" timestamp="1582616612412">
       <screen x="0" y="23" width="1280" height="737" />
     </state>
@@ -359,11 +352,15 @@
     </state>
     <state width="1238" height="227" key="GridCell.Tab.1.right/0.23.1280.737@0.23.1280.737" timestamp="1582616612411" />
     <state width="1238" height="227" key="GridCell.Tab.1.right/0.23.1280.738@0.23.1280.738" timestamp="1582616563119" />
-    <state x="129" y="23" key="SettingsEditor" timestamp="1582617398655">
-      <screen x="0" y="23" width="1280" height="739" />
+    <state x="129" y="23" key="SettingsEditor" timestamp="1582709867513">
+      <screen x="0" y="23" width="1280" height="737" />
     </state>
-    <state x="129" y="23" key="SettingsEditor/0.23.1280.737@0.23.1280.737" timestamp="1582556464194" />
+    <state x="129" y="23" key="SettingsEditor/0.23.1280.737@0.23.1280.737" timestamp="1582709867513" />
     <state x="129" y="23" key="SettingsEditor/0.23.1280.739@0.23.1280.739" timestamp="1582617398655" />
+    <state x="317" y="223" key="com.intellij.ide.util.TipDialog" timestamp="1582708311698">
+      <screen x="0" y="23" width="1280" height="737" />
+    </state>
+    <state x="317" y="223" key="com.intellij.ide.util.TipDialog/0.23.1280.737@0.23.1280.737" timestamp="1582708311698" />
     <state x="424" y="314" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582555682754">
       <screen x="0" y="23" width="1280" height="737" />
     </state>

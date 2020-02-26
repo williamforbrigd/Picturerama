@@ -11,4 +11,5 @@ module JavaFxApplication {
     opens Main;
     opens Database;
     opens Components;
+    opens Css;
 }
