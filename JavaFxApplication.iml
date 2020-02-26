@@ -7,10 +7,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="JavaFX-11" level="application" />
-    <orderEntry type="library" name="mysql-connector-java-8.0.13" level="project" />
-    <orderEntry type="library" name="slf4j-api-1.7.26" level="project" />
-    <orderEntry type="library" name="slf4j-nop-1.7.26" level="project" />
-    <orderEntry type="library" name="HikariCP-3.3.1" level="project" />
+    <orderEntry type="library" name="javaxt-core" level="application" />
+    <orderEntry type="library" name="slf4j-nop-1.7.26" level="application" />
+    <orderEntry type="library" name="slf4j-api-1.7.26" level="application" />
+    <orderEntry type="library" name="mysql-connector-java-8.0.13" level="application" />
+    <orderEntry type="library" name="javafx" level="application" />
+    <orderEntry type="library" name="javafx-swt" level="application" />
+    <orderEntry type="library" name="HikariCP-3.3.1" level="application" />
   </component>
 </module>

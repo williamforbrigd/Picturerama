@@ -24,7 +24,8 @@
 *.rar
 
 # User-specific stuff
-.idea/
+**/.idea/workspace.xml
+**/.idea/tasks.xml
 *.iml
 
 # File-based project format
