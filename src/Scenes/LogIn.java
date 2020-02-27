@@ -40,11 +40,12 @@ public class LogIn extends SceneBuilder {
 
     /**
      * getScene gets the scene of the log in page, to be used in primaryStage.setScene()
+     *
      * @return super.getScene(), the scene to be used in the primary stage
      */
     @Override
-    public Scene getScene(){
-       return super.getScene();
+    public Scene getScene() {
+        return super.getScene();
     }
 
 
@@ -52,36 +53,37 @@ public class LogIn extends SceneBuilder {
      * setLayout method used for setting the layout for the log in page
      */
     @Override
-    public void setLayout(){
+    public void setLayout() {
         //Uses the super classes set layout method for setting the base of the layout
         super.setLayout();
         usernameField.setPromptText("Username");
         passwordField.setPromptText("Password");
         super.setPageTitle("Log in screen");
-        super.getGridPane().add(usernameLabel,0,0);
-        super.getGridPane().add(usernameField,0,1);
-        super.getGridPane().add(passwordLabel,0,2);
-        super.getGridPane().add(passwordField,0,3);
-        super.getGridPane().add(logInButton,0,4);
-        super.getGridPane().add(signUpButton, 0 , 5);
-        super.getGridPane().add(logInLabel,0,6);
-        super.getGridPane().add(exitButton,0,7);
+        super.getGridPane().add(usernameLabel, 0, 0);
+        super.getGridPane().add(usernameField, 0, 1);
+        super.getGridPane().add(passwordLabel, 0, 2);
+        super.getGridPane().add(passwordField, 0, 3);
+        super.getGridPane().add(logInButton, 0, 4);
+        super.getGridPane().add(signUpButton, 0, 5);
+        super.getGridPane().add(logInLabel, 0, 6);
+        super.getGridPane().add(exitButton, 0, 7);
 
         //Sets styling for the layout components
         Css.setButtons(logInButton, signUpButton, exitButton);
 
         //Sets functionality for the layout components
         logInButton.setOnAction(e -> {
-            if(Authentication.logIn(usernameField.getText(), passwordField.getText())){
+            if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
                 //TODO switch scene
                 logInLabel.setText("Successful");
+            } else {
+                logInLabel.setText("Log in failed");
             }
-            else logInLabel.setText("Log in failed");
         });
         signUpButton.setOnAction(e -> {
-
+            StageInitializer.setSignUpScene();
         });
-        exitButton.setOnAction(e->{
+        exitButton.setOnAction(e -> {
             StageInitializer.closeProgram();
         });
 

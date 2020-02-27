@@ -16,7 +16,7 @@ public class Header {
     private static GridPane gridPane;
 
 
-    public Header(){
+    public Header() {
         this.pageTitle = new Label();
         gridPane = new GridPane();
         this.setGridPane();
@@ -33,13 +33,13 @@ public class Header {
     /**
      * setGridPane void, sets padding and alignment for the grid pane
      */
-    private void setGridPane(){
-        gridPane.setPadding(new Insets(10,10,10,10));
+    private void setGridPane() {
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
         gridPane.setAlignment(Pos.CENTER);
         //gridPane.add(new ImageView(logo), 0,0);
-        gridPane.add(picturerama, 1 ,0);
+        gridPane.add(picturerama, 1, 0);
         gridPane.add(pageTitle, 2, 0);
         gridPane.add(homeButton, 3, 0);
     }

@@ -10,8 +10,8 @@ import javafx.scene.layout.GridPane;
 
 public abstract class SceneBuilder {
     //Making height and class constants to keep every scene the same size
-    private static final int WIDTH = 1200;
-    private static final int HEIGHT = 800;
+    private static final int WIDTH = 900;
+    private static final int HEIGHT = 600;
     private Header header;
 
     //Creating class scene and grid pane
@@ -33,14 +33,14 @@ public abstract class SceneBuilder {
     /**
      * setGridPane void, sets padding and alignment for the grid pane
      */
-    public void setGridPane(){
-        gridPane.setPadding(new Insets(10,10,10,10));
+    public void setGridPane() {
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
         gridPane.setAlignment(Pos.CENTER);
     }
 
-    public void setLayout(){
+    public void setLayout() {
         header = new Header();
         borderPane.setTop(Header.getGridPane());
         borderPane.setCenter(gridPane);
@@ -48,7 +48,7 @@ public abstract class SceneBuilder {
         //Css.setGridPane(gridPane);
     }
 
-    public void setPageTitle(String title){
+    public void setPageTitle(String title) {
         header.setPageTitle(title);
     }
 

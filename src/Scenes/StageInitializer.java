@@ -1,11 +1,12 @@
 package Scenes;
 
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class StageInitializer {
-    public static Stage window;
+    private static Stage window;
 
-    public static void initialize(Stage stage){
+    public static void initialize(Stage stage) {
         window = stage;
         window.setOnCloseRequest(s -> {
             //Makes is so that the program doesnt automatically close, gives the developer control of the exit mechanic
@@ -19,11 +20,24 @@ public class StageInitializer {
         window.show();
     }
 
+    public static Stage getWindow() {
+        return window;
+    }
+
+    public static void setLoginScene() {
+        LogIn logIn = new LogIn();
+        window.setScene(logIn.getScene());
+    }
+
+    public static void setSignUpScene() {
+        SignUp signUp = new SignUp();
+        window.setScene(signUp.getScene());
+    }
 
     //No access modifier to make it available in the package
-    static void closeProgram(){
+    static void closeProgram() {
         Boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit");
-        if(close) window.close();
+        if (close) window.close();
     }
 
 }
