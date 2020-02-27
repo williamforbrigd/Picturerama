@@ -19,7 +19,6 @@ public class LogIn extends SceneBuilder {
     private static Label logInLabel;
     private static Button logInButton;
     private static Button signUpButton;
-    private static Button exitButton; //TODO Maybe remove this button
 
     /**
      * LogIn constructor, uses SceneBuilder constructor. To create an object of the LogIn class
@@ -33,7 +32,6 @@ public class LogIn extends SceneBuilder {
         logInLabel = new Label();
         logInButton = new Button("Log in");
         signUpButton = new Button("Sign up");
-        exitButton = new Button("Exit application");
         this.setLayout();
     }
 
@@ -66,10 +64,9 @@ public class LogIn extends SceneBuilder {
         super.getGridPane().add(logInButton, 0, 4);
         super.getGridPane().add(signUpButton, 0, 5);
         super.getGridPane().add(logInLabel, 0, 6);
-        super.getGridPane().add(exitButton, 0, 7);
 
         //Sets styling for the layout components
-        Css.setButtons(logInButton, signUpButton, exitButton);
+        Css.setButtons(logInButton, signUpButton);
 
         //Sets functionality for the layout components
         logInButton.setOnAction(e -> {
@@ -83,11 +80,5 @@ public class LogIn extends SceneBuilder {
         signUpButton.setOnAction(e -> {
             StageInitializer.setSignUpScene();
         });
-        exitButton.setOnAction(e -> {
-            StageInitializer.closeProgram();
-        });
-
     }
-
-
 }

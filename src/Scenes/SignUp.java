@@ -14,7 +14,6 @@ public class SignUp extends SceneBuilder {
     public static Text signupFeedbackText;
     public static Button signUpButton;
     public static Button logInButton;
-    public static Button exitButton;
     public static ProgressBar passwordStrengthBar;
 
     /**
@@ -27,9 +26,8 @@ public class SignUp extends SceneBuilder {
         confirmPasswordField = new PasswordField();
         usernameField = new TextField();
         signupFeedbackText = new Text();
-        signUpButton = new Button("Sign Up!");
-        logInButton = new Button("Already logged in?");
-        exitButton = new Button("Exit");
+        signUpButton = new Button("Sign up");
+        logInButton = new Button("Log in");
         passwordStrengthBar = new ProgressBar(0);
         this.setLayout();
     }
@@ -64,11 +62,10 @@ public class SignUp extends SceneBuilder {
         super.getGridPane().add(passwordStrengthBar, 11, 3);
         super.getGridPane().add(signupFeedbackText, 10, 8);
         super.getGridPane().add(logInButton, 10, 7);
-        super.getGridPane().add(exitButton, 10, 9);
         passwordStrengthBar.setTooltip(new Tooltip("Password Stength: \n " +
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
         passwordStrengthBar.setVisible(false);
-        Css.setButtons(signUpButton, logInButton, exitButton);
+        Css.setButtons(signUpButton, logInButton);
         //Todo Use CSS class from GIT
         signUpButton.setOnAction(e -> {
             feedback();
@@ -79,9 +76,6 @@ public class SignUp extends SceneBuilder {
             }
         });
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
-        exitButton.setOnAction(e -> {
-            StageInitializer.closeProgram();
-        });
     }
 
 
