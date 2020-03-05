@@ -66,7 +66,6 @@ public class SignUp extends SceneBuilder {
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
         passwordStrengthBar.setVisible(false);
         Css.setButtons(signUpButton, logInButton);
-        //Todo Use CSS class from GIT
         signUpButton.setOnAction(e -> {
             feedback();
             if (feedback()) {
@@ -76,6 +75,8 @@ public class SignUp extends SceneBuilder {
             }
         });
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
+
+        logInButton.setOnAction(e -> StageInitializer.setLoginScene());
     }
 
 
