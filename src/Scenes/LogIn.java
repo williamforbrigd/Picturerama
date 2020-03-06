@@ -2,7 +2,6 @@ package Scenes;
 
 import Components.Authentication;
 import Css.Css;
-import Main.Main;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,7 +37,6 @@ public class LogIn extends SceneBuilder {
 
     /**
      * getScene gets the scene of the log in page, to be used in primaryStage.setScene()
-     *
      * @return super.getScene(), the scene to be used in the primary stage
      */
     @Override
@@ -66,16 +64,16 @@ public class LogIn extends SceneBuilder {
         super.getGridPane().add(logInLabel, 0, 6);
 
         //Sets styling for the layout components
-        Css.setButtons(logInButton, signUpButton);
+        Css.setButtonsSignUpLogin(logInButton, signUpButton);
 
         //Sets functionality for the layout components
         logInButton.setOnAction(e -> {
-            if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
-                //TODO switch scene
-                logInLabel.setText("Successful");
-            } else {
-                logInLabel.setText("Log in failed");
-            }
+                if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
+                    //TODO switch scene
+                    logInLabel.setText("Successful");
+                } else {
+                    logInLabel.setText("Log in failed");
+                }
         });
         signUpButton.setOnAction(e -> {
             StageInitializer.setSignUpScene();

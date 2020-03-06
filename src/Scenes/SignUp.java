@@ -65,7 +65,7 @@ public class SignUp extends SceneBuilder {
         passwordStrengthBar.setTooltip(new Tooltip("Password Stength: \n " +
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
         passwordStrengthBar.setVisible(false);
-        Css.setButtons(signUpButton, logInButton);
+        Css.setButtonsSignUpLogin(signUpButton, logInButton);
         signUpButton.setOnAction(e -> {
             feedback();
             if (feedback()) {

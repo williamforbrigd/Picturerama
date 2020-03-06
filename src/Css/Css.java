@@ -10,12 +10,15 @@ import javafx.scene.layout.Pane;
  * Css class used for styling different JavaFX elements
  */
 public class Css {
-    public static void setBorderPane(BorderPane borderPane) {
-        borderPane.setStyle("-fx-background-color: white");
-    }
 
-    public static void setGridPane(GridPane gridPane) {
-        gridPane.setStyle("-fx-background-color: white");
+    /**
+     * set pane takes in an amount of panes or its subclasses (border pane, grid pane)
+     * @param args an amount of panes
+     */
+    public static void setPane(Pane... args){
+        for(Pane arg : args){
+            arg.setStyle("-fx-background-color: white");
+        }
     }
 
     /**
@@ -23,11 +26,11 @@ public class Css {
      *
      * @param args an amount of buttons
      */
-    public static void setButtons(Button... args) {
+    public static void setButtonsSignUpLogin(Button... args) {
         for (Button arg : args) {
             arg.setStyle("-fx-position:absolute;");
             arg.setPrefHeight(20);
-            arg.setPrefWidth(466);
+            arg.setPrefWidth(400);
         }
     }
 
