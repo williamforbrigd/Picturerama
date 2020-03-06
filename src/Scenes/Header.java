@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public class Header {
-    //private static final Image logo = new Image("placeholder");
+    private static final Image logo = new Image("file:src/Images/Logo.png", 55, 55, true, true);
     private static final Label picturerama = new Label("Picturerama");
     private Label pageTitle;
     private static final Button homeButton = new Button("Home");
@@ -38,8 +38,8 @@ public class Header {
         gridPane.setVgap(10);
         gridPane.setHgap(10);
         gridPane.setAlignment(Pos.CENTER);
-        //gridPane.add(new ImageView(logo), 0,0);
-        gridPane.add(picturerama, 1, 0);
+        gridPane.add(new ImageView(logo), 0,0);
+        gridPane.add(picturerama, 1 ,0);
         gridPane.add(pageTitle, 2, 0);
         gridPane.add(homeButton, 3, 0);
     }

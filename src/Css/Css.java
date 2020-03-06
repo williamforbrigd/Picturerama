@@ -1,5 +1,6 @@
 package Css;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -34,8 +35,20 @@ public class Css {
         }
     }
 
-    public static void setErrorLabel(Label... args) {
-        for (Label arg : args) {
+    public static void setImageContainerButtons(Button... args) {
+        for (Button arg : args) {
+            arg.setStyle("-fx-background-color: #FFFFFF;");
+            arg.setOnMouseExited(action -> arg.setStyle("-fx-background-color: #FFFFFF;"));
+            arg.setOnMouseEntered(action -> arg.setStyle("-fx-background-color: #82CBFF; -fx-border-color: #6BC1FF; -fx-border-width: 1.2;"));
+            arg.setAlignment(Pos.CENTER_LEFT);
+            arg.setMinWidth(1000);
+            arg.setMinHeight(160);
+            arg.setMaxHeight(160);
+        }
+    }
+
+    public static void setErrorLabel(Label... args){
+        for(Label arg : args){
             arg.setStyle("-fx-text-fill: red");
         }
     }

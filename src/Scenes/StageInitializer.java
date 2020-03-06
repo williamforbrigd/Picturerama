@@ -1,5 +1,6 @@
 package Scenes;
 
+import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -14,7 +15,8 @@ public class StageInitializer {
             //Runs our close program instead
             closeProgram();
         });
-
+        window.getIcons().add(new Image("file:src/Images/Logo.png"));
+        window.setTitle("Picturerama");
         LogIn logIn = new LogIn();
         window.setScene(logIn.getScene());
         window.show();
@@ -35,9 +37,9 @@ public class StageInitializer {
     }
 
     //No access modifier to make it available in the package
-    static void closeProgram() {
-        Boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit");
-        if (close) window.close();
+    static void closeProgram(){
+        boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit");
+        if(close) window.close();
     }
 
 }
