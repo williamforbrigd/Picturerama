@@ -104,4 +104,16 @@ public class Photo {
         return this.userId;
     }
 
+    @Override
+    public String toString() {
+        return "Filetype: "+getFileType()+"\n"+
+                "Proportions"+getWidth()+"x"+getHeight()+"\n"+
+                "size: "+getSize()+"\n"+
+                "Latitude: "+getLatitude()+"\n"+
+                "Longitude: "+getLongitude()+"\n"+
+                "Date: "+getRegistered()+"\n"+
+                "Model: "+getCamera()+"\n"+
+                "Aperture: "+getAperture()+"\n"+
+                "Exposuretime: "+getExposureTime()+"\n";
+    }
 }
