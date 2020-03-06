@@ -15,7 +15,7 @@ public class Authentication {
 	 * @param password the password
 	 * @return if method was successful
 	 */
-	public static boolean register(String username, String password) {
+	public static boolean register(String username, String password, String email) {
 		String hash;
 		String salt;
 
@@ -31,7 +31,7 @@ public class Authentication {
 		}
 
 		if ((username != null) && (hash != null) && (salt != null)) {
-			DBConnection.registerUser(username, hash, salt);
+			DBConnection.registerUser(username, email, hash, salt);
 			return true;
 		}
 		return false;

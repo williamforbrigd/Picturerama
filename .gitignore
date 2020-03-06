@@ -26,6 +26,8 @@
 # User-specific stuff
 **/.idea/workspace.xml
 **/.idea/tasks.xml
+**/.idea/checkstyle-idea.xml
+**/.idea/sonarlint
 *.iml
 
 # File-based project format

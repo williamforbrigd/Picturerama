@@ -17,12 +17,12 @@ class AuthenticationTest {
 
     @Test
     void registerFalse() {
-        assertFalse(Authentication.register(null, null));
+        assertFalse(Authentication.register(null, null, null));
     }
 
     @Test
     void registerTrue() {
-        assertTrue(Authentication.register("test", "test"));
+        assertTrue(Authentication.register("test", "test", "test"));
     }
 
     @Test

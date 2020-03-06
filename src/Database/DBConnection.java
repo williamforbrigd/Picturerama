@@ -23,17 +23,18 @@ public class DBConnection {
      * @param hash     hashing of password
      * @param salt     salting of password
      */
-    public static void registerUser(String userName, String hash, String salt) {
+    public static void registerUser(String userName, String email, String hash, String salt ) {
         Connection con = null;
         PreparedStatement prepStmt = null;
         try {
             con = HikariCP.getCon();
 
-            String query = "INSERT INTO USERS VALUES (0, ?, ?, ?)";
+            String query = "INSERT INTO USERS VALUES (0, ?, ?, ?,?)";
             prepStmt = con.prepareStatement(query);
             prepStmt.setString(1, userName);
-            prepStmt.setString(2, hash);
-            prepStmt.setString(3, salt);
+            prepStmt.setString(2, email);
+            prepStmt.setString(3, hash);
+            prepStmt.setString(4, salt);
             prepStmt.executeUpdate();
         } catch (SQLSyntaxErrorException e) {
             e.printStackTrace();
@@ -108,7 +109,7 @@ public class DBConnection {
         ResultSet res = null;
         try {
             con = HikariCP.getCon();
-            String query = "SELECT username FROM USERS WHERE username=? AND password=?;";
+            String query = "SELECT username FROM USERS WHERE username=? AND hash=?;";
             prepStmt = con.prepareStatement(query);
             prepStmt.setString(1, username);
             prepStmt.setString(2, hash);
@@ -199,7 +200,7 @@ public class DBConnection {
                 String title = res.getString("title");
 				String path = res.getString("path");
 				Blob image = res.getBlob("photo_file");
-                String tags = res.getString("tags");
+                ArrayList<String> tags = getTags(id);
                 String latitude = res.getString("latitude");
                 String longitude = res.getString("longitude");
                 int width = res.getInt("width");
@@ -245,7 +246,7 @@ public class DBConnection {
 				String title = res.getString("title");
 				String path = res.getString("path");
 				Blob image = res.getBlob("photo_file");
-				String tags = res.getString("tags");
+				ArrayList<String> tags = getTags(id);
 				String latitude = res.getString("latitude");
 				String longitude = res.getString("longitude");
 				int width = res.getInt("width");
@@ -266,5 +267,26 @@ public class DBConnection {
             closeConnection(con, prepStmt, res);
         }
         return null;
+    }
+    private static ArrayList<String> getTags(int photoId){
+        Connection con = null;
+        PreparedStatement prepStmt = null;
+        ResultSet res = null;
+        ArrayList<String> tags = new ArrayList<>();
+        try {
+            con = HikariCP.getCon();
+            String query = "SELECT * FROM TAGS WHERE photo_id = ?;";
+            prepStmt = con.prepareStatement(query);
+            prepStmt.setInt(1, photoId);
+            res = prepStmt.executeQuery();
+            while (res.next()){
+                tags.add(res.getString("tag"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            closeConnection(con, prepStmt, res);
+        }
+        return tags;
     }
 }

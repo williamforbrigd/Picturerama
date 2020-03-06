@@ -11,6 +11,7 @@ public class SignUp extends SceneBuilder {
     public static PasswordField passwordField;
     public static PasswordField confirmPasswordField;
     public static TextField usernameField;
+    public  static TextField emailField;
     public static Text signupFeedbackText;
     public static Button signUpButton;
     public static Button logInButton;
@@ -25,6 +26,7 @@ public class SignUp extends SceneBuilder {
         passwordField = new PasswordField();
         confirmPasswordField = new PasswordField();
         usernameField = new TextField();
+        emailField = new TextField();
         signupFeedbackText = new Text();
         signUpButton = new Button("Sign up");
         logInButton = new Button("Log in");
@@ -50,18 +52,21 @@ public class SignUp extends SceneBuilder {
         super.setLayout();
         super.setPageTitle("Sign Up");
         usernameField.setPromptText("Username");
+        emailField.setPromptText("Email");
         passwordField.setPromptText("Password");
         confirmPasswordField.setPromptText("Password");
         super.getGridPane().add(new Label("Username: "), 10, 0);
-        super.getGridPane().add(new Label("Password"), 10, 2);
-        super.getGridPane().add(new Label("Confirm Password"), 10, 4);
+        super.getGridPane().add(new Label("Email: "), 10, 2);
+        super.getGridPane().add(new Label("Password"), 10, 4);
+        super.getGridPane().add(new Label("Confirm Password"), 10, 6);
         super.getGridPane().add(usernameField, 10, 1);
-        super.getGridPane().add(passwordField, 10, 3);
-        super.getGridPane().add(confirmPasswordField, 10, 5);
-        super.getGridPane().add(signUpButton, 10, 6);
-        super.getGridPane().add(passwordStrengthBar, 11, 3);
-        super.getGridPane().add(signupFeedbackText, 10, 8);
-        super.getGridPane().add(logInButton, 10, 7);
+        super.getGridPane().add(emailField, 10, 3);
+        super.getGridPane().add(passwordField, 10, 5);
+        super.getGridPane().add(confirmPasswordField, 10, 7);
+        super.getGridPane().add(signUpButton, 10, 8);
+        super.getGridPane().add(passwordStrengthBar, 11, 5);
+        super.getGridPane().add(signupFeedbackText, 10, 11);
+        super.getGridPane().add(logInButton, 10, 9);
         passwordStrengthBar.setTooltip(new Tooltip("Password Stength: \n " +
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
         passwordStrengthBar.setVisible(false);
@@ -69,7 +74,7 @@ public class SignUp extends SceneBuilder {
         signUpButton.setOnAction(e -> {
             feedback();
             if (feedback()) {
-                if (Authentication.register(usernameField.getText(), passwordField.getText())) {
+                if (Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText())) {
                     StageInitializer.setLoginScene();
                 }
             }
@@ -146,8 +151,9 @@ public class SignUp extends SceneBuilder {
      * @return a boolean value, true for no errors, boolean for error
      */
     private boolean feedback() {
-        if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0) {
-            signupFeedbackText.setText("Error: Password or username are missing");
+
+        if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0 || emailField.getText().length() == 0 ) {
+            signupFeedbackText.setText("Error: Password, username or email are missing");
             signupFeedbackText.setFill(Color.RED);
             return false;
         }
@@ -178,6 +184,11 @@ public class SignUp extends SceneBuilder {
         }
         if (!passwordField.getText().equals(confirmPasswordField.getText())) {
             signupFeedbackText.setText("Error: Your passwords don't match");
+            signupFeedbackText.setFill(Color.RED);
+            return false;
+        }
+        if (!emailField.getText().contains("@") || !emailField.getText().contains(".")){
+            signupFeedbackText.setText("Error: This email is not valid");
             signupFeedbackText.setFill(Color.RED);
             return false;
         }

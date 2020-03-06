@@ -1,13 +1,14 @@
 package Components;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 
 public class Photo {
     private int id;
     private String title;
     private String path;
     private Blob image;
-    private String tags;
+    private ArrayList<String> tags;
     private String latitude;
     private String longitude;
     private int width;
@@ -20,7 +21,7 @@ public class Photo {
     private String registered;
     private int userId;
 
-    public Photo(int id, String title, String path, Blob image, String tags, String latitude, String longitude, int width, int height, String fileType, double aperture, double exposureTime, int size, String camera, String registered, int userId) {
+    public Photo(int id, String title, String path, Blob image, ArrayList<String> tags, String latitude, String longitude, int width, int height, String fileType, double aperture, double exposureTime, int size, String camera, String registered, int userId) {
         this.id = id;
         this.title = title;
         this.path = path;
@@ -55,7 +56,7 @@ public class Photo {
         return this.image;
     }
 
-    public String getTags() {
+    public ArrayList<String> getTags() {
         return this.tags;
     }
 
