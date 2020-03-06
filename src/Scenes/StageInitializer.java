@@ -36,6 +36,16 @@ public class StageInitializer {
         window.setScene(signUp.getScene());
     }
 
+    public static void setMainMenuScene() {
+        MainMenu mainMenu = new MainMenu();
+        window.setScene(mainMenu.getScene());
+    }
+
+    public static void setSearchScene() {
+	    Search search = new Search();
+        window.setScene(search.getScene());
+    }
+
     //No access modifier to make it available in the package
     static void closeProgram(){
         boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit");

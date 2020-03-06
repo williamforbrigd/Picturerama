@@ -83,7 +83,7 @@ public class Search extends SceneBuilder {
         searchTextField.setPromptText("Write some keywords to filter images...");
         searchTextField.setOnAction(action -> filter());
         searchButton.setOnAction(action -> filter());
-        Css.setButtons(searchButton);
+        Css.setButtonsSignUpLogin(searchButton);
         selectAllCheckBox.setOnAction(action -> {
             checkBoxArrayList.stream().forEach(checkBox -> {
                 checkBox.setSelected(selectAllCheckBox.isSelected());
@@ -92,7 +92,7 @@ public class Search extends SceneBuilder {
     }
 
     private void setupAlbumButtons(){
-        Css.setButtons(addToAlbumButton, viewAlbumsButton);
+        Css.setButtonsSignUpLogin(addToAlbumButton, viewAlbumsButton);
         viewAlbumsButton.setPrefSize(500, 100);
         addToAlbumButton.setPrefSize(500, 100);
     }

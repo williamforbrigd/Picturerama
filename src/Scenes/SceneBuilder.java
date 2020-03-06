@@ -4,6 +4,7 @@ import Css.Css;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
@@ -29,6 +30,9 @@ public abstract class SceneBuilder {
         this.scene = new Scene(borderPane, WIDTH, HEIGHT);
     }
 
+    public BorderPane getBorderPane() {
+        return borderPane;
+    }
 
     /**
      * setGridPane void, sets padding and alignment for the grid pane
@@ -39,6 +43,7 @@ public abstract class SceneBuilder {
         gridPane.setHgap(10);
         gridPane.setAlignment(Pos.CENTER);
     }
+
 
     public void setLayout() {
         header = new Header();
@@ -55,6 +60,7 @@ public abstract class SceneBuilder {
     public GridPane getGridPane() {
         return gridPane;
     }
+
 
     public Scene getScene() {
         return scene;

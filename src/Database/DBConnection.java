@@ -158,16 +158,16 @@ public class DBConnection {
      * @param title the title
      * @param path  the path
      */
-    public static void registerPhoto(String title, String path) {
+    public static void registerPhoto(String title, String url) {
         Connection con = null;
         PreparedStatement prepStmt = null;
         try {
             con = HikariCP.getCon();
 
-            String query = "INSERT INTO PHOTOS (title, path, user_id) VALUES (?, ?, ?)";
+            String query = "INSERT INTO PHOTOS (title, url, user_id) VALUES (?, ?, ?)";
             prepStmt = con.prepareStatement(query);
             prepStmt.setString(1, title);
-            prepStmt.setString(2, path);
+            prepStmt.setString(2, url);
             prepStmt.setInt(3, UserInfo.getUserID());
             prepStmt.executeUpdate();
         } catch (SQLSyntaxErrorException e) {
@@ -198,8 +198,7 @@ public class DBConnection {
             while (res.next()) {
                 int id = res.getInt("id");
                 String title = res.getString("title");
-				String path = res.getString("path");
-				Blob image = res.getBlob("photo_file");
+				String url = res.getString("url");
                 ArrayList<String> tags = getTags(id);
                 String latitude = res.getString("latitude");
                 String longitude = res.getString("longitude");
@@ -208,11 +207,11 @@ public class DBConnection {
                 String fileType = res.getString("file_type");
                 double aperture = res.getDouble("aperture");
                 double exposureTime = res.getDouble("exposure_time");
-                int size = res.getInt("size");
-                String camera = res.getString("camera");
-                String registered = res.getString("registered");
+                int file_size = res.getInt("file_size");
+                String camera_model = res.getString("camera_model");
+                String time = res.getString("time");
                 int userId = res.getInt("user_id");
-				Photo photo = new Photo(id, title, path, image, tags, latitude, longitude, width, height, fileType, aperture, exposureTime, size, camera, registered, userId);
+				Photo photo = new Photo(id, title, url, tags, latitude, longitude, width, height, fileType, aperture, exposureTime, file_size, camera_model, time, userId);
                 photos.add(photo);
             }
             return photos;
@@ -242,24 +241,23 @@ public class DBConnection {
             prepStmt.setInt(2, photo_id);
             res = prepStmt.executeQuery();
             if (res.next()) {
-				int id = res.getInt("id");
-				String title = res.getString("title");
-				String path = res.getString("path");
-				Blob image = res.getBlob("photo_file");
-				ArrayList<String> tags = getTags(id);
-				String latitude = res.getString("latitude");
-				String longitude = res.getString("longitude");
-				int width = res.getInt("width");
-				int height = res.getInt("height");
-				String fileType = res.getString("file_type");
-				double aperture = res.getDouble("aperture");
-				double exposureTime = res.getDouble("exposure_time");
-				int size = res.getInt("size");
-				String camera = res.getString("camera");
-				String registered = res.getString("registered");
-				int userId = res.getInt("user_id");
-				Photo photo = new Photo(id, title, path, image, tags, latitude, longitude, width, height, fileType, aperture, exposureTime, size, camera, registered, userId);
-                return photo;
+	            int id = res.getInt("id");
+	            String title = res.getString("title");
+	            String url = res.getString("url");
+	            ArrayList<String> tags = getTags(id);
+	            String latitude = res.getString("latitude");
+	            String longitude = res.getString("longitude");
+	            int width = res.getInt("width");
+	            int height = res.getInt("height");
+	            String fileType = res.getString("file_type");
+	            double aperture = res.getDouble("aperture");
+	            double exposureTime = res.getDouble("exposure_time");
+	            int file_size = res.getInt("file_size");
+	            String camera_model = res.getString("camera_model");
+	            String time = res.getString("time");
+	            int userId = res.getInt("user_id");
+	            Photo photo = new Photo(id, title, url, tags, latitude, longitude, width, height, fileType, aperture, exposureTime, file_size, camera_model, time, userId);
+	            return photo;
             }
         } catch (SQLException e) {
             e.printStackTrace();

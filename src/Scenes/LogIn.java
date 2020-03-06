@@ -68,12 +68,13 @@ public class LogIn extends SceneBuilder {
 
         //Sets functionality for the layout components
         logInButton.setOnAction(e -> {
-                if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
-                    //TODO switch scene
-                    logInLabel.setText("Successful");
-                } else {
-                    logInLabel.setText("Log in failed");
-                }
+            if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
+                //TODO switch scene
+                logInLabel.setText("Successful");
+                StageInitializer.setMainMenuScene();
+            } else {
+                logInLabel.setText("Log in failed");
+            }
         });
         signUpButton.setOnAction(e -> {
             StageInitializer.setSignUpScene();

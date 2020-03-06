@@ -44,8 +44,8 @@ public class UserInfo {
 	 *
 	 * @param userId takes the userID in order to recognize the correct user
 	 */
-	public static void initializeUser(int userId, String username) {
+	public static void initializeUser(int userId, String userName) {
 		userID = userId;
-		username = username;
+		username = userName;
 	}
 }

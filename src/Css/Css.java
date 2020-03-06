@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 /**
  * Css class used for styling different JavaFX elements
@@ -20,6 +21,10 @@ public class Css {
         for(Pane arg : args){
             arg.setStyle("-fx-background-color: white");
         }
+    }
+
+    public static void setLabel(Label label) {
+        label.setStyle("-fx-text-fill: aliceblue");
     }
 
     /**
@@ -47,8 +52,17 @@ public class Css {
         }
     }
 
+    public static void setButtonsMainMenu(Button... args) {
+        for(Button arg : args) {
+            arg.setStyle("-fx-position:absolute;");
+            arg.setFont(new Font("Cambria", 30));
+            arg.setPrefHeight(100);
+            arg.setPrefWidth(466);
+        }
+    }
+
     public static void setErrorLabel(Label... args){
-        for(Label arg : args){
+        for (Label arg : args) {
             arg.setStyle("-fx-text-fill: red");
         }
     }

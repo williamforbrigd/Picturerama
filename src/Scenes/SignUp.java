@@ -151,7 +151,6 @@ public class SignUp extends SceneBuilder {
      * @return a boolean value, true for no errors, boolean for error
      */
     private boolean feedback() {
-
         if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0 || emailField.getText().length() == 0 ) {
             signupFeedbackText.setText("Error: Password, username or email are missing");
             signupFeedbackText.setFill(Color.RED);

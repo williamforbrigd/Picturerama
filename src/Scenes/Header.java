@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.UserInfo;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,14 +13,23 @@ public class Header {
     private static final Image logo = new Image("file:src/Images/Logo.png", 55, 55, true, true);
     private static final Label picturerama = new Label("Picturerama");
     private Label pageTitle;
-    private static final Button homeButton = new Button("Home");
+    private static Button homeButton = new Button("Home");
     private static GridPane gridPane;
 
 
     public Header() {
         this.pageTitle = new Label();
+        if (UserInfo.getUserName() != null) {
+            homeButton.setOnAction(e -> StageInitializer.setMainMenuScene());
+        } else {
+            homeButton.setOnAction(e -> StageInitializer.setLoginScene());
+        }
         gridPane = new GridPane();
         this.setGridPane();
+    }
+
+    public static Label getPicturerama() {
+        return picturerama;
     }
 
     public static GridPane getGridPane() {
