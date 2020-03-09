@@ -4,18 +4,17 @@ import Components.Authentication;
 import Css.Css;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+
 
 public class SignUp extends SceneBuilder {
-    public static PasswordField passwordField;
-    public static PasswordField confirmPasswordField;
-    public static TextField usernameField;
-    public  static TextField emailField;
-    public static Text signupFeedbackText;
-    public static Button signUpButton;
-    public static Button logInButton;
-    public static ProgressBar passwordStrengthBar;
+    private static PasswordField passwordField = new PasswordField();
+    private static PasswordField confirmPasswordField = new PasswordField();
+    private static TextField usernameField = new TextField();
+    private static TextField emailField = new TextField();
+    private static Label signupFeedbackLabel = new Label();
+    private static Button signUpButton = new Button("Sign up");
+    private static Button logInButton = new Button("Log in");
+    private static ProgressBar passwordStrengthBar = new ProgressBar(0);
 
     /**
      * Creates a object of the class SignUp
@@ -23,14 +22,6 @@ public class SignUp extends SceneBuilder {
      */
     public SignUp() {
         super();
-        passwordField = new PasswordField();
-        confirmPasswordField = new PasswordField();
-        usernameField = new TextField();
-        emailField = new TextField();
-        signupFeedbackText = new Text();
-        signUpButton = new Button("Sign up");
-        logInButton = new Button("Log in");
-        passwordStrengthBar = new ProgressBar(0);
         this.setLayout();
     }
 
@@ -39,10 +30,6 @@ public class SignUp extends SceneBuilder {
      *
      * @return returns the scene to use in main
      */
-    @Override
-    public Scene getScene() {
-        return super.getScene();
-    }
 
     /**
      * Overrides the superclass' setLayout method. Also initialises all functionalities in the application
@@ -51,10 +38,10 @@ public class SignUp extends SceneBuilder {
     public void setLayout() {
         super.setLayout();
         super.setPageTitle("Sign Up");
-        usernameField.setPromptText("Username");
-        emailField.setPromptText("Email");
-        passwordField.setPromptText("Password");
-        confirmPasswordField.setPromptText("Password");
+        usernameField.setPromptText("Username here...");
+        emailField.setPromptText("Email here...");
+        passwordField.setPromptText("Password here...");
+        confirmPasswordField.setPromptText("Password here...");
         super.getGridPane().add(new Label("Username: "), 10, 0);
         super.getGridPane().add(new Label("Email: "), 10, 2);
         super.getGridPane().add(new Label("Password"), 10, 4);
@@ -65,7 +52,7 @@ public class SignUp extends SceneBuilder {
         super.getGridPane().add(confirmPasswordField, 10, 7);
         super.getGridPane().add(signUpButton, 10, 8);
         super.getGridPane().add(passwordStrengthBar, 11, 5);
-        super.getGridPane().add(signupFeedbackText, 10, 11);
+        super.getGridPane().add(signupFeedbackLabel, 10, 11);
         super.getGridPane().add(logInButton, 10, 9);
         passwordStrengthBar.setTooltip(new Tooltip("Password Stength: \n " +
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
@@ -73,10 +60,8 @@ public class SignUp extends SceneBuilder {
         Css.setButtonsSignUpLogin(signUpButton, logInButton);
         signUpButton.setOnAction(e -> {
             feedback();
-            if (feedback()) {
-                if (Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText())) {
-                    StageInitializer.setLoginScene();
-                }
+            if (feedback() && Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText())) {
+                StageInitializer.setLoginScene();
             }
         });
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
@@ -151,22 +136,22 @@ public class SignUp extends SceneBuilder {
      * @return a boolean value, true for no errors, boolean for error
      */
     private boolean feedback() {
-        if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0 || emailField.getText().length() == 0 ) {
-            signupFeedbackText.setText("Error: Password, username or email are missing");
-            signupFeedbackText.setFill(Color.RED);
+        if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0 || emailField.getText().length() == 0) {
+            signupFeedbackLabel.setText("Error: Password, username or email are missing");
+            Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
         if (passwordField.getText().length() < 8) {
-            signupFeedbackText.setText("Error: Password needs to contain 8 characters");
-            signupFeedbackText.setFill(Color.RED);
+            signupFeedbackLabel.setText("Error: Password needs to contain 8 characters");
+            Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
         if (usernameField.getText().length() != 0) {
             for (int i = 0; i < usernameField.getText().length(); i++) {
                 if (!Character.isLetter(usernameField.getText().charAt(i)) &&
                         !Character.isDigit(usernameField.getText().charAt(i))) {
-                    signupFeedbackText.setText("Error: Username contains illegal character");
-                    signupFeedbackText.setFill(Color.RED);
+                    signupFeedbackLabel.setText("Error: Username contains illegal character");
+                    Css.setErrorLabel(signupFeedbackLabel);
                     return false;
                 }
             }
@@ -175,25 +160,25 @@ public class SignUp extends SceneBuilder {
             for (int i = 0; i < passwordField.getText().length(); i++) {
                 if (!Character.isLetter(passwordField.getText().charAt(i)) &&
                         !Character.isDigit(passwordField.getText().charAt(i))) {
-                    signupFeedbackText.setText("Error: Password contains illegal character");
-                    signupFeedbackText.setFill(Color.RED);
+                    signupFeedbackLabel.setText("Error: Password contains illegal character");
+                    Css.setErrorLabel(signupFeedbackLabel);
                     return false;
                 }
             }
         }
         if (!passwordField.getText().equals(confirmPasswordField.getText())) {
-            signupFeedbackText.setText("Error: Your passwords don't match");
-            signupFeedbackText.setFill(Color.RED);
+            signupFeedbackLabel.setText("Error: Your passwords don't match");
+            Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
-        if (!emailField.getText().contains("@") || !emailField.getText().contains(".")){
-            signupFeedbackText.setText("Error: This email is not valid");
-            signupFeedbackText.setFill(Color.RED);
+        if (!emailField.getText().contains("@") || !emailField.getText().contains(".")) {
+            signupFeedbackLabel.setText("Error: This email is not valid");
+            Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
 
-        signupFeedbackText.setText("You have been signed up!");
-        signupFeedbackText.setFill(Color.GREEN);
+        signupFeedbackLabel.setText("You have been signed up!");
+        Css.setSuccessLabel(signupFeedbackLabel);
         return true;
     }
 

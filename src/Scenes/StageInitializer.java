@@ -41,6 +41,11 @@ public class StageInitializer {
         window.setScene(mainMenu.getScene());
     }
 
+    public static void setUploadScene() {
+        UploadScene uploadScene = new UploadScene();
+        window.setScene(uploadScene.getScene());
+    }
+
     public static void setSearchScene() {
 	    Search search = new Search();
         window.setScene(search.getScene());

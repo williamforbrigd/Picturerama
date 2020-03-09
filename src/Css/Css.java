@@ -3,6 +3,7 @@ package Css;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -15,10 +16,11 @@ public class Css {
 
     /**
      * set pane takes in an amount of panes or its subclasses (border pane, grid pane)
+     *
      * @param args an amount of panes
      */
-    public static void setPane(Pane... args){
-        for(Pane arg : args){
+    public static void setPane(Pane... args) {
+        for (Pane arg : args) {
             arg.setStyle("-fx-background-color: white");
         }
     }
@@ -53,7 +55,7 @@ public class Css {
     }
 
     public static void setButtonsMainMenu(Button... args) {
-        for(Button arg : args) {
+        for (Button arg : args) {
             arg.setStyle("-fx-position:absolute;");
             arg.setFont(new Font("Cambria", 30));
             arg.setPrefHeight(100);
@@ -61,9 +63,15 @@ public class Css {
         }
     }
 
-    public static void setErrorLabel(Label... args){
+    public static void setErrorLabel(Label... args) {
         for (Label arg : args) {
             arg.setStyle("-fx-text-fill: red");
+        }
+    }
+
+    public static void setSuccessLabel(Label... args) {
+        for (Label label : args) {
+            label.setStyle("-fx-text-fill: green");
         }
     }
 

@@ -13,7 +13,8 @@ public class Header {
     private static final Image logo = new Image("file:src/Images/Logo.png", 55, 55, true, true);
     private static final Label picturerama = new Label("Picturerama");
     private Label pageTitle;
-    private static Button homeButton = new Button("Home");
+    private static final Image homeIcon = new Image("file:src/Images/HomeIcon.png");
+    private static Button homeButton = new Button("",new ImageView(homeIcon));
     private static GridPane gridPane;
 
 

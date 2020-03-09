@@ -38,7 +38,7 @@ public class MainMenu extends SceneBuilder {
 
         Css.setButtonsMainMenu(uploadButton, myPhotosButton, mapButton, logOutButton);
 
-        uploadButton.setOnAction(e -> System.out.println("Upload pressed.."));
+        uploadButton.setOnAction(e -> StageInitializer.setUploadScene());
         myPhotosButton.setOnAction(e -> StageInitializer.setSearchScene());
         mapButton.setOnAction(e -> System.out.println("Edit pressed"));
         logOutButton.setOnAction(e -> System.out.println("Log out pressed"));
@@ -54,7 +54,7 @@ public class MainMenu extends SceneBuilder {
 
         infoDialog.setTitle("Information dialog - About");
         infoDialog.setHeaderText("About the application Picturerama");
-        infoDialog.setContentText("Created by: William, Diderik, Rokas, Martin, Olaf and Herman. \n 2020");
+        infoDialog.setContentText("Created by: William, Diderik, Rokas, Martin, Olaf and Hermann. \n 2020");
     }
 
 }
