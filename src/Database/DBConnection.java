@@ -52,8 +52,6 @@ public class DBConnection {
      * Method which deletes a user
      *
      * @param userName username of the user
-     * @param hash     hashing of password
-     * @param salt     salting of password
      */
     public static boolean deleteUser(String userName) {
         Connection con = null;
