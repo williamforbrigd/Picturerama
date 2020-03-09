@@ -59,8 +59,7 @@ public class SignUp extends SceneBuilder {
         passwordStrengthBar.setVisible(false);
         Css.setButtonsSignUpLogin(signUpButton, logInButton);
         signUpButton.setOnAction(e -> {
-            feedback();
-            if (feedback() && Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText())) {
+            if (feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
                 StageInitializer.setLoginScene();
             }
         });
@@ -135,7 +134,12 @@ public class SignUp extends SceneBuilder {
      *
      * @return a boolean value, true for no errors, boolean for error
      */
-    private boolean feedback() {
+    private boolean feedback(boolean registerSuccess) {
+        if (!registerSuccess) {
+            signupFeedbackLabel.setText("Error: This username is already taken");
+            Css.setErrorLabel(signupFeedbackLabel);
+            return false;
+        }
         if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0 || emailField.getText().length() == 0) {
             signupFeedbackLabel.setText("Error: Password, username or email are missing");
             Css.setErrorLabel(signupFeedbackLabel);

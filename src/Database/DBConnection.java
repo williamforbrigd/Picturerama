@@ -23,9 +23,10 @@ public class DBConnection {
      * @param hash     hashing of password
      * @param salt     salting of password
      */
-    public static void registerUser(String userName, String email, String hash, String salt ) {
+    public static boolean registerUser(String userName, String email, String hash, String salt ) {
         Connection con = null;
         PreparedStatement prepStmt = null;
+        boolean isSuccess = true;
         try {
             con = HikariCP.getCon();
 
@@ -38,10 +39,41 @@ public class DBConnection {
             prepStmt.executeUpdate();
         } catch (SQLSyntaxErrorException e) {
             e.printStackTrace();
+            isSuccess = false;
         } catch (Exception e) {
-            e.printStackTrace();
+            isSuccess = false;
         } finally {
             closeConnection(con, prepStmt, null);
+            return isSuccess;
+        }
+    }
+
+    /**
+     * Method which deletes a user
+     *
+     * @param userName username of the user
+     * @param hash     hashing of password
+     * @param salt     salting of password
+     */
+    public static boolean deleteUser(String userName) {
+        Connection con = null;
+        PreparedStatement prepStmt = null;
+        boolean isSuccess = true;
+        try {
+            con = HikariCP.getCon();
+
+            String query = "DELETE FROM USERS WHERE username=?";
+            prepStmt = con.prepareStatement(query);
+            prepStmt.setString(1, userName);
+            prepStmt.executeUpdate();
+        } catch (SQLSyntaxErrorException e) {
+            e.printStackTrace();
+            isSuccess = false;
+        } catch (Exception e) {
+            isSuccess = false;
+        } finally {
+            closeConnection(con, prepStmt, null);
+            return isSuccess;
         }
     }
 

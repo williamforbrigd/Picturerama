@@ -1,19 +1,11 @@
 import Components.Authentication;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import Database.DBConnection;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthenticationTest {
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void registerFalse() {
@@ -22,7 +14,12 @@ class AuthenticationTest {
 
     @Test
     void registerTrue() {
-        assertTrue(Authentication.register("test", "test", "test"));
+        assertTrue(Authentication.register("jUnitTest", "test", "test"));
+    }
+
+    @Test
+    void registerDuplicateFalse() {
+        assertFalse(Authentication.register("jUnitTest", "test", "test"));
     }
 
     @Test
@@ -33,5 +30,10 @@ class AuthenticationTest {
     @Test
     void logInTrue() {
         assertTrue(Authentication.logIn("test", "test"));
+    }
+
+    @AfterAll
+    static void clearUp() {
+        DBConnection.deleteUser("jUnitTest");
     }
 }

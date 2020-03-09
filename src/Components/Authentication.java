@@ -31,8 +31,7 @@ public class Authentication {
 		}
 
 		if ((username != null) && (hash != null) && (salt != null)) {
-			DBConnection.registerUser(username, email, hash, salt);
-			return true;
+			return DBConnection.registerUser(username, email, hash, salt);
 		}
 		return false;
 	}
