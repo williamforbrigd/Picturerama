@@ -4,11 +4,11 @@ import Components.Photo;
 import Components.PhotoContainer;
 import Css.Css;
 import Database.DBConnection;
-import javafx.geometry.Pos;
+import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
 import java.util.ArrayList;
 
 public class Search extends SceneBuilder {
@@ -51,19 +51,19 @@ public class Search extends SceneBuilder {
     @Override
     public void setLayout(){
         super.setLayout();
-        super.getGridPane().setAlignment(Pos.TOP_LEFT);
         super.setPageTitle(" - Search");
         setupImagesInAScrollPane();
         setupSearchBar();
         setupAlbumButtons();
-        super.getGridPane().add(scrollPane,0,5,114, 40);
-        super.getGridPane().add(searchTextField, 0, 0, 50, 4);
-        super.getGridPane().add(searchButton, 50, 0, 15, 4);
-        super.getGridPane().add(selectAllCheckBox, 100, 0, 15, 4);
-        super.getGridPane().add(addToAlbumButton, 57, 46, 25, 4);
-        super.getGridPane().add(viewAlbumsButton, 30, 46, 25, 4);
+        super.getGridPane().add(scrollPane,0,1, 3, 1);
+        super.getGridPane().add(searchTextField, 0, 0, 1, 1);
+        super.getGridPane().add(searchButton, 1, 0, 1, 1);
+        super.getGridPane().add(selectAllCheckBox, 2, 0, 1, 1);
+        GridPane.setHalignment(selectAllCheckBox, HPos.RIGHT);
+        super.getGridPane().add(addToAlbumButton, 0, 2);
+        super.getGridPane().add(viewAlbumsButton, 2, 2);
+        super.getGridPane().setGridLinesVisible(false);
     }
-
 
     private void setupImagesInAScrollPane(){
         photoList.stream().forEach(photo -> {
@@ -75,7 +75,6 @@ public class Search extends SceneBuilder {
         scrollPane.setContent(scrollPaneVBox);
         scrollPaneVBox.setStyle("-fx-background-color: #FFFFFF");
         scrollPane.fitToWidthProperty().set(true);
-        scrollPane.setMinHeight(560); //This is done to not resize height of the scroll pane when searching for images
         scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
@@ -84,11 +83,7 @@ public class Search extends SceneBuilder {
         searchTextField.setOnAction(action -> filter());
         searchButton.setOnAction(action -> filter());
         Css.setButtonsSignUpLogin(searchButton);
-        selectAllCheckBox.setOnAction(action -> {
-            checkBoxArrayList.stream().forEach(checkBox -> {
-                checkBox.setSelected(selectAllCheckBox.isSelected());
-            });
-        });
+        selectAllCheckBox.setOnAction(action -> checkBoxArrayList.stream().forEach(checkBox -> checkBox.setSelected(selectAllCheckBox.isSelected())));
     }
 
     private void setupAlbumButtons(){

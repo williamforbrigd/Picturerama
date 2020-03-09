@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 
 /**
  * Css class used for styling different JavaFX elements
@@ -48,7 +49,7 @@ public class Css {
             arg.setOnMouseExited(action -> arg.setStyle("-fx-background-color: #FFFFFF;"));
             arg.setOnMouseEntered(action -> arg.setStyle("-fx-background-color: #82CBFF; -fx-border-color: #6BC1FF; -fx-border-width: 1.2;"));
             arg.setAlignment(Pos.CENTER_LEFT);
-            arg.setMinWidth(1000);
+            arg.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
             arg.setMinHeight(160);
             arg.setMaxHeight(160);
         }
