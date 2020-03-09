@@ -14,42 +14,16 @@ import javafx.scene.text.Font;
 
 public class MainMenu extends SceneBuilder {
 
-    private static BorderPane mainMenuBorderPane;
-    private static GridPane mainMenuGridPane;
-
-    private static Button uploadButton;
-    private static Button myPhotosButton;
-    private static Button mapButton;
-    private static Button logOutButton;
-    private static Button aboutButton;
-
-    private static Alert infoDialog;
+    private static Button uploadButton = new Button("Upload");
+    private static Button myPhotosButton = new Button("My photos");
+    private static Button mapButton = new Button("Map");
+    private static Button logOutButton = new Button("Log out");
+    private static Button aboutButton = new Button("About");
+    private static Alert infoDialog = new Alert(AlertType.INFORMATION);
 
     public MainMenu() {
         super();
-
-        uploadButton = new Button("Upload");
-        myPhotosButton = new Button("My photos");
-        mapButton = new Button("Map");
-        logOutButton = new Button("Log out");
-        aboutButton = new Button("About");
-
-        mainMenuBorderPane = super.getBorderPane();
-        mainMenuGridPane = super.getGridPane();
-
-        infoDialog = new Alert(AlertType.INFORMATION);
-
         this.setLayout();
-    }
-
-    /**
-     * getScene gets the scene of the main menu page, to be used in primaryStage.setScene()
-     *
-     * @return super.getScene(), the scene to be used in the primary stage
-     */
-    @Override
-    public Scene getScene() {
-        return super.getScene();
     }
 
 
@@ -70,12 +44,12 @@ public class MainMenu extends SceneBuilder {
         logOutButton.setOnAction(e -> System.out.println("Log out pressed"));
         aboutButton.setOnAction(e -> infoDialog.showAndWait());
 
-        mainMenuGridPane.add(uploadButton,0,0);
-        mainMenuGridPane.add(myPhotosButton, 1,0);
-        mainMenuGridPane.add(mapButton, 0,1);
-        mainMenuGridPane.add(logOutButton, 1,1);
+        super.getGridPane().add(uploadButton,0,0);
+        super.getGridPane().add(myPhotosButton, 1,0);
+        super.getGridPane().add(mapButton, 0,1);
+        super.getGridPane().add(logOutButton, 1,1);
 
-        mainMenuBorderPane.setBottom(aboutButton);
+        super.getBorderPane().setBottom(aboutButton);
         BorderPane.setAlignment(aboutButton, Pos.BOTTOM_RIGHT);
 
         infoDialog.setTitle("Information dialog - About");
