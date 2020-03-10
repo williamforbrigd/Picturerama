@@ -4,9 +4,14 @@ import Components.Authentication;
 import Css.Css;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 
 
 public class SignUp extends SceneBuilder {
+    private static Label usernameLabel = new Label("Username: ");
+    private static Label emailLabel = new Label("Email: ");
+    private static Label passwordLabel = new Label("Password: ");
+    private static Label confirmPasswordLabel = new Label("Confirm Password: ");
     private static PasswordField passwordField = new PasswordField();
     private static PasswordField confirmPasswordField = new PasswordField();
     private static TextField usernameField = new TextField();
@@ -37,15 +42,15 @@ public class SignUp extends SceneBuilder {
     @Override
     public void setLayout() {
         super.setLayout();
-        super.setPageTitle("Sign Up");
+        super.setPageTitle("Sign up");
         usernameField.setPromptText("Username here...");
         emailField.setPromptText("Email here...");
         passwordField.setPromptText("Password here...");
         confirmPasswordField.setPromptText("Password here...");
-        super.getGridPane().add(new Label("Username: "), 10, 0);
-        super.getGridPane().add(new Label("Email: "), 10, 2);
-        super.getGridPane().add(new Label("Password"), 10, 4);
-        super.getGridPane().add(new Label("Confirm Password"), 10, 6);
+        super.getGridPane().add(usernameLabel, 10, 0);
+        super.getGridPane().add(emailLabel, 10, 2);
+        super.getGridPane().add(passwordLabel, 10, 4);
+        super.getGridPane().add(confirmPasswordLabel, 10, 6);
         super.getGridPane().add(usernameField, 10, 1);
         super.getGridPane().add(emailField, 10, 3);
         super.getGridPane().add(passwordField, 10, 5);
@@ -57,7 +62,12 @@ public class SignUp extends SceneBuilder {
         passwordStrengthBar.setTooltip(new Tooltip("Password Stength: \n " +
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
         passwordStrengthBar.setVisible(false);
+
+        //Set styling on the layout components
         Css.setButtonsSignUpLogin(signUpButton, logInButton);
+        Css.setTextField(usernameField,emailField,passwordField,confirmPasswordField);
+        Css.setLabel(usernameLabel,emailLabel,passwordLabel,confirmPasswordLabel);
+
         signUpButton.setOnAction(e -> {
             if (feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
                 StageInitializer.setLoginScene();
@@ -66,6 +76,12 @@ public class SignUp extends SceneBuilder {
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
         logInButton.setOnAction(e -> StageInitializer.setLoginScene());
+
+        super.getScene().setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER && feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
+                StageInitializer.setLoginScene();
+            }
+        });
     }
 
 

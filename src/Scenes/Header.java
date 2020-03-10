@@ -1,57 +1,68 @@
 package Scenes;
 
 import Components.UserInfo;
-import javafx.geometry.Insets;
+import Css.Css;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class Header {
-    private static final Image logo = new Image("file:src/Images/Logo.png", 55, 55, true, true);
+    private static final Image logo = new Image("file:src/Images/Logo.png", 80, 80, true, true);
+    private static final ImageView logoView = new ImageView(logo);
     private static final Label picturerama = new Label("Picturerama");
-    private Label pageTitle;
+    private Label pageTitle = new Label();
     private static final Image homeIcon = new Image("file:src/Images/HomeIcon.png");
     private static Button homeButton = new Button("",new ImageView(homeIcon));
-    private static GridPane gridPane;
+    private static HBox hBox = new HBox();
 
 
     public Header() {
-        this.pageTitle = new Label();
         if (UserInfo.getUserName() != null) {
             homeButton.setOnAction(e -> StageInitializer.setMainMenuScene());
         } else {
             homeButton.setOnAction(e -> StageInitializer.setLoginScene());
         }
-        gridPane = new GridPane();
-        this.setGridPane();
+        hBox.getChildren().clear();
+        this.setHBox();
     }
 
     public static Label getPicturerama() {
         return picturerama;
     }
 
-    public static GridPane getGridPane() {
-        return gridPane;
+    public static HBox getHBox() {
+        return hBox;
     }
 
     public void setPageTitle(String newTitle) {
-        this.pageTitle.setText(newTitle);
+        this.pageTitle.setText("- "+newTitle);
     }
 
     /**
      * setGridPane void, sets padding and alignment for the grid pane
      */
-    private void setGridPane() {
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        gridPane.setVgap(10);
-        gridPane.setHgap(10);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(new ImageView(logo), 0,0);
-        gridPane.add(picturerama, 1 ,0);
-        gridPane.add(pageTitle, 2, 0);
-        gridPane.add(homeButton, 3, 0);
+    private void setHBox() {
+        hBox.setSpacing(10.0D);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().add(0, logoView);
+        picturerama.setFont(Font.font("Montserrat", FontWeight.BOLD, 40.0D));
+        this.pageTitle.setFont(Font.font("Montserrat", FontWeight.NORMAL, 40.0D));
+        hBox.getChildren().add(picturerama);
+        hBox.getChildren().add(this.pageTitle);
+        Region spacing = new Region();
+        HBox.setHgrow(spacing, Priority.ALWAYS);
+        hBox.getChildren().add(spacing);
+        Css.setHomeButton(homeButton);
+        hBox.getChildren().add(homeButton);
+        hBox.setMaxWidth(700.0D);
+        hBox.setPrefHeight(100.0D);
+        Css.setHeaderHBox(hBox);
     }
 }

@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 
 public class LogIn extends SceneBuilder {
@@ -54,7 +55,7 @@ public class LogIn extends SceneBuilder {
         super.setLayout();
         usernameField.setPromptText("Username");
         passwordField.setPromptText("Password");
-        super.setPageTitle("Log in screen");
+        super.setPageTitle("Log in");
         super.getGridPane().add(usernameLabel, 0, 0);
         super.getGridPane().add(usernameField, 0, 1);
         super.getGridPane().add(passwordLabel, 0, 2);
@@ -65,12 +66,13 @@ public class LogIn extends SceneBuilder {
 
         //Sets styling for the layout components
         Css.setButtonsSignUpLogin(logInButton, signUpButton);
+        Css.setTextField(usernameField,passwordField);
+        Css.setLabel(usernameLabel,passwordLabel,logInLabel);
 
         //Sets functionality for the layout components
         logInButton.setOnAction(e -> {
             if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
                 //TODO switch scene
-                logInLabel.setText("Successful");
                 StageInitializer.setMainMenuScene();
             } else {
                 logInLabel.setText("Log in failed");
@@ -78,6 +80,17 @@ public class LogIn extends SceneBuilder {
         });
         signUpButton.setOnAction(e -> {
             StageInitializer.setSignUpScene();
+        });
+
+        super.getScene().setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
+                    StageInitializer.setMainMenuScene();
+                } else {
+                    logInLabel.setText("Log in failed");
+                }
+            }
+
         });
     }
 }

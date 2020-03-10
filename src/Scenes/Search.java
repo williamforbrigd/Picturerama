@@ -51,7 +51,7 @@ public class Search extends SceneBuilder {
     @Override
     public void setLayout(){
         super.setLayout();
-        super.setPageTitle(" - Search");
+        super.setPageTitle("Search");
         setupImagesInAScrollPane();
         setupSearchBar();
         setupAlbumButtons();
@@ -63,6 +63,7 @@ public class Search extends SceneBuilder {
         super.getGridPane().add(addToAlbumButton, 0, 2);
         super.getGridPane().add(viewAlbumsButton, 2, 2);
         super.getGridPane().setGridLinesVisible(false);
+        Css.setTextField(searchTextField);
     }
 
     private void setupImagesInAScrollPane(){

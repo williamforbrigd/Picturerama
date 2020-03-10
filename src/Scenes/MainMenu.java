@@ -34,7 +34,7 @@ public class MainMenu extends SceneBuilder {
     @Override
     public void setLayout() {
         super.setLayout();
-        super.setPageTitle("- Main Menu");
+        super.setPageTitle("Main Menu");
 
         Css.setButtonsMainMenu(uploadButton, myPhotosButton, mapButton, logOutButton);
 
