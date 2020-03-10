@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
+import javafx.stage.Screen;
 
 public class Search extends SceneBuilder {
     private static ArrayList<Photo> photoList;
@@ -74,6 +75,7 @@ public class Search extends SceneBuilder {
             checkBoxArrayList.add(photoContainer.getCheckBox());
         });
         scrollPane.setContent(scrollPaneVBox);
+        scrollPane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
         scrollPaneVBox.setStyle("-fx-background-color: #FFFFFF");
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
@@ -81,7 +83,7 @@ public class Search extends SceneBuilder {
 
     private void setupSearchBar(){
         searchTextField.setPromptText("Write some keywords to filter images...");
-        searchTextField.setOnAction(action -> filter());
+        searchTextField.setOnKeyTyped(action -> filter());
         searchButton.setOnAction(action -> filter());
         Css.setButtonsSignUpLogin(searchButton);
         selectAllCheckBox.setOnAction(action -> checkBoxArrayList.stream().forEach(checkBox -> checkBox.setSelected(selectAllCheckBox.isSelected())));
