@@ -61,7 +61,6 @@ public abstract class SceneBuilder {
         return gridPane;
     }
 
-
     public Scene getScene() {
         return scene;
     }

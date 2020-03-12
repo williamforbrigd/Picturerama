@@ -23,7 +23,16 @@ public class Css {
      */
     public static void setPane(Pane... args) {
         for (Pane arg : args) {
-            arg.setStyle("-fx-background-color: white");
+            arg.setStyle("-fx-padding: 3;-fx-border-style: solid inside;-fx-border-width: 1px;" +
+                "-fx-border-radius: 5px;-fx-border-color: black;" +
+                "-fx-background-color: white;-fx-background-radius: 10px");
+        }
+    }
+
+    public static void setLabelButton(Button... args){
+        for(Button arg : args){
+            arg.setMaxSize(10,10);
+            arg.setStyle("-fx-background-color: none");
         }
     }
 
@@ -97,6 +106,18 @@ public class Css {
         for (Label label : args) {
             label.setStyle("-fx-text-fill: red");
             label.setFont(Font.font("Montserrat", 13));
+        }
+    }
+
+    public static void setTitleLabel(Label... args) {
+        for (Label arg : args) {
+            arg.setFont(Font.font("Montserrat", 30));
+        }
+    }
+
+    public static void setParagraphLabel(Label... args) {
+        for (Label arg : args) {
+            arg.setFont(Font.font("Montserrat", 12));
         }
     }
 

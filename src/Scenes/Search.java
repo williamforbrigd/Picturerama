@@ -13,40 +13,23 @@ import java.util.ArrayList;
 import javafx.stage.Screen;
 
 public class Search extends SceneBuilder {
-    private static ArrayList<Photo> photoList;
-    private static ScrollPane scrollPane;
-    private static VBox scrollPaneVBox;
-    private static ArrayList<CheckBox> checkBoxArrayList;
-    private static ArrayList<PhotoContainer> photoContainerList;
-
-    private static Button searchButton;
-    private static TextField searchTextField;
-    private static CheckBox selectAllCheckBox;
-
-    private static Button addToAlbumButton;
-    private static Button viewAlbumsButton;
+    private static ArrayList<Photo> photoList = new ArrayList<>();
+    private static ScrollPane scrollPane = new ScrollPane();
+    private static VBox scrollPaneVBox = new VBox();
+    private static ArrayList<CheckBox> checkBoxArrayList = new ArrayList<>();
+    private static ArrayList<PhotoContainer> photoContainerList = new ArrayList<>();
+    private static Button searchButton = new Button("Search");
+    private static TextField searchTextField = new TextField();
+    private static CheckBox selectAllCheckBox = new CheckBox("Select all:");
+    private static Button addToAlbumButton = new Button("Add to album");
+    private static Button viewAlbumsButton = new Button("View albums");
 
     public Search(){
         super();
-        photoList = new ArrayList<>();
         DBConnection.getPhotos().stream().forEach(photo -> {
             photoList.add(photo);
         });
-        scrollPane = new ScrollPane();
-        scrollPaneVBox = new VBox();
-        checkBoxArrayList = new ArrayList<>();
-        photoContainerList = new ArrayList<>();
-        searchButton = new Button("Search");
-        searchTextField = new TextField();
-        selectAllCheckBox = new CheckBox("Select all:");
-        addToAlbumButton = new Button("Add to album");
-        viewAlbumsButton = new Button("View albums");
         this.setLayout();
-    }
-
-    @Override
-    public Scene getScene(){
-        return super.getScene();
     }
 
     @Override

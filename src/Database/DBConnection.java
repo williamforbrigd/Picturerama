@@ -186,7 +186,7 @@ public class DBConnection {
      * Register photo.
      *
      * @param title the title
-     * @param path  the path
+     * @param url  the path
      */
     public static void registerPhoto(String title, String url) {
         Connection con = null;
