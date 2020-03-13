@@ -1,6 +1,7 @@
 /* This class has static methods so we wont have to make objects of this class to use its methods */
 package Database;
 
+import Components.Album;
 import Components.Photo;
 import Components.UserInfo;
 
@@ -209,6 +210,32 @@ public class DBConnection {
         }
     }
 
+
+    /**
+     * Register photo.
+     *
+     * @param name the name
+     */
+    public static void registerAlbum(String name) {
+        Connection con = null;
+        PreparedStatement prepStmt = null;
+        try {
+            con = HikariCP.getCon();
+
+            String query = "INSERT INTO ALBUMS (name, user_id) VALUES (?, ?)";
+            prepStmt = con.prepareStatement(query);
+            prepStmt.setString(1, name);
+            prepStmt.setInt(2, UserInfo.getUserID());
+            prepStmt.executeUpdate();
+        } catch (SQLSyntaxErrorException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, prepStmt, null);
+        }
+    }
+
     /**
      * Gets all photos of logged in user
      *
@@ -245,6 +272,37 @@ public class DBConnection {
                 photos.add(photo);
             }
             return photos;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, prepStmt, res);
+        }
+        return null;
+    }
+
+    /**
+     * Gets all photos of logged in user
+     *
+     * @return all photos as arraylist
+     */
+    public static ArrayList<Album> getAlbums() {
+        Connection con = null;
+        PreparedStatement prepStmt = null;
+        ResultSet res = null;
+        ArrayList<Album> albums = new ArrayList<Album>();
+        try {
+            con = HikariCP.getCon();
+            String query = "SELECT * FROM ALBUMS WHERE user_id = ?;";
+            prepStmt = con.prepareStatement(query);
+            prepStmt.setInt(1, UserInfo.getUserID());
+            res = prepStmt.executeQuery();
+            while (res.next()) {
+                int id = res.getInt("id");
+                String name = res.getString("name");
+                Album album = new Album(id, name);
+                albums.add(album);
+            }
+            return albums;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -10,8 +10,8 @@ import javafx.scene.layout.BorderPane;
 public class MainMenu extends SceneBuilder {
 
     private static Button uploadButton = new Button("Upload");
-    private static Button myPhotosButton = new Button("My photos");
-    private static Button mapButton = new Button("Map");
+    private static Button myPhotosButton = new Button("Photos");
+    private static Button albumsButton = new Button("Albums");
     private static Button logOutButton = new Button("Log out");
     private static Button aboutButton = new Button("About");
     private static Alert infoDialog = new Alert(AlertType.INFORMATION);
@@ -31,17 +31,17 @@ public class MainMenu extends SceneBuilder {
         super.setLayout();
         super.setPageTitle("Main Menu");
 
-        Css.setButtonsMainMenu(uploadButton, myPhotosButton, mapButton, logOutButton);
+        Css.setButtonsMainMenu(uploadButton, myPhotosButton, albumsButton, logOutButton);
 
         uploadButton.setOnAction(e -> StageInitializer.setUploadScene());
         myPhotosButton.setOnAction(e -> StageInitializer.setSearchScene());
-        mapButton.setOnAction(e -> System.out.println("Edit pressed"));
+	    albumsButton.setOnAction(e -> StageInitializer.setAlbumsScene());
         logOutButton.setOnAction(e -> System.out.println("Log out pressed"));
         aboutButton.setOnAction(e -> infoDialog.showAndWait());
 
         super.getGridPane().add(uploadButton,0,0);
         super.getGridPane().add(myPhotosButton, 1,0);
-        super.getGridPane().add(mapButton, 0,1);
+        super.getGridPane().add(albumsButton, 0,1);
         super.getGridPane().add(logOutButton, 1,1);
 
         super.getBorderPane().setBottom(aboutButton);

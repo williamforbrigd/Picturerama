@@ -102,6 +102,22 @@ public class Css {
         }
     }
 
+    public static void setNewAlbumButton(Button arg) {
+        arg.setStyle("-fx-position:absolute;");
+        arg.setFont(new Font("Cambria", 30));
+        arg.setPrefHeight(50);
+        arg.setPrefWidth(466);
+    }
+
+    public static void setAlbumButton(Button... args) {
+        for(Button arg : args) {
+            arg.setStyle("-fx-position:absolute;");
+            arg.setFont(new Font("Cambria", 10));
+            arg.setPrefHeight(50);
+            arg.setPrefWidth(150);
+        }
+    }
+
     public static void setErrorLabel(Label... args) {
         for (Label label : args) {
             label.setStyle("-fx-text-fill: red");

@@ -50,6 +50,11 @@ public class StageInitializer {
         stage.setScene(search.getScene());
     }
 
+	public static void setAlbumsScene() {
+		Albums albums = new Albums();
+		stage.setScene(albums.getScene());
+	}
+
     //No access modifier to make it available in the package
     static void closeProgram(){
         boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit");
