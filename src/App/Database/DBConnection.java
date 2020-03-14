@@ -5,13 +5,8 @@ import Components.Album;
 import Components.Photo;
 import Components.UserInfo;
 
-import javax.sql.rowset.serial.SerialBlob;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Class containing all the different methods which involves connection to the database

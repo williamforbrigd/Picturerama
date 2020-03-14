@@ -14,7 +14,7 @@ public class StageInitializer {
             //Runs our close program instead
             closeProgram();
         });
-        stage.getIcons().add(new Image("file:src/Images/Logo.png"));
+        stage.getIcons().add(new Image("file:src/App/Images/Logo.png"));
         stage.setTitle("Picturerama");
         LogIn logIn = new LogIn();
         stage.setScene(logIn.getScene());

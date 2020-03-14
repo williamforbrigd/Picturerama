@@ -5,7 +5,6 @@ import Components.PhotoContainer;
 import Css.Css;
 import Database.DBConnection;
 import javafx.geometry.HPos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;

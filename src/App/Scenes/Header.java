@@ -14,20 +14,20 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class Header {
-    private static final Image logo = new Image("file:src/Images/Logo.png", 80, 80, true, true);
+    private static final Image logo = new Image("file:src/App/Images/Logo.png", 80, 80, true, true);
     private static final ImageView logoView = new ImageView(logo);
     private static final Label picturerama = new Label("Picturerama");
     private Label pageTitle = new Label();
-    private static final Image homeIcon = new Image("file:src/Images/HomeIcon.png");
+    private static final Image homeIcon = new Image("file:src/App/Images/HomeIcon.png");
     private static Button homeButton = new Button("",new ImageView(homeIcon));
     private static HBox hBox = new HBox();
 
 
     public Header() {
         if (UserInfo.getUserName() != null) {
-            homeButton.setOnAction(e -> StageInitializer.setMainMenuScene());
+            homeButton.setOnAction(e -> Scenes.StageInitializer.setMainMenuScene());
         } else {
-            homeButton.setOnAction(e -> StageInitializer.setLoginScene());
+            homeButton.setOnAction(e -> Scenes.StageInitializer.setLoginScene());
         }
         hBox.getChildren().clear();
         this.setHBox();

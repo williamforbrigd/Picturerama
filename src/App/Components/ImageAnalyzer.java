@@ -28,5 +28,4 @@ public class ImageAnalyzer {
         analyzedPhoto.put("filetype",getFileExtension(file));
         return analyzedPhoto;
     }
-
 }

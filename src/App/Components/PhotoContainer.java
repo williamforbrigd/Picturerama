@@ -1,19 +1,15 @@
 package Components;
 
 import Css.Css;
-import Scenes.SceneBuilder;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class PhotoContainer {
@@ -80,7 +76,7 @@ public class PhotoContainer {
         });
         setupContainerCheckBox();
         photoContainer = new HBox(photoButton, checkBox);
-        photoContainer.getStylesheets().add("Css/CheckBoxStyle.css");
+        photoContainer.getStylesheets().add("file:src/App/Css/CheckBoxStyle.css");
         photoContainer.setSpacing(10);
         photoContainer.setAlignment(Pos.CENTER_LEFT);
         photoContainer.setStyle("-fx-border-radius: 1; -fx-border-color: #616161");

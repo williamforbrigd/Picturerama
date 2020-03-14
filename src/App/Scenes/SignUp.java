@@ -2,7 +2,6 @@ package Scenes;
 
 import Components.Authentication;
 import Css.Css;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 

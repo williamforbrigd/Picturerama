@@ -19,7 +19,7 @@ public class ConfirmationBox {
     public static boolean display(String title, String message){
         Stage window = new Stage();
 
-        window.getIcons().add(new Image("file:src/Images/Logo.png"));
+        window.getIcons().add(new Image("file:src/App/Images/Logo.png"));
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
