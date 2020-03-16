@@ -1,0 +1,5 @@
+#searchField {
+    -fx-background-image:url('/Images/Search.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right center;
+}

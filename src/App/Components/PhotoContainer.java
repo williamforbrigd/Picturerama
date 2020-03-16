@@ -1,6 +1,8 @@
 package Components;
 
 import Css.Css;
+import Scenes.ImageMetaDataViewer;
+import java.sql.SQLException;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -63,16 +65,15 @@ public class PhotoContainer {
         imageBox.setStyle("-fx-background-color: #F1F1F1;");
         imageBox.setMinSize(155, 155);
 
-        photoButton = new Button("Title: " + photo.getTitle() +  "\nWidth: " + photo.getWidth() + "\nHeight: " + photo.getHeight() + "\nFile Type: " + photo.getFileType()
-                + "\nPath: " + photo.getPath(), imageBox);
+        photoButton = new Button(photo.getTitle(), imageBox);
         Css.setImageContainerButtons(photoButton);
 
         photoButton.setOnAction(action -> {
-            Scene pictureScene = new Scene(new HBox(new ImageView(new Image(photo.getPath(), 150, 150, true, true))));
-            Stage pictureStage = new Stage();
-            pictureStage.setScene(pictureScene);
-            pictureStage.initModality(Modality.APPLICATION_MODAL);
-            pictureStage.show();
+            try {
+                ImageMetaDataViewer.display(photo.getId());
+            } catch (SQLException e) {
+                e.printStackTrace(); //Need to do something else here.
+            }
         });
         setupContainerCheckBox();
         photoContainer = new HBox(photoButton, checkBox);
