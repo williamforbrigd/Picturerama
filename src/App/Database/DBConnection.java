@@ -209,9 +209,9 @@ public class DBConnection {
     /**
      * Register photo.
      *
-     * @param name the name
+     * @param albumName the name
      */
-    public static void registerAlbum(String name) {
+    public static void registerAlbum(String albumName) {
         Connection con = null;
         PreparedStatement prepStmt = null;
         try {
@@ -219,7 +219,7 @@ public class DBConnection {
 
             String query = "INSERT INTO ALBUMS (name, user_id) VALUES (?, ?)";
             prepStmt = con.prepareStatement(query);
-            prepStmt.setString(1, name);
+            prepStmt.setString(1, albumName);
             prepStmt.setInt(2, UserInfo.getUserID());
             prepStmt.executeUpdate();
         } catch (SQLSyntaxErrorException e) {

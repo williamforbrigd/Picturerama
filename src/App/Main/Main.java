@@ -1,5 +1,8 @@
 package Main;
 
+import Components.Album;
+import Components.UserInfo;
+import Database.DBConnection;
 import Scenes.StageInitializer;
 import javafx.application.Application;
 import javafx.stage.Stage;

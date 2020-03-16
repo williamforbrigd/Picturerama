@@ -3,12 +3,12 @@ package Css;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 
 /**
@@ -102,20 +102,75 @@ public class Css {
         }
     }
 
-    public static void setNewAlbumButton(Button arg) {
-        arg.setStyle("-fx-position:absolute;");
-        arg.setFont(new Font("Cambria", 30));
-        arg.setPrefHeight(50);
-        arg.setPrefWidth(466);
+
+    public static void setAddAlbumButton(Button button) {
+        String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
+                "-fx-border-width: 1px;-fx-border-radius: 15px;" +
+                " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
+                " -fx-background-radius: 15px;-fx-background-insets: 0";
+        button.setStyle(style);
+        button.setFont(new Font("Montserrat", 17.0D));
+        button.setOnMouseEntered((e) -> {
+            button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
+        });
+        button.setOnMouseExited((e) -> {
+            button.setStyle(style);
+        });
+        button.setPrefHeight(20);
+        button.setPrefWidth(500);
     }
 
-    public static void setAlbumButton(Button... args) {
+    public static void setNewAlbumButton(Button arg) {
+        String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
+                "-fx-border-width: 1px;-fx-border-radius: 15px;" +
+                " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
+                " -fx-background-radius: 15px;-fx-background-insets: 0";
+        arg.setStyle(style);
+        arg.setFont(new Font("Montserrat", 18.0D));
+        arg.setOnMouseEntered((e) -> {
+            arg.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
+        });
+        arg.setOnMouseExited((e) -> {
+            arg.setStyle(style);
+        });
+        arg.setPrefHeight(50);
+        arg.setPrefWidth(200);
+    }
+
+
+    public static void setAlbumButtons(Button... args) {
         for(Button arg : args) {
-            arg.setStyle("-fx-position:absolute;");
-            arg.setFont(new Font("Cambria", 10));
+            String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
+                    "-fx-border-width: 1px;-fx-border-radius: 15px;" +
+                    " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
+                    " -fx-background-radius: 15px;-fx-background-insets: 0";
+            arg.setStyle(style);
+            arg.setFont(new Font("Montserrat", 18.0D));
+            arg.setOnMouseEntered((e) -> {
+                arg.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
+            });
+            arg.setOnMouseExited((e) -> {
+                arg.setStyle(style);
+            });
             arg.setPrefHeight(50);
-            arg.setPrefWidth(150);
+            arg.setPrefWidth(650);
         }
+    }
+
+    public static void setTextAlbums(Text text) {
+        text.setFont(new Font("Montserrat", 17));
+    }
+
+    public static void setAlbumScrollPaneBorder(ScrollPane scrollPane) {
+        scrollPane.setStyle("-fx-background-color:transparent;");
+    }
+
+    public static void setTextFieldAlbums(TextField textField) {
+        textField.setFont(new Font("Montserrat", 17));
+        textField.setPrefHeight(20);
+        textField.setPrefWidth(700);
+        textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
+                "-fx-border-radius: 15px;-fx-background-radius: 15px");
     }
 
     public static void setErrorLabel(Label... args) {
