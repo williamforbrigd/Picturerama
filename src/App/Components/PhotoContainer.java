@@ -69,11 +69,8 @@ public class PhotoContainer {
         Css.setImageContainerButtons(photoButton);
 
         photoButton.setOnAction(action -> {
-            try {
-                ImageMetaDataViewer.display(photo.getId());
-            } catch (SQLException e) {
-                e.printStackTrace(); //Need to do something else here.
-            }
+            ImageMetaDataViewer imageMetaDataViewer = new ImageMetaDataViewer(photo.getId());
+            imageMetaDataViewer.display();
         });
         setupContainerCheckBox();
         photoContainer = new HBox(photoButton, checkBox);
