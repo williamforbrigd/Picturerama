@@ -16,15 +16,12 @@ public class Hibernate {
         Map result = new HashMap();
         try (InputStream input = new FileInputStream("config.properties")) {
             Properties prop = new Properties();
-            System.out.println(input);
             prop.load(input);
-            System.out.println(prop.toString());
             result.put( "hibernate.connection.username", prop.getProperty("username"));
             result.put( "hibernate.connection.password", prop.getProperty("password"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        System.out.println(result.toString());
         return result;
     }
 
