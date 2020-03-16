@@ -29,8 +29,10 @@
 **/.idea/tasks.xml
 **/.idea/checkstyle-idea.xml
 **/.idea/sonarlint
+**/.idea/dataSources.local.xml
+**/.idea/dataSources.xml
+**/.idea/dataSources/
 *.iml
-JavaFxApplication.iml
 
 # File-based project format
 *.iws

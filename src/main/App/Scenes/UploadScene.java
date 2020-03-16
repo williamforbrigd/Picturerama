@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.ImageAnalyzer;
 import Components.UserInfo;
 import Css.Css;
 import Database.Hibernate;
@@ -10,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 
 public class UploadScene extends SceneBuilder {
@@ -82,15 +86,20 @@ public class UploadScene extends SceneBuilder {
     }
 
     private void upLoadComplete(){
-        Photo photo = new Photo();
-        photo.setTitle(titleField.getText());
-        photo.setUrl(urlField.getText());
-        photo.setUserId(UserInfo.getUser().getId());
-        UserInfo.getUser().getPhotos().add(photo);
-        Hibernate.updateUser(UserInfo.getUser());
-        StageInitializer.setMainMenuScene();
-        titleField.clear();
-        urlField.clear();
-        feedbackLabel.setVisible(false);
+    	try {
+		    Photo photo = ImageAnalyzer.analyze(titleField.getText(), urlField.getText());
+		    UserInfo.getUser().getPhotos().add(photo);
+		    Hibernate.updateUser(UserInfo.getUser());
+		    StageInitializer.setMainMenuScene();
+		    titleField.clear();
+		    urlField.clear();
+		    feedbackLabel.setVisible(false);
+	    } catch (IOException e) {
+		    Css.setErrorLabel(feedbackLabel);
+		    feedbackLabel.setText("Something went wrong when retrieving image from url.");
+	    } catch (NullPointerException e) {
+		    Css.setErrorLabel(feedbackLabel);
+		    feedbackLabel.setText("Something went wrong when analyzing image.");
+	    }
     }
 }

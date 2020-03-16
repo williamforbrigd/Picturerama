@@ -23,28 +23,28 @@ public class Photo implements Serializable {
     private String url;
 
     @Column(name = "latitude")
-    private String latitude;
+    private Double latitude;
 
     @Column(name = "longitude")
-    private String longitude;
+    private Double longitude;
 
     @Column(name = "width")
-    private int width;
+    private Integer width;
 
     @Column(name = "height")
-    private int height;
+    private Integer height;
 
     @Column(name = "file_type")
     private String fileType;
 
     @Column(name = "file_size")
-    private int fileSize;
+    private Integer fileSize;
 
     @Column(name = "aperture")
-    private double aperture;
+    private String aperture;
 
     @Column(name = "exposure_time")
-    private double exposureTime;
+    private String exposureTime;
 
     @Column(name = "camera_model")
     private String camera;
@@ -83,35 +83,35 @@ public class Photo implements Serializable {
         this.url = url;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public int getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(Integer width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
@@ -123,27 +123,27 @@ public class Photo implements Serializable {
         this.fileType = fileType;
     }
 
-    public int getFileSize() {
+    public Integer getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(int fileSize) {
+    public void setFileSize(Integer fileSize) {
         this.fileSize = fileSize;
     }
 
-    public double getAperture() {
+    public String getAperture() {
         return aperture;
     }
 
-    public void setAperture(double aperture) {
+    public void setAperture(String aperture) {
         this.aperture = aperture;
     }
 
-    public double getExposureTime() {
+    public String getExposureTime() {
         return exposureTime;
     }
 
-    public void setExposureTime(double exposureTime) {
+    public void setExposureTime(String exposureTime) {
         this.exposureTime = exposureTime;
     }
 
