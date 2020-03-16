@@ -2,13 +2,31 @@ package Database;
 
 import Database.HibernateClasses.*;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class Hibernate {
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY =
-            Persistence.createEntityManagerFactory("Database");
+            Persistence.createEntityManagerFactory("Database", getProperties());
     private static EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+
+    private static Map getProperties() {
+        Map result = new HashMap();
+        try (InputStream input = new FileInputStream("config.properties")) {
+            Properties prop = new Properties();
+            System.out.println(input);
+            prop.load(input);
+            System.out.println(prop.toString());
+            result.put( "hibernate.connection.username", prop.getProperty("username"));
+            result.put( "hibernate.connection.password", prop.getProperty("password"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(result.toString());
+        return result;
+    }
 
     public static boolean registerUser(String username, String email, String hash, String salt) {
         EntityTransaction et = null;
