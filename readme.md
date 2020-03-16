@@ -17,9 +17,10 @@ git clone git@gitlab.stud.idi.ntnu.no:gruppe-12/picturerama.git
 
 In order to be able to connect to our database you'll need a ```config.properties``` file in the project root. It should look like this:
 ```
-username=your_username
-password=your_password
+username="your_username"
+password="your_password"
 ```
+
 
 Contact one of the developers to get the username and password.
 
