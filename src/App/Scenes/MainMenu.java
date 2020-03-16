@@ -9,12 +9,12 @@ import javafx.scene.layout.BorderPane;
 
 public class MainMenu extends SceneBuilder {
 
-    private static Button uploadButton = new Button("Upload");
-    private static Button myPhotosButton = new Button("Photos");
-    private static Button albumsButton = new Button("Albums");
-    private static Button logOutButton = new Button("Log out");
-    private static Button aboutButton = new Button("About");
-    private static Alert infoDialog = new Alert(AlertType.INFORMATION);
+    private Button uploadButton = new Button("Upload");
+    private Button myPhotosButton = new Button("Photos");
+    private Button albumsButton = new Button("Albums");
+    private Button logOutButton = new Button("Log out");
+    private Button aboutButton = new Button("About");
+    private Alert infoDialog = new Alert(AlertType.INFORMATION);
 
     public MainMenu() {
         super();

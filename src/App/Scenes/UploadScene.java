@@ -11,12 +11,12 @@ import javafx.scene.input.KeyCode;
 
 
 public class UploadScene extends SceneBuilder {
-    private static Label titleLabel = new Label("Title: ");
-    private static TextField titleField = new TextField();
-    private static Label urlLabel = new Label("URL: ");
-    private static TextField urlField = new TextField();
-    private static Button uploadButton = new Button("Upload image");
-    private static Label feedbackLabel = new Label();
+    private Label titleLabel = new Label("Title: ");
+    private TextField titleField = new TextField();
+    private Label urlLabel = new Label("URL: ");
+    private TextField urlField = new TextField();
+    private Button uploadButton = new Button("Upload image");
+    private Label feedbackLabel = new Label();
 
     public UploadScene() {
         super();

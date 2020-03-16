@@ -5,7 +5,6 @@ import Components.Photo;
 import Components.TagContainer;
 import Css.Css;
 import Database.DBConnection;
-import java.sql.SQLException;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,35 +19,36 @@ import javafx.stage.Stage;
 
 public class ImageMetaDataViewer {
   //The flowPane containing the tag containers
-  private static FlowPane tagContainer = new FlowPane();
+  private FlowPane tagContainer;
 
-  private static Photo photo;
+  private Photo photo;
 
-  private static Stage stage;
+  private Stage stage;
 
-  /**
-   * Private constructor to hinder the creation of the utility class
-   */
-  private ImageMetaDataViewer() {
-    throw new IllegalStateException("Utility class");
+
+  public ImageMetaDataViewer(int photo_id) {
+    stage = new Stage();
+    photo = DBConnection.getPhoto(photo_id);
+    tagContainer = new FlowPane();
+    this.setup();
   }
 
-  public static Stage getStage() {
+  public Stage getStage() {
     return stage;
   }
 
-  public static FlowPane getTagContainer() {
+  public FlowPane getTagContainer() {
     return tagContainer;
   }
 
-  public static void display(int photo_id) throws SQLException {
-    photo = DBConnection.getPhoto(photo_id);
-    stage = new Stage();
+  private void setup() {
+    //Window that adds a tag
+    AddTag addTagView = new AddTag(this, photo);
     stage.initModality(Modality.APPLICATION_MODAL);
     stage.initOwner(StageInitializer.getStage());
 
     stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-      if (!isNowFocused && AddTag.status == false) {
+      if (!isNowFocused && addTagView.isVisible == false) {
         stage.hide();
       }
     });
@@ -71,7 +71,6 @@ public class ImageMetaDataViewer {
 
     Scene scene;
     try {
-
       photoTitleLabel.setText(photo.getTitle());
       metadataLabel.setText(photo.toString() + "\nTags:\n");
 
@@ -102,7 +101,9 @@ public class ImageMetaDataViewer {
     }
 
     Button addTag = new Button("Add tag");
-    addTag.setOnAction(e -> AddTag.display(photo));
+    addTag.setOnAction(e -> {
+      addTagView.display();
+    });
 
     Button closeButton = new Button("Close stage");
     Css.setButtonsSignUpLogin(addTag, closeButton);
@@ -112,14 +113,17 @@ public class ImageMetaDataViewer {
     layout.setBottom(buttons);
 
     stage.setScene(scene);
-    stage.showAndWait();
   }
 
-  static void setButtonFunctionality(TagContainer tagContainerObject) {
+  void setButtonFunctionality(TagContainer tagContainerObject) {
     //Programs the delete button each tag to remove the tag
     tagContainerObject.getDeleteTag().setOnAction(e -> {
       photo.getTags().removeIf(t -> t.equals(tagContainerObject.getTagAsString()));
       tagContainer.getChildren().removeIf(t -> t.equals(tagContainerObject.getContainer()));
     });
+  }
+
+  public void display(){
+    stage.showAndWait();
   }
 }

@@ -14,28 +14,33 @@ import javafx.stage.Stage;
 public class AddTag{
 
   //Shows if the window is open
-  static boolean status = false;
-
+  boolean isVisible = false;
+  private ImageMetaDataViewer owner;
+  private Photo photo;
+  private Stage stage;
   /**
    * Private constructor to hinder the creation of the utility class
    */
-  private AddTag() {
-    throw new IllegalStateException("Utility class");
+  public AddTag(ImageMetaDataViewer owner, Photo photo) {
+      this.stage = setupStage();
+      this.owner = owner;
+      this.photo = photo;
   }
 
-  public static void display(Photo photo){
-    status = true;
-    Stage stage = new Stage();
-    stage.initModality(Modality.APPLICATION_MODAL);
-    stage.initOwner(ImageMetaDataViewer.getStage());
-    stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+  public Stage setupStage(){
+    //Stage to be returned
+    //Easier to test when doing this
+    Stage _stage = new Stage();
+    _stage.initModality(Modality.APPLICATION_MODAL);
+    _stage.initOwner(owner.getStage());
+    _stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
       if (!isNowFocused) {
-        status = false;
-        stage.hide();
+         isVisible = false;
+        _stage.hide();
       }
     });
-    stage.setTitle("Add tag");
-    stage.setMinWidth(150);
+    _stage.setTitle("Add tag");
+    _stage.setMinWidth(150);
 
     VBox layout = new VBox();
 
@@ -53,15 +58,20 @@ public class AddTag{
       else {
         photo.getTags().add(tagField.getText());
         TagContainer tagContainerObject = new TagContainer(tagField.getText());
-        ImageMetaDataViewer.getTagContainer().getChildren().add(tagContainerObject.getContainer());
+        owner.getTagContainer().getChildren().add(tagContainerObject.getContainer());
         // TODO: Create tag in database related to photo
-        ImageMetaDataViewer.setButtonFunctionality(tagContainerObject);
-        status = false;
-        stage.close();
+        owner.setButtonFunctionality(tagContainerObject);
+        isVisible = false;
+        _stage.close();
       }
     });
     layout.getChildren().addAll(tagLabel, tagField, addTag, feedbackLabel);
-    stage.setScene(new Scene(layout, 300, 300));
+    _stage.setScene(new Scene(layout, 300, 300));
+    return _stage;
+  }
+
+  public void display(){
+    isVisible = true;
     stage.showAndWait();
   }
 }

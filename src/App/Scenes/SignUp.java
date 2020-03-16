@@ -7,18 +7,18 @@ import javafx.scene.input.KeyCode;
 
 
 public class SignUp extends SceneBuilder {
-    private static Label usernameLabel = new Label("Username: ");
-    private static Label emailLabel = new Label("Email: ");
-    private static Label passwordLabel = new Label("Password: ");
-    private static Label confirmPasswordLabel = new Label("Confirm Password: ");
-    private static PasswordField passwordField = new PasswordField();
-    private static PasswordField confirmPasswordField = new PasswordField();
-    private static TextField usernameField = new TextField();
-    private static TextField emailField = new TextField();
-    private static Label signupFeedbackLabel = new Label();
-    private static Button signUpButton = new Button("Sign up");
-    private static Button logInButton = new Button("Log in");
-    private static ProgressBar passwordStrengthBar = new ProgressBar(0);
+    private Label usernameLabel = new Label("Username: ");
+    private Label emailLabel = new Label("Email: ");
+    private Label passwordLabel = new Label("Password: ");
+    private Label confirmPasswordLabel = new Label("Confirm Password: ");
+    private PasswordField passwordField = new PasswordField();
+    private PasswordField confirmPasswordField = new PasswordField();
+    private TextField usernameField = new TextField();
+    private TextField emailField = new TextField();
+    private Label signupFeedbackLabel = new Label();
+    private Button signUpButton = new Button("Sign up");
+    private Button logInButton = new Button("Log in");
+    private ProgressBar passwordStrengthBar = new ProgressBar(0);
 
     /**
      * Creates a object of the class SignUp
@@ -28,12 +28,6 @@ public class SignUp extends SceneBuilder {
         super();
         this.setLayout();
     }
-
-    /**
-     * Called from the superclass
-     *
-     * @return returns the scene to use in main
-     */
 
     /**
      * Overrides the superclass' setLayout method. Also initialises all functionalities in the application

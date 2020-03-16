@@ -12,13 +12,13 @@ import javafx.scene.input.KeyCode;
 
 public class LogIn extends SceneBuilder {
 
-    private static Label usernameLabel;
-    private static TextField usernameField;
-    private static Label passwordLabel;
-    private static PasswordField passwordField;
-    private static Label logInLabel;
-    private static Button logInButton;
-    private static Button signUpButton;
+    private Label usernameLabel;
+    private TextField usernameField;
+    private Label passwordLabel;
+    private PasswordField passwordField;
+    private Label logInLabel;
+    private Button logInButton;
+    private Button signUpButton;
 
     /**
      * LogIn constructor, uses SceneBuilder constructor. To create an object of the LogIn class
@@ -34,17 +34,6 @@ public class LogIn extends SceneBuilder {
         signUpButton = new Button("Sign up");
         this.setLayout();
     }
-
-
-    /**
-     * getScene gets the scene of the log in page, to be used in primaryStage.setScene()
-     * @return super.getScene(), the scene to be used in the primary stage
-     */
-    @Override
-    public Scene getScene() {
-        return super.getScene();
-    }
-
 
     /**
      * setLayout method used for setting the layout for the log in page

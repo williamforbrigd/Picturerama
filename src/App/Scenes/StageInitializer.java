@@ -6,6 +6,13 @@ import javafx.stage.Stage;
 public class StageInitializer {
     private static Stage stage;
 
+    /**
+     * Private constructor to hinder creation of utility class
+     */
+    private StageInitializer(){
+        throw new IllegalStateException("Can not make instance of utility class");
+    }
+
     public static void initialize(Stage primaryStage) {
         stage = primaryStage;
         stage.setOnCloseRequest(s -> {
