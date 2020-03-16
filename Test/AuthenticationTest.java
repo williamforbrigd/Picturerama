@@ -1,10 +1,9 @@
 import Components.Authentication;
-import Database.DBConnection;
+import Database.Hibernate;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 class AuthenticationTest {
 
@@ -35,6 +34,6 @@ class AuthenticationTest {
 
     @AfterAll
     static void clearUp() {
-        DBConnection.deleteUser("jUnitTest");
+        Hibernate.deleteUser("jUnitTest");
     }
 }
