@@ -9,11 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 
 public class UploadScene extends SceneBuilder {
@@ -62,26 +60,11 @@ public class UploadScene extends SceneBuilder {
 
 
     private boolean checkField() {
-        feedbackLabel.setVisible(true);
-        if (titleField.getText().length() == 0 || urlField.getText().length() == 0) {
+        if (titleField.getText().trim().length() == 0 || urlField.getText().trim().length() == 0) {
             feedbackLabel.setText("Title or URL are missing");
             Css.setErrorLabel(feedbackLabel);
             return false;
         }
-        try {
-            Image imageTest = new Image(urlField.getText());
-            if (imageTest.isError()) {
-                Css.setErrorLabel(feedbackLabel);
-                feedbackLabel.setText("URL is invalid");
-                return false;
-            }
-        } catch (Exception ex) {
-            Css.setErrorLabel(feedbackLabel);
-            feedbackLabel.setText("URL is invalid");
-            return false;
-        }
-        Css.setSuccessLabel(feedbackLabel);
-        feedbackLabel.setText("Image uploaded successfully");
         return true;
     }
 
@@ -91,9 +74,6 @@ public class UploadScene extends SceneBuilder {
 		    UserInfo.getUser().getPhotos().add(photo);
 		    Hibernate.updateUser(UserInfo.getUser());
 		    StageInitializer.setMainMenuScene();
-		    titleField.clear();
-		    urlField.clear();
-		    feedbackLabel.setVisible(false);
 	    } catch (IOException e) {
 		    Css.setErrorLabel(feedbackLabel);
 		    feedbackLabel.setText("Something went wrong when retrieving image from url.");

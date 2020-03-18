@@ -98,7 +98,7 @@ public class Css {
                 button.setStyle(style);
             });
             button.setPrefHeight(100);
-            button.setPrefWidth(466);
+            button.setPrefWidth(340);
         }
     }
 
