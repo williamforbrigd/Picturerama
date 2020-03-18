@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.Authentication;
 import Css.Css;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -36,7 +37,7 @@ public class MainMenu extends SceneBuilder {
         uploadButton.setOnAction(e -> StageInitializer.setUploadScene());
         myPhotosButton.setOnAction(e -> StageInitializer.setSearchScene());
 	    albumsButton.setOnAction(e -> StageInitializer.setAlbumsScene());
-        logOutButton.setOnAction(e -> System.out.println("Log out pressed"));
+        logOutButton.setOnAction(e -> Authentication.logout());
         aboutButton.setOnAction(e -> infoDialog.showAndWait());
 
         super.getGridPane().add(uploadButton,0,0);

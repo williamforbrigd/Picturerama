@@ -25,6 +25,15 @@ public class Hibernate {
         return result;
     }
 
+    /**
+     * Register a new user in the database
+     *
+     * @param username the username
+     * @param email    the email
+     * @param hash     the hash
+     * @param salt     the salt
+     * @return if the registration was successful
+     */
     public static boolean registerUser(String username, String email, String hash, String salt) {
         EntityTransaction et = null;
         boolean isSuccess = true;
@@ -51,6 +60,11 @@ public class Hibernate {
         }
     }
 
+    /**
+     * Update user.
+     *
+     * @param user the user
+     */
     public static void updateUser(User user) {
         EntityTransaction et = null;
         try {
@@ -67,7 +81,14 @@ public class Hibernate {
         }
     }
 
-    public static String getSalt(String username) {
+    /**
+     * Gets salt of user.
+     *
+     * @param username username of user
+     * @return the salt
+     * @throws NoResultException if the user was not found
+     */
+    public static String getSalt(String username) throws NoResultException {
         EntityTransaction et = null;
         try {
             et = em.getTransaction();
@@ -79,15 +100,20 @@ public class Hibernate {
                     .getSingleResult();
             et.commit();
             return user.getSalt();
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             if (et != null) {
                 et.rollback();
             }
-            e.printStackTrace();
+            throw e;
         }
-        return null;
     }
 
+    /**
+     * Gets user.
+     *
+     * @param username username of user
+     * @return the user
+     */
     public static User getUser(String username) {
         EntityTransaction et = null;
         try {
@@ -109,6 +135,13 @@ public class Hibernate {
         return null;
     }
 
+    /**
+     * Login user
+     *
+     * @param username the username
+     * @param hash     the hash
+     * @return if login was successful
+     */
     public static boolean login(String username, String hash) {
         EntityTransaction et = null;
         try {
@@ -126,11 +159,16 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
-            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
+    /**
+     * Get user id
+     *
+     * @param username the username
+     * @return the user id
+     */
     public static int getUserID(String username){
         EntityTransaction et = null;
         try {
@@ -152,6 +190,11 @@ public class Hibernate {
         return -1;
     }
 
+    /**
+     * Delete user.
+     *
+     * @param username the username
+     */
     public static void deleteUser(String username) {
         EntityTransaction et = null;
         try{
@@ -170,10 +213,20 @@ public class Hibernate {
         }
     }
 
+    /**
+     * Gets entity manager
+     *
+     * @return the entity manager
+     */
     public static EntityManager getEm() {
         return em;
     }
 
+    /**
+     * Gets entity manager factory.
+     *
+     * @return the entity manager factory
+     */
     public static EntityManagerFactory getEntityManagerFactory() {
         return ENTITY_MANAGER_FACTORY;
     }

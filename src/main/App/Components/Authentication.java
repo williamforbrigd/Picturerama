@@ -1,6 +1,7 @@
 package Components;
 
 import Database.Hibernate;
+import Scenes.StageInitializer;
 
 /**
  * Authentication class for authenticating username and password for each user
@@ -45,20 +46,32 @@ public class Authentication {
 	 * @return if login was successful
 	 */
 	public static boolean logIn(String username, String password) {
-		//Getting salt from db using username
-		String salt = Hibernate.getSalt(username);
-		//generating hash using salt
-		String encryptor = Encryptor.Encryptor(password, salt);
-		String hash = Encryptor.getHash(encryptor);
+		try {
+			//Getting salt from db using username
+			String salt = Hibernate.getSalt(username);
+			//generating hash using salt
+			String encryptor = Encryptor.Encryptor(password, salt);
+			String hash = Encryptor.getHash(encryptor);
 
-
-		// Try to login
-		if (Hibernate.login(username, hash)) {
-			UserInfo.initializeUser(Hibernate.getUser(username));
-			return true;
-		} else {
-			// Wrong username or password error
+			// Try to login
+			if (Hibernate.login(username, hash)) {
+				UserInfo.initializeUser(Hibernate.getUser(username));
+				return true;
+			} else {
+				// Wrong username or password error
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Log out the user and redirect to login scene
+	 */
+	public static void logout() {
+		UserInfo.logOut();
+		Hibernate.getEm().clear();
+		StageInitializer.setLoginScene();
 	}
 }

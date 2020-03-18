@@ -9,7 +9,6 @@ public class UserInfo {
   // Information about user - gets updated once a user logs in
   private static User user = null;
 
-
   /**
    * Private constructor to hinder the creation of the utility class
    */
@@ -33,6 +32,12 @@ public class UserInfo {
    */
   public static void initializeUser(User dbuser) {
       user = dbuser;
+  }
 
+  /**
+   * Method that logs out the user from the program, by setting the userId to 0 and userName to null
+   */
+  public static void logOut() {
+    user = null;
   }
 }
