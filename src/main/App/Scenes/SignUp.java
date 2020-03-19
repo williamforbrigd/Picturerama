@@ -65,25 +65,22 @@ public class SignUp extends SceneBuilder {
         Css.setTextField(usernameField,emailField,passwordField,confirmPasswordField);
         Css.setLabel(usernameLabel,emailLabel,passwordLabel,confirmPasswordLabel);
 
-        //Sets functionality to layout components
-        signUpButton.setOnAction(e -> {
-            if (feedback()) {
-                if(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText())) {
-                    StageInitializer.setLoginScene();
-                }
-                else{
-                    signupFeedbackLabel.setText("Error: This username is already taken");
-                    Css.setErrorLabel(signupFeedbackLabel);
-                }
-            }
-        });
+        signUpButton.setOnAction(e -> signup());
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
         logInButton.setOnAction(e -> StageInitializer.setLoginScene());
 
         super.getScene().setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER && feedback()) {
-                if(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText())) {
+            if (e.getCode() == KeyCode.ENTER) {
+                signup();
+            }
+        });
+    }
+
+    private void signup() {
+        try {
+            if (feedback()) {
+                if(Authentication.register(usernameField.getText(),passwordField.getText(),emailField.getText())) {
                     StageInitializer.setLoginScene();
                 }
                 else{
@@ -91,7 +88,10 @@ public class SignUp extends SceneBuilder {
                     Css.setErrorLabel(signupFeedbackLabel);
                 }
             }
-        });
+        } catch (ExceptionInInitializerError error) {
+            signupFeedbackLabel.setText("Error: Could not connect to database");
+            Css.setErrorLabel(signupFeedbackLabel);
+        }
     }
 
 

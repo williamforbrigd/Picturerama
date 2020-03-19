@@ -17,24 +17,19 @@ public class Authentication {
 	 * @return if method was successful
 	 */
 	public static boolean register(String username, String password, String email) {
-		String hash;
-		String salt;
-
-		if (password != null) {
+		try {
 			//Encrypt password
 			String encryptor = Encryptor.Encryptor(password, null);
 			//get salt and hash
-			hash = Encryptor.getHash(encryptor);
-			salt = Encryptor.getSalt(encryptor);
-		} else {
-			hash = null;
-			salt = null;
-		}
+			String hash = Encryptor.getHash(encryptor);
+			String salt = Encryptor.getSalt(encryptor);
 
-		if ((username != null) && (hash != null) && (salt != null)) {
 			return Hibernate.registerUser(username, email, hash, salt);
+		} catch (ExceptionInInitializerError | NoClassDefFoundError e) {
+			throw e;
+		} catch (IllegalArgumentException e) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -58,9 +53,10 @@ public class Authentication {
 				UserInfo.initializeUser(Hibernate.getUser(username));
 				return true;
 			} else {
-				// Wrong username or password error
 				return false;
 			}
+		} catch (ExceptionInInitializerError | NoClassDefFoundError e) {
+			throw e;
 		} catch (Exception e) {
 			return false;
 		}
