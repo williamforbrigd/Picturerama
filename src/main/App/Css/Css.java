@@ -1,10 +1,7 @@
 package Css;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -231,6 +228,13 @@ public class Css {
         textField.setPrefHeight(20);
         textField.setPrefWidth(700);
         textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
+                "-fx-border-radius: 15px;-fx-background-radius: 15px");
+    }
+
+    public static void setChoiceBoxAlbums(ChoiceBox choiceBox) {
+        choiceBox.setPrefHeight(20);
+        choiceBox.setPrefWidth(700);
+        choiceBox.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
                 "-fx-border-radius: 15px;-fx-background-radius: 15px");
     }
 

@@ -3,13 +3,26 @@ package Scenes;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
+import Database.Hibernate;
+import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.ChoiceBox;
 import java.util.ArrayList;
+import java.util.List;
+
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 public class Search extends SceneBuilder {
   private ArrayList<Photo> photoList = new ArrayList<>();
@@ -20,6 +33,12 @@ public class Search extends SceneBuilder {
   private TextField searchTextField = new TextField();
   private CheckBox selectAllCheckBox = new CheckBox("Select all:");
   private Button addToAlbumButton = new Button("Add to album");
+  ChoiceBox<String> choiceBox = new ChoiceBox<>();
+  private Stage dialogWindow;
+  private VBox dialogVbox;
+  private HBox dialogHBox;
+  private Text dialogText;
+
 
   public Search(){
     super();
@@ -68,6 +87,9 @@ public class Search extends SceneBuilder {
 
   private void setupAlbumButtons(){
     Css.setButtonsSignUpLogin(addToAlbumButton);
+    addToAlbumButton.setOnAction(s->{
+        createNewAlbumButtonPressed();
+    });
   }
 
   private void filter(){
@@ -81,6 +103,82 @@ public class Search extends SceneBuilder {
         }
       });
     }
+  }
+
+  private void createAlbumPopupDialog() {
+    dialogWindow = new Stage();
+    dialogWindow.initModality(Modality.APPLICATION_MODAL);
+
+    dialogVbox = new VBox();
+    dialogVbox.setAlignment(Pos.CENTER);
+
+    dialogText = new Text();
+
+    dialogHBox = new HBox();
+    dialogHBox.setPadding(new Insets(10,10,10,10));
+    dialogHBox.setSpacing(10);
+
+    Scene dialogScene = new Scene(dialogVbox, 500, 100);
+    dialogWindow.setScene(dialogScene);
+    dialogWindow.show();
+  }
+  private void createNewAlbumButtonPressed() {
+    createAlbumPopupDialog();
+
+    dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
+    dialogWindow.setTitle("Add to Album");
+
+    dialogText.setText("Please select the name of the album: ");
+    Css.setTextAlbums(dialogText);
+
+    setupChoiceBox();
+    Css.setChoiceBoxAlbums(choiceBox);
+
+    Button addAlbum = new Button("Add to album");
+    Css.setAddAlbumButton(addAlbum);
+    addAlbum.setOnAction(e -> {
+      updateUser(choiceBox.getValue());
+      dialogWindow.close();
+    });
+
+    dialogHBox.getChildren().addAll(choiceBox, addAlbum);
+    dialogVbox.getChildren().addAll(dialogText, dialogHBox);
+  }
+
+  public void setupChoiceBox(){
+    choiceBox.getStyleClass().add("choice-box");
+    choiceBox.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
+    UserInfo.getUser().getAlbums().forEach(s->{
+      choiceBox.getItems().add(s.getName());
+    });
+  }
+
+  public ArrayList<Photo> getCheckedPhotos(){
+    ArrayList<Photo> checkedPhotos = new ArrayList<>();
+    for (int i = 0; i<checkBoxArrayList.size(); i++) {
+      if(checkBoxArrayList.get(i).isSelected()){
+        checkedPhotos.add(photoList.get(i));
+      }
+    }
+    return checkedPhotos;
+  }
+  public int indexOfAlbum(String albumName){
+    int index = -1;
+    List<Album> albums = UserInfo.getUser().getAlbums();
+    for (int i = 0; i <albums.size() ; i++) {
+      if(albums.get(i).getName().equals(albumName)){
+        index = i;
+      }
+    }
+    return index;
+  }
+  public void updateUser(String albumnName){
+    int index = indexOfAlbum(albumnName);
+    ArrayList<Photo> checkedPhoto = getCheckedPhotos();
+    checkedPhoto.forEach(s ->{
+      UserInfo.getUser().getAlbums().get(index).getAlbumPhotos().add(s);
+    });
+    Hibernate.updateUser(UserInfo.getUser());
   }
 }
 

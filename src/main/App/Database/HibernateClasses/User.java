@@ -35,6 +35,15 @@ public class User implements Serializable {
     @JoinColumn(name = "user_id")
     private List<Album> albums = new ArrayList<>();
 
+    public User() {
+    }
+
+    public User(String username, String email, String hash, String salt) {
+        this.username = username;
+        this.email = email;
+        this.hash = hash;
+        this.salt = salt;
+    }
 
 
     public List<Album> getAlbums() {

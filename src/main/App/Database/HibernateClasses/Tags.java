@@ -23,6 +23,14 @@ public class Tags implements Serializable {
         return id;
     }
 
+    public Tags() {
+    }
+
+    public Tags(String tag, int photoId) {
+        this.tag = tag;
+        this.photoId = photoId;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

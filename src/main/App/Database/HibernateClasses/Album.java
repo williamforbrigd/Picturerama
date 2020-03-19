@@ -4,7 +4,9 @@ package Database.HibernateClasses;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "ALBUMS")
@@ -23,10 +25,21 @@ public class Album implements Serializable {
     private int userId;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "album_id")
-    private List<AlbumPhoto> albumPhotos = new ArrayList<>();
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "ALBUMPHOTO",
+            joinColumns = { @JoinColumn(name = "album_id") },
+            inverseJoinColumns = { @JoinColumn(name = "photo_id") }
+    )
+    private Set<Photo> albumPhotos = new HashSet<>();
 
+    public Album() {
+    }
+
+    public Album(String name, int userId) {
+        this.name = name;
+        this.userId = userId;
+    }
 
     public int getId() {
         return id;
@@ -52,11 +65,11 @@ public class Album implements Serializable {
         this.userId = userId;
     }
 
-    public List<AlbumPhoto> getAlbumPhotos() {
+    public Set<Photo> getAlbumPhotos() {
         return albumPhotos;
     }
 
-    public void setAlbumPhotos(List<AlbumPhoto> albumPhotos) {
+    public void setAlbumPhotos(Set<Photo> albumPhotos) {
         this.albumPhotos = albumPhotos;
     }
 }

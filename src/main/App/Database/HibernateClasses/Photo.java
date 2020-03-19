@@ -4,7 +4,9 @@ package Database.HibernateClasses;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="PHOTOS")
@@ -58,6 +60,9 @@ public class Photo implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private List<Tags> tags = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "albumPhotos", fetch = FetchType.LAZY)
+    private Set<Album> albums = new HashSet<>();
 
     public int getId() {
         return id;
@@ -175,8 +180,35 @@ public class Photo implements Serializable {
         return tags;
     }
 
+    public Photo() {
+    }
+
+    public Photo(String title, String url, Double latitude, Double longitude, Integer width, Integer height, String fileType, Integer fileSize, String aperture, String exposureTime, String camera, String time, int userId) {
+        this.title = title;
+        this.url = url;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.width = width;
+        this.height = height;
+        this.fileType = fileType;
+        this.fileSize = fileSize;
+        this.aperture = aperture;
+        this.exposureTime = exposureTime;
+        this.camera = camera;
+        this.time = time;
+        this.userId = userId;
+    }
+
     public void setTags(List<Tags> tags) {
         this.tags = tags;
+    }
+
+    public Set<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(Set<Album> employees) {
+        this.albums = employees;
     }
 
     @Override
