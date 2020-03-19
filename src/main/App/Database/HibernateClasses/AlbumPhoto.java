@@ -1,6 +1,5 @@
 package Database.HibernateClasses;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 
