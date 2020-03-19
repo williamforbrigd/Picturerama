@@ -61,20 +61,27 @@ public class SignUp extends SceneBuilder {
         Css.setTextField(usernameField,emailField,passwordField,confirmPasswordField);
         Css.setLabel(usernameLabel,emailLabel,passwordLabel,confirmPasswordLabel);
 
-        signUpButton.setOnAction(e -> {
-            if (feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
-                StageInitializer.setLoginScene();
-            }
-        });
+        signUpButton.setOnAction(e -> signup());
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
         logInButton.setOnAction(e -> StageInitializer.setLoginScene());
 
         super.getScene().setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER && feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
-                StageInitializer.setLoginScene();
+            if (e.getCode() == KeyCode.ENTER) {
+                signup();
             }
         });
+    }
+
+    private void signup() {
+        try {
+            if (feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
+                StageInitializer.setLoginScene();
+            }
+        } catch (ExceptionInInitializerError error) {
+            signupFeedbackLabel.setText("Error: Could not connect to database");
+            Css.setErrorLabel(signupFeedbackLabel);
+        }
     }
 
 

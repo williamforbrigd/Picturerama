@@ -35,6 +35,9 @@ public class Hibernate {
      * @return if the registration was successful
      */
     public static boolean registerUser(String username, String email, String hash, String salt) {
+        if (username == null || email == null || hash == null || salt == null) {
+            throw new IllegalArgumentException();
+        }
         EntityTransaction et = null;
         boolean isSuccess = true;
         try {
@@ -104,6 +107,8 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
+            throw e;
+        } catch (Error | Exception e) {
             throw e;
         }
     }
