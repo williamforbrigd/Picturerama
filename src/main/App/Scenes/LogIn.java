@@ -2,11 +2,10 @@ package Scenes;
 
 import Components.Authentication;
 import Css.Css;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.animation.PauseTransition;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 
 
 public class LogIn extends SceneBuilder {
@@ -18,6 +17,7 @@ public class LogIn extends SceneBuilder {
     private Label logInLabel;
     private Button logInButton;
     private Button signUpButton;
+    private ProgressIndicator loadingAnimation = new ProgressIndicator();
 
     /**
      * LogIn constructor, uses SceneBuilder constructor. To create an object of the LogIn class
@@ -49,6 +49,7 @@ public class LogIn extends SceneBuilder {
         super.getGridPane().add(passwordLabel, 0, 2);
         super.getGridPane().add(passwordField, 0, 3);
         super.getGridPane().add(logInButton, 0, 4);
+        super.getGridPane().add(loadingAnimation,1,4);
         super.getGridPane().add(signUpButton, 0, 5);
         super.getGridPane().add(logInLabel, 0, 6);
 
@@ -56,6 +57,7 @@ public class LogIn extends SceneBuilder {
         Css.setButtonsSignUpLogin(logInButton, signUpButton);
         Css.setTextField(usernameField,passwordField);
         Css.setLabel(usernameLabel,passwordLabel,logInLabel);
+        Css.setLoadingAnimation(loadingAnimation);
 
         //Sets functionality for the layout components
         logInButton.setOnAction(e -> login());
@@ -72,14 +74,20 @@ public class LogIn extends SceneBuilder {
      * Method that is ran when logging in to the application
      */
     private void login() {
-        try {
-            if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
-                StageInitializer.setMainMenuScene();
-            } else {
-                logInLabel.setText("Log in failed");
+        loadingAnimation.setVisible(true);
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(e -> {
+            try {
+                if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
+                    StageInitializer.setMainMenuScene();
+                } else {
+                    logInLabel.setText("Log in failed");
+                    loadingAnimation.setVisible(false);
+                }
+            } catch (ExceptionInInitializerError error) {
+                logInLabel.setText("Could not connect to database");
             }
-        } catch (ExceptionInInitializerError error) {
-            logInLabel.setText("Could not connect to database");
-        }
+        });
+        pause.play();
     }
 }

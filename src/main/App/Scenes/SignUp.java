@@ -2,8 +2,10 @@ package Scenes;
 
 import Components.Authentication;
 import Css.Css;
+import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 
 
 public class SignUp extends SceneBuilder {
@@ -19,6 +21,7 @@ public class SignUp extends SceneBuilder {
     private Button signUpButton = new Button("Sign up");
     private Button logInButton = new Button("Log in");
     private ProgressBar passwordStrengthBar = new ProgressBar(0);
+    private ProgressIndicator loadingAnimation = new ProgressIndicator();
 
     /**
      * Creates a object of the class SignUp
@@ -55,6 +58,7 @@ public class SignUp extends SceneBuilder {
         super.getGridPane().add(passwordStrengthBar, 11, 5);
         super.getGridPane().add(signupFeedbackLabel, 10, 11);
         super.getGridPane().add(logInButton, 10, 9);
+        super.getGridPane().add(loadingAnimation,11,8);
         //Sets ToolTip to passwordStrengthBar, used when its being hovered
         passwordStrengthBar.setTooltip(new Tooltip("Password Stength: \n " +
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
@@ -64,6 +68,7 @@ public class SignUp extends SceneBuilder {
         Css.setButtonsSignUpLogin(signUpButton, logInButton);
         Css.setTextField(usernameField,emailField,passwordField,confirmPasswordField);
         Css.setLabel(usernameLabel,emailLabel,passwordLabel,confirmPasswordLabel);
+        Css.setLoadingAnimation(loadingAnimation);
 
         signUpButton.setOnAction(e -> signup());
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
@@ -78,20 +83,29 @@ public class SignUp extends SceneBuilder {
     }
 
     private void signup() {
-        try {
-            if (feedback()) {
-                if(Authentication.register(usernameField.getText(),passwordField.getText(),emailField.getText())) {
-                    StageInitializer.setLoginScene();
+        loadingAnimation.setVisible(true);
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(e -> {
+            try {
+                if (feedback()) {
+                    if(Authentication.register(usernameField.getText(),passwordField.getText(),emailField.getText())) {
+                        StageInitializer.setLoginScene();
+                    }
+                    else{
+                        signupFeedbackLabel.setText("Error: This username is already taken");
+                        Css.setErrorLabel(signupFeedbackLabel);
+
+                    }
                 }
                 else{
-                    signupFeedbackLabel.setText("Error: This username is already taken");
-                    Css.setErrorLabel(signupFeedbackLabel);
+                    loadingAnimation.setVisible(false);
                 }
+            } catch (ExceptionInInitializerError error) {
+                signupFeedbackLabel.setText("Error: Could not connect to database");
+                Css.setErrorLabel(signupFeedbackLabel);
             }
-        } catch (ExceptionInInitializerError error) {
-            signupFeedbackLabel.setText("Error: Could not connect to database");
-            Css.setErrorLabel(signupFeedbackLabel);
-        }
+        });
+        pause.play();
     }
 
 

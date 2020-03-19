@@ -5,9 +5,11 @@ import Components.UserInfo;
 import Css.Css;
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
@@ -21,6 +23,7 @@ public class UploadScene extends SceneBuilder {
     private TextField urlField = new TextField();
     private Button uploadButton = new Button("Upload image");
     private Label feedbackLabel = new Label();
+    private ProgressIndicator loadingAnimation = new ProgressIndicator();
 
     /**
      * Constructor that sets up the layout of the upload scene
@@ -48,6 +51,7 @@ public class UploadScene extends SceneBuilder {
         super.getGridPane().add(urlLabel, 0, 2);
         super.getGridPane().add(urlField, 0, 3);
         super.getGridPane().add(uploadButton, 0, 4);
+        super.getGridPane().add(loadingAnimation,1,4);
         super.getGridPane().add(feedbackLabel, 0, 5);
         super.getGridPane().setAlignment(Pos.TOP_CENTER);
 
@@ -55,15 +59,12 @@ public class UploadScene extends SceneBuilder {
         Css.setButtonsSignUpLogin(uploadButton);
         Css.setLabel(titleLabel, urlLabel);
         Css.setTextField(titleField,urlField);
+        Css.setLoadingAnimation(loadingAnimation);
 
-        uploadButton.setOnAction(event -> {
-            if (checkField()) {
-                upLoadComplete();
-            }
-        });
+        uploadButton.setOnAction(e -> upLoadComplete());
 
         super.getScene().setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER && checkField()) {
+            if (e.getCode() == KeyCode.ENTER) {
                 upLoadComplete();
             }
 
@@ -87,18 +88,28 @@ public class UploadScene extends SceneBuilder {
      * Upload the image path to the database
      * Sets feedbackLabel to error message if something went wrong
      */
-    private void upLoadComplete(){
-    	try {
-		    Photo photo = ImageAnalyzer.analyze(titleField.getText(), urlField.getText());
-		    UserInfo.getUser().getPhotos().add(photo);
-		    Hibernate.updateUser(UserInfo.getUser());
-		    StageInitializer.setMainMenuScene();
-	    } catch (IOException e) {
-		    Css.setErrorLabel(feedbackLabel);
-		    feedbackLabel.setText("Something went wrong when retrieving image from url.");
-	    } catch (NullPointerException e) {
-		    Css.setErrorLabel(feedbackLabel);
-		    feedbackLabel.setText("Something went wrong when analyzing image.");
-	    }
+    private void upLoadComplete() {
+        loadingAnimation.setVisible(true);
+        PauseTransition pause = new PauseTransition();
+        pause.setOnFinished(e -> {
+            if (checkField()) {
+                try {
+                    Photo photo = ImageAnalyzer.analyze(titleField.getText(), urlField.getText());
+                    UserInfo.getUser().getPhotos().add(photo);
+                    Hibernate.updateUser(UserInfo.getUser());
+                    StageInitializer.setMainMenuScene();
+                } catch (IOException ex) {
+                    Css.setErrorLabel(feedbackLabel);
+                    feedbackLabel.setText("Something went wrong when retrieving image from url.");
+                } catch (NullPointerException ex) {
+                    Css.setErrorLabel(feedbackLabel);
+                    feedbackLabel.setText("Something went wrong when analyzing image.");
+                }
+            }
+            else{
+                loadingAnimation.setVisible(false);
+            }
+        });
+        pause.play();
     }
 }

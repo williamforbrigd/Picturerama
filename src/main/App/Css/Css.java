@@ -277,6 +277,18 @@ public class Css {
         }
     }
 
+    /**
+     * setLoadingAnimation styles all ProgressIndicator put as parameter
+     * @param args
+     */
+    public static void setLoadingAnimation(ProgressIndicator... args){
+        for(ProgressIndicator progressIndicator : args){
+            progressIndicator.setStyle("-fx-progress-color: dimgrey; -fx-cursor: wait");
+            progressIndicator.setMaxSize(30,30);
+            progressIndicator.setVisible(false);
+        }
+    }
+
     public static void setHomeButton(Button button) {
         button.setStyle("-fx-background-color: none;");
         button.setOnMouseEntered((e) -> {
