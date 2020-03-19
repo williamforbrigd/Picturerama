@@ -22,15 +22,25 @@ public class UploadScene extends SceneBuilder {
     private Button uploadButton = new Button("Upload image");
     private Label feedbackLabel = new Label();
 
+    /**
+     * Creates an object of UploadScene
+     */
     public UploadScene() {
         super();
         this.setLayout();
     }
 
+    /**
+     * Overrides SceneBuilder method.
+     * Assigns layout components to SceneBuilders GridPane
+     * Sets styling to layout components
+     * Sets functionality to button nodes
+     */
     @Override
     public void setLayout() {
         super.setLayout();
         super.setPageTitle("Upload");
+        //Sets PromptText for TextFields
         titleField.setPromptText("Title here...");
         urlField.setPromptText("URL here...");
         super.getGridPane().add(titleLabel, 0, 0);
@@ -40,6 +50,8 @@ public class UploadScene extends SceneBuilder {
         super.getGridPane().add(uploadButton, 0, 4);
         super.getGridPane().add(feedbackLabel, 0, 5);
         super.getGridPane().setAlignment(Pos.TOP_CENTER);
+
+        //Sets styling on layout components
         Css.setButtonsSignUpLogin(uploadButton);
         Css.setLabel(titleLabel, urlLabel);
         Css.setTextField(titleField,urlField);
@@ -58,7 +70,10 @@ public class UploadScene extends SceneBuilder {
         });
     }
 
-
+    /**
+     * Checks if title or url are missing
+     * @return boolean value, true if trimmed TextFields are equal to 0
+     */
     private boolean checkField() {
         if (titleField.getText().trim().length() == 0 || urlField.getText().trim().length() == 0) {
             feedbackLabel.setText("Title or URL are missing");
@@ -68,6 +83,10 @@ public class UploadScene extends SceneBuilder {
         return true;
     }
 
+    /**
+     * Upload the image path to the database
+     * Sets feedbackLabel to error message if something went wrong
+     */
     private void upLoadComplete(){
     	try {
 		    Photo photo = ImageAnalyzer.analyze(titleField.getText(), urlField.getText());
