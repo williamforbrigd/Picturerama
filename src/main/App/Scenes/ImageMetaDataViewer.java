@@ -35,10 +35,10 @@ public class ImageMetaDataViewer {
   }
 
   /**
-   * setup creates a new stage then sets it up
+   * Setup creates a new stage then sets it up
    * Since the methods returns a stage it will make testing the method easier
    *
-   * @return _stage, a new stage
+   * @return stage, a new stage
    */
   private Stage setup() {
 
@@ -170,6 +170,11 @@ public class ImageMetaDataViewer {
     return _stage;
   }
 
+  /**
+   * Sets the up the buttons of a tag container
+   * @param tagContainerObject is the tag container that is being setup
+   */
+
   private void setButtonFunctionality(TagContainer tagContainerObject) {
     //Programs the delete button each tag to remove the tag
     tagContainerObject.getDeleteTag().setOnAction(e -> {
@@ -178,6 +183,9 @@ public class ImageMetaDataViewer {
     });
   }
 
+  /**
+   * Updates the the tags of the photo in the database
+   */
   private void updateDatabase() {
     int index = UserInfo.getUser().getPhotos().indexOf(photo);
     UserInfo.getUser().getPhotos().get(index).setTags(photo.getTags());

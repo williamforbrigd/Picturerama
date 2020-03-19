@@ -12,6 +12,10 @@ public class Hibernate {
             Persistence.createEntityManagerFactory("Database", getProperties());
     private static EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 
+    /**
+     * Sets up the password and username to the database
+     * @return a map with the password and username
+     */
     private static Map getProperties() {
         Map result = new HashMap();
         try (InputStream input = new FileInputStream("config.properties")) {

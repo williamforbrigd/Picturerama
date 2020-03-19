@@ -4,6 +4,9 @@ import Database.Hibernate;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Class that initializes all the scenes in the application
+ */
 public class StageInitializer {
     private static Stage stage;
 

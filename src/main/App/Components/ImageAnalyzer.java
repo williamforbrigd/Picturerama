@@ -8,6 +8,14 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class ImageAnalyzer {
+	/**
+	 * Used to analyze a image
+	 * @param title Is the title of the image that is getting analyzed
+	 * @param url Is the url to where the image is saved
+	 * @return A Photo object that contains all the image metadata of the image
+	 * @throws IOException Is thrown when there is something wrong with the url
+	 * @throws NullPointerException Is thrown when if something is set ass null in the metadata, that cant be null
+	 */
     public static Photo analyze(String title, String url) throws IOException, NullPointerException {
         URL path = new URL(url);
         URLConnection conn = path.openConnection();

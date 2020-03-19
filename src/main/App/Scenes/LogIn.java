@@ -35,7 +35,7 @@ public class LogIn extends SceneBuilder {
     }
 
     /**
-     * setLayout method used for setting the layout for the log in page
+     * SetLayout method used for setting the layout for the log in page
      */
     @Override
     public void setLayout() {
@@ -68,6 +68,9 @@ public class LogIn extends SceneBuilder {
         });
     }
 
+    /**
+     * Method that is ran when logging in to the application
+     */
     private void login() {
         try {
             if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {

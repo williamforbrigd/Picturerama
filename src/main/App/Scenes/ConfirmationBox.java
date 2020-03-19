@@ -12,10 +12,19 @@ import javafx.stage.Stage;
 public class ConfirmationBox {
     static boolean answer;
 
+    /**
+     * Private constructor to hinder the creation of the utility class
+     */
     private ConfirmationBox() {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * Creates thes the confirmation box and displays it
+     * @param title the title of the conformation box
+     * @param message the massage that the confirmation box is going to display
+     * @return the answer of the confirmation box
+     */
     public static boolean display(String title, String message){
         Stage window = new Stage();
 

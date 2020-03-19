@@ -21,6 +21,10 @@ public class PhotoContainer {
     private Button photoButton;
     private HBox photoContainer;
 
+    /**
+     * Constructor that takes a photo object and initializes the photocontainer with that photo in it
+     * @param photo a photo object
+     */
     public PhotoContainer(Photo photo){
         this.photo = photo;
         setupPhotoContainer(photo);
@@ -54,6 +58,10 @@ public class PhotoContainer {
         return photoContainer;
     }
 
+    /**
+     * Makes a photo container that is a button that contains a photo and a checkbox
+     * @param photo a photo object
+     */
     private void setupPhotoContainer(Photo photo){
         image = new Image(photo.getUrl(), 150, 150, true, true);
         imageView = new ImageView(image);
@@ -77,6 +85,9 @@ public class PhotoContainer {
         photoContainer.setStyle("-fx-border-radius: 1; -fx-border-color: #616161");
     }
 
+    /**
+     * Creates a checkbox and adds teh correct styleing to it
+     */
     private void setupContainerCheckBox(){
         checkBox = new CheckBox();
         checkBox.getStyleClass().add("check-box");

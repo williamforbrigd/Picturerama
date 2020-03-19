@@ -6,7 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
-
+/**
+ * Class that has the basic structure of the application and that all other scenes extends
+ */
 public abstract class SceneBuilder {
     //Making height and class constants to keep every scene the same size
     private static final int WIDTH = 900;
@@ -33,7 +35,7 @@ public abstract class SceneBuilder {
     }
 
     /**
-     * setGridPane void, sets padding and alignment for the grid pane
+     * SetGridPane void, sets padding and alignment for the grid pane
      */
     public void setGridPane() {
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -42,7 +44,9 @@ public abstract class SceneBuilder {
         gridPane.setAlignment(Pos.CENTER);
     }
 
-
+    /**
+     * Sets the basic layout of the application
+     */
     public void setLayout() {
         header = new Header();
         BorderPane.setAlignment(Header.getHBox(), Pos.CENTER);

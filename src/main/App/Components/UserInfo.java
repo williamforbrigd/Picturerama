@@ -28,7 +28,7 @@ public class UserInfo {
   /**
    * Method that runs on login, updates UserInfo.user variable
    *
-   * @param dbuser takes the user object from the data base in order to recognize the correct user
+   * @param dbuser takes the user object from the database in order to recognize the correct user
    */
   public static void initializeUser(User dbuser) {
       user = dbuser;

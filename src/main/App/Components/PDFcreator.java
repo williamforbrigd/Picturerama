@@ -8,6 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PDFcreator {
+    /**
+     * Creates a pdf from a list of photos and saves them where the user wants them to be saved
+     * @param photos Is the list of photos
+     * @param saveLocation Is where the user wants the pdf saved
+     * @throws DocumentException Is thrown is a document can't be made or created
+     * @throws IOException Is thrown if there is a mistake in the savelocation url and or the image url is wrong
+     */
     public static void createPDF(ArrayList<Photo> photos, String saveLocation) throws DocumentException, IOException{
         //opens a new document and maks it a pdf
         Document document = new Document(PageSize.A4, 0, 0, 0, 0);

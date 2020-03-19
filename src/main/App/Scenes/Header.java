@@ -22,7 +22,9 @@ public class Header {
     private static Button homeButton = new Button("",new ImageView(homeIcon));
     private static HBox hBox = new HBox();
 
-
+    /**
+     * Constructor that sets up the header of the application
+     */
     public Header() {
         if(UserInfo.getUser() != null) {
             homeButton.setOnAction(e -> Scenes.StageInitializer.setMainMenuScene());
@@ -46,7 +48,7 @@ public class Header {
     }
 
     /**
-     * setGridPane void, sets padding and alignment for the grid pane
+     * SetGridPane void, sets padding and alignment for the grid pane
      */
     private void setHBox() {
         hBox.setSpacing(10.0D);

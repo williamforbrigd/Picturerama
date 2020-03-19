@@ -33,7 +33,7 @@ public class Authentication {
 	}
 
 	/**
-	 * logIn method is used when the user is trying to log in
+	 * LogIn method is used when the user is trying to log in
 	 * will compare password from db to the entered password
 	 *
 	 * @param username of user

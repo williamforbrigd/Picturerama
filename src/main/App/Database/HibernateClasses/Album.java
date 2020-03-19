@@ -1,5 +1,6 @@
 package Database.HibernateClasses;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -9,6 +10,14 @@ import java.util.Set;
 @Table(name = "ALBUMS")
 public class Album implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public Album() {
+    }
+
+    public Album(String name, int userId) {
+        this.name = name;
+        this.userId = userId;
+    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -30,13 +39,6 @@ public class Album implements Serializable {
     )
     private Set<Photo> albumPhotos = new HashSet<>();
 
-    public Album() {
-    }
-
-    public Album(String name, int userId) {
-        this.name = name;
-        this.userId = userId;
-    }
 
     public int getId() {
         return id;

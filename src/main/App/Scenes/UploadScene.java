@@ -23,7 +23,7 @@ public class UploadScene extends SceneBuilder {
     private Label feedbackLabel = new Label();
 
     /**
-     * Creates an object of UploadScene
+     * Constructor that sets up the layout of the upload scene
      */
     public UploadScene() {
         super();

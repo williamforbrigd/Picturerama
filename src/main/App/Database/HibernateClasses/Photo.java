@@ -12,6 +12,24 @@ import java.util.Set;
 public class Photo implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public Photo() {
+    }
+
+    public Photo(String title, String url, Double latitude, Double longitude, Integer width, Integer height, String fileType, Integer fileSize, String aperture, String exposureTime, String camera, String time, int userId) {
+        this.title = title;
+        this.url = url;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.width = width;
+        this.height = height;
+        this.fileType = fileType;
+        this.fileSize = fileSize;
+        this.aperture = aperture;
+        this.exposureTime = exposureTime;
+        this.camera = camera;
+        this.time = time;
+        this.userId = userId;
+    }
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -179,24 +197,6 @@ public class Photo implements Serializable {
         return tags;
     }
 
-    public Photo() {
-    }
-
-    public Photo(String title, String url, Double latitude, Double longitude, Integer width, Integer height, String fileType, Integer fileSize, String aperture, String exposureTime, String camera, String time, int userId) {
-        this.title = title;
-        this.url = url;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.width = width;
-        this.height = height;
-        this.fileType = fileType;
-        this.fileSize = fileSize;
-        this.aperture = aperture;
-        this.exposureTime = exposureTime;
-        this.camera = camera;
-        this.time = time;
-        this.userId = userId;
-    }
 
     public void setTags(List<Tags> tags) {
         this.tags = tags;

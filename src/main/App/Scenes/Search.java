@@ -40,12 +40,18 @@ public class Search extends SceneBuilder {
   private Text dialogText;
 
 
+  /**
+   * Sets up the search scene and adds all the users photos to the photo list
+   */
   public Search(){
     super();
     photoList.addAll(UserInfo.getUser().getPhotos());
     this.setLayout();
   }
 
+  /**
+   * Sets up the layout of the search scene overrides the setlayout method of scenbuilder
+   */
   @Override
   public void setLayout(){
     super.setLayout();
@@ -64,6 +70,9 @@ public class Search extends SceneBuilder {
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SearchField.css");
   }
 
+  /**
+   * Sets up the scroll pane in the search scene with all the photos of the user
+   */
   private void setupImagesInAScrollPane(){
     photoList.stream().forEach(photo -> {
       PhotoContainer photoContainer = new PhotoContainer(photo);
@@ -78,6 +87,9 @@ public class Search extends SceneBuilder {
     scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
   }
 
+  /**
+   * Sets ups the search bar and its functionality
+   */
   private void setupSearchBar(){
     searchTextField.setId("searchField");
     searchTextField.setPromptText("Search for image...");
@@ -85,6 +97,9 @@ public class Search extends SceneBuilder {
     selectAllCheckBox.setOnAction(action -> checkBoxArrayList.stream().forEach(checkBox -> checkBox.setSelected(selectAllCheckBox.isSelected())));
   }
 
+  /**
+   * Sets up the add to album buttion
+   */
   private void setupAlbumButtons(){
     Css.setButtonsSignUpLogin(addToAlbumButton);
     addToAlbumButton.setOnAction(s->{
@@ -92,6 +107,9 @@ public class Search extends SceneBuilder {
     });
   }
 
+  /**
+   * Method for the search functionality
+   */
   private void filter(){
     scrollPaneVBox.getChildren().clear();
     if(searchTextField.getText().equals("")){
@@ -105,6 +123,9 @@ public class Search extends SceneBuilder {
     }
   }
 
+  /**
+   * Method that creates the popup dialog for the add album dialog box
+   */
   private void createAlbumPopupDialog() {
     dialogWindow = new Stage();
     dialogWindow.initModality(Modality.APPLICATION_MODAL);
@@ -122,6 +143,10 @@ public class Search extends SceneBuilder {
     dialogWindow.setScene(dialogScene);
     dialogWindow.show();
   }
+
+  /**
+   * Method that creates the popup that can create albums
+   */
   private void createNewAlbumButtonPressed() {
     createAlbumPopupDialog();
 
@@ -145,6 +170,9 @@ public class Search extends SceneBuilder {
     dialogVbox.getChildren().addAll(dialogText, dialogHBox);
   }
 
+  /**
+   * Sets up the checkboxes and adds styling to it
+   */
   public void setupChoiceBox(){
     choiceBox.getStyleClass().add("choice-box");
     choiceBox.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
@@ -153,6 +181,10 @@ public class Search extends SceneBuilder {
     });
   }
 
+  /**
+   * Helper method to get the checked photos in the search scene
+   * @return a list of checked photos
+   */
   public ArrayList<Photo> getCheckedPhotos(){
     ArrayList<Photo> checkedPhotos = new ArrayList<>();
     for (int i = 0; i<checkBoxArrayList.size(); i++) {
@@ -162,6 +194,12 @@ public class Search extends SceneBuilder {
     }
     return checkedPhotos;
   }
+
+  /**
+   * Gets the index of the album that is selected
+   * @param albumName the name of the selected album
+   * @return the index of the selected album in the users album list
+   */
   public int indexOfAlbum(String albumName){
     int index = -1;
     List<Album> albums = UserInfo.getUser().getAlbums();
@@ -172,6 +210,12 @@ public class Search extends SceneBuilder {
     }
     return index;
   }
+
+  /**
+   * Method that updates the photos in the selected album
+   * @param albumnName name of the selected album
+   */
+
   public void updateUser(String albumnName){
     int index = indexOfAlbum(albumnName);
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
