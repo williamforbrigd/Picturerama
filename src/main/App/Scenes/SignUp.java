@@ -22,7 +22,6 @@ public class SignUp extends SceneBuilder {
 
     /**
      * Creates a object of the class SignUp
-     * Extends from SceneBuilder
      */
     public SignUp() {
         super();
@@ -30,12 +29,16 @@ public class SignUp extends SceneBuilder {
     }
 
     /**
-     * Overrides the superclass' setLayout method. Also initialises all functionalities in the application
+     * Overrides SceneBuilder method.
+     * Assigns layout components to SceneBuilders GridPane
+     * Sets styling to layout components
+     * Sets functionality to button nodes
      */
     @Override
     public void setLayout() {
         super.setLayout();
         super.setPageTitle("Sign up");
+        //Sets PromptText to TextFields
         usernameField.setPromptText("Username here...");
         emailField.setPromptText("Email here...");
         passwordField.setPromptText("Password here...");
@@ -52,6 +55,7 @@ public class SignUp extends SceneBuilder {
         super.getGridPane().add(passwordStrengthBar, 11, 5);
         super.getGridPane().add(signupFeedbackLabel, 10, 11);
         super.getGridPane().add(logInButton, 10, 9);
+        //Sets ToolTip to passwordStrengthBar, used when its being hovered
         passwordStrengthBar.setTooltip(new Tooltip("Password Stength: \n " +
                 "Use 10 or more characters \n Use numbers \n Use capital letters"));
         passwordStrengthBar.setVisible(false);
@@ -61,25 +65,39 @@ public class SignUp extends SceneBuilder {
         Css.setTextField(usernameField,emailField,passwordField,confirmPasswordField);
         Css.setLabel(usernameLabel,emailLabel,passwordLabel,confirmPasswordLabel);
 
-        signUpButton.setOnAction(e -> {
-            if (feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
-                StageInitializer.setLoginScene();
-            }
-        });
+        signUpButton.setOnAction(e -> signup());
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
         logInButton.setOnAction(e -> StageInitializer.setLoginScene());
 
         super.getScene().setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER && feedback(Authentication.register(usernameField.getText(), passwordField.getText(), emailField.getText()))) {
-                StageInitializer.setLoginScene();
+            if (e.getCode() == KeyCode.ENTER) {
+                signup();
             }
         });
     }
 
+    private void signup() {
+        try {
+            if (feedback()) {
+                if(Authentication.register(usernameField.getText(),passwordField.getText(),emailField.getText())) {
+                    StageInitializer.setLoginScene();
+                }
+                else{
+                    signupFeedbackLabel.setText("Error: This username is already taken");
+                    Css.setErrorLabel(signupFeedbackLabel);
+                }
+            }
+        } catch (ExceptionInInitializerError error) {
+            signupFeedbackLabel.setText("Error: Could not connect to database");
+            Css.setErrorLabel(signupFeedbackLabel);
+        }
+    }
+
 
     /**
-     * A method that returns a percent for the password strength. Password strength is defined by length, if it contains a capital letter and digit.
+     * A method that returns a percent for the password strength.
+     * Password strength is defined by length, and if it contains a capital letter and digit.
      *
      * @return double that contains the percent of how strong the written password is
      */
@@ -87,16 +105,20 @@ public class SignUp extends SceneBuilder {
         double passwordStrength = 0;
         boolean containsCapital = false;
         boolean containsDigit = false;
+        //Checks if password length is greater than or equal to 10
         if (passwordField.getText().length() >= 10) {
             passwordStrength += 0.25;
         }
+        //Checks if password length is greater than or equal to 10
         if (passwordField.getText().length() >= 12) {
             passwordStrength += 0.25;
         }
         for (int i = 0; i < passwordField.getText().length(); i++) {
+            //Checks if password contains a capital letter
             if (Character.isUpperCase(passwordField.getText().charAt(i))) {
                 containsCapital = true;
             }
+            //Checks if password contains a digit
             if (Character.isDigit(passwordField.getText().charAt(i))) {
                 containsDigit = true;
             }
@@ -122,14 +144,15 @@ public class SignUp extends SceneBuilder {
         }
 
         passwordStrengthBar.setProgress(setPasswordStrength());
+        //Sets color of passwordStrengthBar to red if strength is equal to 25%
         if (setPasswordStrength() == 0.25) {
             passwordStrengthBar.setStyle("-fx-accent: #E74C3C ");
         }
-
+        //Sets color of passwordStrengthBar to yellow if strength is equal to 50%
         if (setPasswordStrength() == 0.5) {
             passwordStrengthBar.setStyle("-fx-accent: #F4D03F");
         }
-
+        //Sets color of passwordStrengthBar to green if strength is equal to 75%
         if (setPasswordStrength() == 0.75) {
             passwordStrengthBar.setStyle("-fx-accent: #2ECC71 ");
         }
@@ -143,22 +166,20 @@ public class SignUp extends SceneBuilder {
      *
      * @return a boolean value, true for no errors, boolean for error
      */
-    private boolean feedback(boolean registerSuccess) {
-        if (!registerSuccess) {
-            signupFeedbackLabel.setText("Error: This username is already taken");
-            Css.setErrorLabel(signupFeedbackLabel);
-            return false;
-        }
-        if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0 || emailField.getText().length() == 0) {
+    private boolean feedback() {
+        //Checks if password, username or email trimmed is equal to 0
+        if (passwordField.getText().trim().length() == 0 || usernameField.getText().trim().length() == 0 || emailField.getText().trim().length() == 0) {
             signupFeedbackLabel.setText("Error: Password, username or email are missing");
             Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
-        if (passwordField.getText().length() < 8) {
+        //Checks if password is greater than or equal to 8
+        if (passwordField.getText().length() <= 8) {
             signupFeedbackLabel.setText("Error: Password needs to contain 8 characters");
             Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
+        //Checks username for illegal characters
         if (usernameField.getText().length() != 0) {
             for (int i = 0; i < usernameField.getText().length(); i++) {
                 if (!Character.isLetter(usernameField.getText().charAt(i)) &&
@@ -169,6 +190,7 @@ public class SignUp extends SceneBuilder {
                 }
             }
         }
+        //Checks password for illegal
         if (passwordField.getText().length() != 0) {
             for (int i = 0; i < passwordField.getText().length(); i++) {
                 if (!Character.isLetter(passwordField.getText().charAt(i)) &&
@@ -179,11 +201,13 @@ public class SignUp extends SceneBuilder {
                 }
             }
         }
+        //Checks confirmpassword and password match
         if (!passwordField.getText().equals(confirmPasswordField.getText())) {
             signupFeedbackLabel.setText("Error: Your passwords don't match");
             Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
+        //Checks if email contains "@" and "."
         if (!emailField.getText().contains("@") || !emailField.getText().contains(".")) {
             signupFeedbackLabel.setText("Error: This email is not valid");
             Css.setErrorLabel(signupFeedbackLabel);

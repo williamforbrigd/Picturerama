@@ -59,27 +59,25 @@ public class LogIn extends SceneBuilder {
         Css.setLabel(usernameLabel,passwordLabel,logInLabel);
 
         //Sets functionality for the layout components
-        logInButton.setOnAction(e -> {
+        logInButton.setOnAction(e -> login());
+        signUpButton.setOnAction(e -> StageInitializer.setSignUpScene());
+
+        super.getScene().setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                login();
+            }
+        });
+    }
+
+    private void login() {
+        try {
             if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
-                //TODO switch scene
                 StageInitializer.setMainMenuScene();
             } else {
                 logInLabel.setText("Log in failed");
             }
-        });
-        signUpButton.setOnAction(e -> {
-            StageInitializer.setSignUpScene();
-        });
-
-        super.getScene().setOnKeyPressed((e) -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
-                    StageInitializer.setMainMenuScene();
-                } else {
-                    logInLabel.setText("Log in failed");
-                }
-            }
-
-        });
+        } catch (ExceptionInInitializerError error) {
+            logInLabel.setText("Could not connect to database");
+        }
     }
 }

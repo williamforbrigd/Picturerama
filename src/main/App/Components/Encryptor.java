@@ -20,6 +20,9 @@ public class Encryptor {
 	 */
 
 	public static String Encryptor(String password, String saltest) {
+		if (password == null || password.trim().isEmpty()) {
+			throw new IllegalArgumentException("Password cannot be null");
+		}
 		try {
 			// Select the message digest for the hash computation -> SHA-256
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
