@@ -198,13 +198,11 @@ public class Hibernate {
     public static void deleteUser(String username) {
         EntityTransaction et = null;
         try{
+            User user = getUser(username);
             et=em.getTransaction();
             et.begin();
-            User user = em.createQuery(
-                    "select e from User e where e.username =:username",User.class)
-                    .setParameter("username",username)
-                    .getSingleResult();
-            em.detach(user);
+            em.remove(user);
+            et.commit();
         }catch (Exception e){
             if(et !=null){
                 et.rollback();

@@ -8,32 +8,32 @@ import static org.junit.Assert.assertTrue;
 class AuthenticationTest {
 
     @Test
-    void registerFalse() {
+    void registerNewUser_UsernameNull_False() {
         assertFalse(Authentication.register(null, null, null));
     }
 
     @Test
-    void registerTrue() {
+    void registerNewUser_UsernameIsNotTaken_True() {
         assertTrue(Authentication.register("jUnitTest", "test", "test"));
     }
 
     @Test
-    void registerDuplicateFalse() {
-        assertFalse(Authentication.register("jUnitTest", "test", "test"));
+    void registerNewUser_UsernameIsTaken_False() {
+        assertFalse(Authentication.register("jUnitTest", "test2", "test2"));
     }
 
     @Test
-    void logInFalse() {
+    void login_UserDoesNotExist_False() {
         assertFalse(Authentication.logIn("DoNotMakeThisUsername", "DoNotMakeThisPassword"));
     }
 
     @Test
-    void logInTrue() {
-        assertTrue(Authentication.logIn("test", "test"));
+    void login_UserDoesExist_True() {
+        assertTrue(Authentication.logIn("jUnitTest", "test"));
     }
 
     @AfterAll
-    static void clearUp() {
+    static void cleanUp() {
         Hibernate.deleteUser("jUnitTest");
     }
 }

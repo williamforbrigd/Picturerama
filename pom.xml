@@ -42,17 +42,15 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.4.1.Final</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-agroal</artifactId>
-            <version>5.4.12.Final</version>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>5.4.1.Final</version>
         </dependency>
-
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.4.12.Final</version>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
         </dependency>
 
         <dependency>
