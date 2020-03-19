@@ -4,19 +4,18 @@ package Scenes;
 import Components.TagContainer;
 import Components.UserInfo;
 import Css.Css;
-
-import java.sql.SQLException;
-
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
+import Database.HibernateClasses.Tags;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,39 +28,34 @@ public class ImageMetaDataViewer {
 
   private Stage stage;
 
-
   public ImageMetaDataViewer(Photo photo) {
-    stage = new Stage();
     this.photo = photo;
-    tagContainer = new FlowPane();
-    this.setup();
+    this.tagContainer = new FlowPane();
+    this.stage = setup();
   }
 
-  public Stage getStage() {
-    return stage;
-  }
+  /**
+   * setup creates a new stage then sets it up
+   * Since the methods returns a stage it will make testing the method easier
+   *
+   * @return _stage, a new stage
+   */
+  private Stage setup() {
 
-  public FlowPane getTagContainer() {
-    return tagContainer;
-  }
+    //Making new stage here to make unit testing easier, since the method will return a result
+    Stage _stage = new Stage();
+    _stage.initModality(Modality.APPLICATION_MODAL);
+    _stage.initOwner(StageInitializer.getStage());
 
-  private void setup() {
-    //Window that adds a tag
-    AddTag addTagView = new AddTag(this, photo);
-    stage.initModality(Modality.APPLICATION_MODAL);
-    stage.initOwner(StageInitializer.getStage());
-
-    stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-      if (!isNowFocused && addTagView.isVisible == false) {
-        stage.hide();
-      }
+    _stage.setOnCloseRequest(e -> {
+     e.consume();
+     updateDatabase();
+     _stage.close();
     });
 
-    stage.setTitle("Image metadata");
-    stage.setMinWidth(250.0);
+    _stage.setTitle(photo.getTitle());
 
-
-    BorderPane layout = new BorderPane();
+    AnchorPane layout = new AnchorPane();
 
     VBox imageInfoContainer = new VBox();
     Label photoTitleLabel = new Label();
@@ -76,10 +70,18 @@ public class ImageMetaDataViewer {
     Scene scene;
     try {
       photoTitleLabel.setText(photo.getTitle());
-      metadataLabel.setText(photo.toString() + "\nTags:\n");
+      metadataLabel.setText(photo.toString());
 
 
-      imageInfoContainer.getChildren().addAll(photoTitleLabel, metadataLabel, tagContainer);
+      imageInfoContainer.getChildren().addAll(photoTitleLabel, metadataLabel);
+      imageInfoContainer.maxWidth(275);
+
+
+      tagContainer.setMaxWidth(580);
+      tagContainer.setPrefWrapLength(580);
+      tagContainer.setPadding(new Insets(0, 10, 10, 0));
+      tagContainer.setHgap(4);
+      tagContainer.setVgap(4);
 
       //Stream that runs through all the photo's tags
       photo.getTags().forEach(s -> {
@@ -91,43 +93,98 @@ public class ImageMetaDataViewer {
       });
 
 
-      ImageView imageView = new ImageView(new Image(photo.getUrl(), 200, 200, true, true));
+      ImageView imageView = new ImageView(new Image(photo.getUrl(), 255, 255, true, true));
 
-      layout.setLeft(imageInfoContainer);
-      layout.setRight(imageView);
+      AnchorPane.setLeftAnchor(imageInfoContainer, 10.0);
+      AnchorPane.setRightAnchor(imageView, 10.0);
 
+      //Adding child nodes to parent node
+      layout.getChildren().addAll(imageInfoContainer, imageView);
 
-      scene = new Scene(layout, 800, 600);
+      scene = new Scene(layout, 600, 560);
     } catch (NullPointerException e) {
-      //TODO add logger here
+      AnchorPane.setTopAnchor(errorInLoadingImage, 10.0);
       layout.getChildren().add(errorInLoadingImage);
       scene = new Scene(layout);
     }
 
-    Button addTag = new Button("Add tag");
-    addTag.setOnAction(e -> {
-      addTagView.display();
+    VBox bottomContainer = new VBox();
+    bottomContainer.setSpacing(10);
+
+    Label tagLabel = new Label("Tags:");
+    tagLabel.setPadding(new Insets(10,0,0,0));
+    Label addTagLabel = new Label("Add a tag to picture:");
+    Css.setSemiTitleLabel(tagLabel, addTagLabel);
+
+    TextField tagField = new TextField();
+    Css.setTextFieldAddTag(tagField);
+    tagField.setPromptText("Tag name");
+
+    Label feedbackLabel = new Label();
+    Css.setErrorLabel(feedbackLabel);
+
+    Button addTagButton = new Button("Add tag");
+    addTagButton.setOnAction(e -> {
+      Tags tag = new Tags();
+      tag.setTag(tagField.getText());
+      if (tagField.getText() == null || tagField.getText().trim().equals("")) {
+        feedbackLabel.setText("Error: the tag has to have a name");
+      } else if (photo.getTags().contains(tag)) {
+        feedbackLabel.setText("Tag already in registered");
+      } else {
+        tag.setPhotoId(photo.getId());
+        photo.getTags().add(tag);
+        TagContainer tagContainerObject = new TagContainer(tagField.getText());
+        tagContainer.getChildren().add(tagContainerObject.getContainer());
+        this.setButtonFunctionality(tagContainerObject);
+        feedbackLabel.setText("");
+        tagField.clear();
+      }
     });
 
-    Button closeButton = new Button("Close stage");
-    Css.setButtonsSignUpLogin(addTag, closeButton);
-    closeButton.setOnAction(e -> stage.close());
-    HBox buttons = new HBox();
-    buttons.getChildren().addAll(addTag, closeButton);
-    layout.setBottom(buttons);
 
-    stage.setScene(scene);
+    //Closes stage if it is not the focus
+    _stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+      if (!isNowFocused) {
+        updateDatabase();
+        _stage.close();
+      }
+    });
+
+    Button closeButton = new Button("Close");
+    Css.setButtonsImageMetaDataViewer(addTagButton, closeButton);
+    closeButton.setOnAction(e -> {
+      updateDatabase();
+      _stage.close();
+    });
+    bottomContainer.setPadding(new Insets(10, 10, 10, 10));
+    bottomContainer.setSpacing(6);
+    bottomContainer.getChildren().addAll(tagLabel, tagContainer, addTagLabel, tagField, feedbackLabel, addTagButton, closeButton);
+    AnchorPane.setBottomAnchor(bottomContainer, 5.0);
+    layout.getChildren().add(bottomContainer);
+
+    layout.setPadding(new Insets(30, 10, 10, 10));
+    layout.setStyle("-fx-padding: 10 0 0 0");
+
+    _stage.setScene(scene);
+    return _stage;
   }
 
-  void setButtonFunctionality(TagContainer tagContainerObject) {
+  private void setButtonFunctionality(TagContainer tagContainerObject) {
     //Programs the delete button each tag to remove the tag
     tagContainerObject.getDeleteTag().setOnAction(e -> {
-      photo.getTags().removeIf(t -> t.equals(tagContainerObject.getTagAsString()));
+      photo.getTags().removeIf(t -> t.getTag().equals(tagContainerObject.getTagAsString()));
       tagContainer.getChildren().removeIf(t -> t.equals(tagContainerObject.getContainer()));
     });
   }
 
-  public void display(){
+  private void updateDatabase() {
+    int index = UserInfo.getUser().getPhotos().indexOf(photo);
+    UserInfo.getUser().getPhotos().get(index).setTags(photo.getTags());
+    Hibernate.updateUser(UserInfo.getUser());
+  }
+
+  public void display() {
     stage.showAndWait();
   }
 }

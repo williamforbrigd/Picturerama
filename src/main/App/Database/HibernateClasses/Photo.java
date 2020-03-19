@@ -56,7 +56,7 @@ public class Photo implements Serializable {
     private int userId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "photo_id")
     private List<Tags> tags = new ArrayList<>();
 
     public int getId() {

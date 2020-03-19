@@ -1,6 +1,7 @@
 package Components;
 
 import Css.Css;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,7 +15,7 @@ public class TagContainer {
 
   public TagContainer(String tag) {
     this.tag = new Label(tag);
-    this.deleteTag = new Button( "", new ImageView(new Image("file:src/main/Images/Close.png")));
+    this.deleteTag = new Button( "", new ImageView(new Image("file:src/main/App/Images/Close.png")));
     this.container = new HBox();
     this.setLayout();
   }
@@ -22,6 +23,7 @@ public class TagContainer {
   private void setLayout(){
     container.getChildren().addAll(this.tag, deleteTag);
     Css.setPane(container);
+    container.setAlignment(Pos.CENTER);
     Css.setLabelButton(deleteTag);
   }
 

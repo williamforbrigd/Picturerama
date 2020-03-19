@@ -41,6 +41,56 @@ public class Css {
      *
      * @param args an amount of buttons
      */
+    public static void setButtonsImageMetaDataViewer(Button... args) {
+        for (Button button : args) {
+            String style = "-fx-cursor: hand;-fx-border-style:solid inside;-fx-border-width: 1px;-fx-border-radius: 15px; " +
+                "-fx-border-color: #DDDDDD;-fx-background-color: white; " +
+                "-fx-background-radius: 15px;-fx-background-insets: 0";
+            button.setStyle(style);
+            button.setFont(Font.font("Montserrat", 20));
+            button.setPrefHeight(25);
+            button.setPrefWidth(570);
+            button.setOnMouseEntered((e) -> {
+                button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;" +
+                    "-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;" +
+                    "-fx-background-radius: 15px;-fx-background-insets: 0");
+            });
+            button.setOnMouseExited((e) -> {
+                button.setStyle(style);
+            });
+        }
+    }
+
+    /**
+     * setButtons takes in an amount of buttons and sets their styling
+     *
+     * @param args an amount of buttons
+     */
+    public static void setButtonsAddTag(Button... args) {
+        for (Button button : args) {
+            String style = "-fx-cursor: hand;-fx-border-style:solid inside;-fx-border-width: 1px;-fx-border-radius: 15px; " +
+                "-fx-border-color: #DDDDDD;-fx-background-color: white; " +
+                "-fx-background-radius: 15px;-fx-background-insets: 0";
+            button.setStyle(style);
+            button.setFont(Font.font("Montserrat", 15));
+            button.setPrefHeight(25);
+            button.setPrefWidth(200);
+            button.setOnMouseEntered((e) -> {
+                button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;" +
+                    "-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;" +
+                    "-fx-background-radius: 15px;-fx-background-insets: 0");
+            });
+            button.setOnMouseExited((e) -> {
+                button.setStyle(style);
+            });
+        }
+    }
+
+    /**
+     * setButtons takes in an amount of buttons and sets their styling
+     *
+     * @param args an amount of buttons
+     */
     public static void setButtonsSignUpLogin(Button... args) {
         for (Button button : args) {
             String style = "-fx-cursor: hand;-fx-border-style:solid inside;-fx-border-width: 1px;-fx-border-radius: 15px; " +
@@ -80,6 +130,17 @@ public class Css {
             textField.setPrefHeight(20);
             textField.setPrefWidth(700);
             textField.setFont(Font.font("Montserrat", 17));
+        }
+    }
+
+    public static void setTextFieldAddTag(TextField... args){
+        for(TextField textField: args){
+            textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
+                "-fx-border-radius: 15px;-fx-background-radius: 15px");
+            textField.setPrefHeight(10);
+            textField.setPrefWidth(150);
+            textField.setMaxWidth(150);
+            textField.setFont(Font.font("Montserrat", 14));
         }
     }
 
@@ -183,6 +244,12 @@ public class Css {
     public static void setTitleLabel(Label... args) {
         for (Label arg : args) {
             arg.setFont(Font.font("Montserrat", 30));
+        }
+    }
+
+    public static void setSemiTitleLabel(Label... args) {
+        for (Label arg : args) {
+            arg.setFont(Font.font("Montserrat", 15));
         }
     }
 
