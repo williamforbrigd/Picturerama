@@ -13,6 +13,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Class that creates the header of the application
+ */
 public class Header {
     private static final Image logo = new Image("file:src/main/App/Images/Logo.png", 80, 80, true, true);
     private static final ImageView logoView = new ImageView(logo);

@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Utility class that is used to create confirmations boxes
+ */
 public class ConfirmationBox {
     static boolean answer;
 

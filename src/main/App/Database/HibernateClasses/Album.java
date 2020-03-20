@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Hibernate database class for the table ALBUMS
+ */
 @Entity
 @Table(name = "ALBUMS")
 public class Album implements Serializable {

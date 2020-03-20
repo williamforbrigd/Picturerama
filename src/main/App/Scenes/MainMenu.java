@@ -4,6 +4,9 @@ import Components.Authentication;
 import Css.Css;
 import javafx.scene.control.Button;
 
+/**
+ * Class for the Main menu scene
+ */
 public class MainMenu extends SceneBuilder {
 
     private Button uploadButton = new Button("Upload");

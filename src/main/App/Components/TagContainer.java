@@ -8,6 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * Class that is used to display tags of photos
+ */
 public class TagContainer {
   private Label tag;
   private Button deleteTag;

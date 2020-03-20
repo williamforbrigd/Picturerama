@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Hibernate database class for the table USERS
+ */
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {

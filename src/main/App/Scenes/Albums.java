@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+/**
+ * Class for the scene albums
+ */
 public class Albums extends SceneBuilder {
 
     private ArrayList<Button> albumButtons = new ArrayList<>();

@@ -20,6 +20,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * CLass that is used to display photo metadata
+ */
 public class ImageMetaDataViewer {
   //The flowPane containing the tag containers
   private FlowPane tagContainer;

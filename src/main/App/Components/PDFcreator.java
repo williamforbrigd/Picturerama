@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class that is used to create a photo album in the form of a pdf file
+ */
 public class PDFcreator {
     /**
      * Creates a pdf from a list of photos and saves them where the user wants them to be saved

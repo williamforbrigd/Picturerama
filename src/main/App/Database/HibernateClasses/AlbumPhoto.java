@@ -3,6 +3,9 @@ package Database.HibernateClasses;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Hibernate database class for the table ALBUMPHOTO
+ */
 @Entity
 @Table(name = "ALBUMPHOTO")
 public class AlbumPhoto implements Serializable {

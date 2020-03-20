@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * Class that is used to analyze a image and extract all its metadata
+ */
 public class ImageAnalyzer {
 	/**
 	 * Used to analyze a image

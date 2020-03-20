@@ -7,7 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
-
+/**
+ * Class for the log inn scene
+ */
 public class LogIn extends SceneBuilder {
 
     private Label usernameLabel;

@@ -26,6 +26,10 @@ public class Css {
         }
     }
 
+    /**
+     * Method to style lable buttons
+     * @param args Is multiple buttons
+     */
     public static void setLabelButton(Button... args){
         for(Button arg : args){
             arg.setMaxSize(10,10);
@@ -34,7 +38,7 @@ public class Css {
     }
 
     /**
-     * setButtons takes in an amount of buttons and sets their styling
+     * setButtons style for ImageMetaDataViewer class takes in an amount of buttons and sets their styling
      *
      * @param args an amount of buttons
      */
@@ -59,7 +63,7 @@ public class Css {
     }
 
     /**
-     * setButtons takes in an amount of buttons and sets their styling
+     * setButtons style for tags in tag container takes in an amount of buttons and sets their styling
      *
      * @param args an amount of buttons
      */
@@ -84,7 +88,7 @@ public class Css {
     }
 
     /**
-     * setButtons takes in an amount of buttons and sets their styling
+     * setButtons style on buttons for sign up and login scene takes in an amount of buttons and sets their styling
      *
      * @param args an amount of buttons
      */
@@ -108,6 +112,10 @@ public class Css {
         }
     }
 
+    /**
+     * SetButtons style in image container class for a amount of buttons
+     * @param args a amount of buttons
+     */
     public static void setImageContainerButtons(Button... args) {
         for (Button arg : args) {
             arg.setStyle("-fx-background-color: #FFFFFF;");
@@ -120,6 +128,10 @@ public class Css {
         }
     }
 
+    /**
+     * sets Textfield syling for a amount o textfield
+     * @param args A amount of textfields
+     */
     public static void setTextField(TextField... args){
         for(TextField textField: args){
             textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
@@ -130,6 +142,10 @@ public class Css {
         }
     }
 
+    /**
+     * Sets Text fields styling for add tags
+     * @param args A amount of text fields
+     */
     public static void setTextFieldAddTag(TextField... args){
         for(TextField textField: args){
             textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
@@ -141,6 +157,10 @@ public class Css {
         }
     }
 
+    /**
+     * Sets styling for main menu buttons
+     * @param args a amount of buttons
+     */
     public static void setButtonsMainMenu(Button... args) {
         for (Button button : args) {
             String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
@@ -160,7 +180,10 @@ public class Css {
         }
     }
 
-
+    /**
+     * set atyling for album buttons
+     * @param button a amount of buttons
+     */
     public static void setAddAlbumButton(Button button) {
         String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
                 "-fx-border-width: 1px;-fx-border-radius: 15px;" +
@@ -178,6 +201,10 @@ public class Css {
         button.setPrefWidth(500);
     }
 
+    /**
+     * Sets styling for add album buttons
+     * @param arg A amount of buttons
+     */
     public static void setNewAlbumButton(Button arg) {
         String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
                 "-fx-border-width: 1px;-fx-border-radius: 15px;" +
@@ -195,7 +222,10 @@ public class Css {
         arg.setPrefWidth(200);
     }
 
-
+    /**
+     * Sets styling for buttons in album scene
+     * @param args A amount of buttons
+     */
     public static void setAlbumButtons(Button... args) {
         for(Button arg : args) {
             String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
@@ -215,14 +245,26 @@ public class Css {
         }
     }
 
+    /**
+     * Styles font of a text in albums
+     * @param text A text
+     */
     public static void setTextAlbums(Text text) {
         text.setFont(new Font("Montserrat", 17));
     }
 
+    /**
+     * Sets styling for the scroll pain in albums
+     * @param scrollPane A scroll pane
+     */
     public static void setAlbumScrollPaneBorder(ScrollPane scrollPane) {
         scrollPane.setStyle("-fx-background-color:transparent;");
     }
 
+    /**
+     * Sets styling for text fields in add album popup
+     * @param textField A text field
+     */
     public static void setTextFieldAlbums(TextField textField) {
         textField.setFont(new Font("Montserrat", 17));
         textField.setPrefHeight(20);
@@ -231,6 +273,10 @@ public class Css {
                 "-fx-border-radius: 15px;-fx-background-radius: 15px");
     }
 
+    /**
+     * Sets styling for choice box in add to album in search scene
+     * @param choiceBox A choice box
+     */
     public static void setChoiceBoxAlbums(ChoiceBox choiceBox) {
         choiceBox.setPrefHeight(20);
         choiceBox.setPrefWidth(700);
@@ -238,6 +284,10 @@ public class Css {
                 "-fx-border-radius: 15px;-fx-background-radius: 15px");
     }
 
+    /**
+     * Sets styling for a error label
+     * @param args A amount for labels
+     */
     public static void setErrorLabel(Label... args) {
         for (Label label : args) {
             label.setStyle("-fx-text-fill: red");
@@ -245,24 +295,40 @@ public class Css {
         }
     }
 
+    /**
+     * Sets styling for title labels
+     * @param args A amount of Labels
+     */
     public static void setTitleLabel(Label... args) {
         for (Label arg : args) {
             arg.setFont(Font.font("Montserrat", 30));
         }
     }
 
+    /**
+     * Sets styling for semi title labels
+     * @param args A amount of labels
+     */
     public static void setSemiTitleLabel(Label... args) {
         for (Label arg : args) {
             arg.setFont(Font.font("Montserrat", 15));
         }
     }
 
+    /**
+     * Sets styling for paragrah labels
+     * @param args A amount of labels
+     */
     public static void setParagraphLabel(Label... args) {
         for (Label arg : args) {
             arg.setFont(Font.font("Montserrat", 12));
         }
     }
 
+    /**
+     * Sets styling for success labels
+     * @param args A amount of Labels
+     */
     public static void setSuccessLabel(Label... args) {
         for (Label label : args) {
             label.setStyle("-fx-text-fill: green");
@@ -270,6 +336,10 @@ public class Css {
         }
     }
 
+    /**
+     * Sets styling for labels
+     * @param args A amount of labels
+     */
     public static void setLabel(Label... args){
         for (Label label : args){
             label.setFont(Font.font("Montserrat", 13));
@@ -289,6 +359,10 @@ public class Css {
         }
     }
 
+    /**
+     * Sets home button styling in the header
+     * @param button A button
+     */
     public static void setHomeButton(Button button) {
         button.setStyle("-fx-background-color: none;");
         button.setOnMouseEntered((e) -> {
@@ -299,6 +373,10 @@ public class Css {
         });
     }
 
+    /**
+     * Sets styling for the HBox in header
+     * @param headerHBox A HBox
+     */
     public static void setHeaderHBox(HBox headerHBox) {
         headerHBox.setStyle("-fx-padding: 10;-fx-border-style: solid inside;-fx-border-width: 1px;" +
                 "-fx-border-radius: 15px;-fx-border-color: #DDDDDD;" +

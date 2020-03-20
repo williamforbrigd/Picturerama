@@ -24,6 +24,9 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+/**
+ * CLass for the Search scene
+ */
 public class Search extends SceneBuilder {
   private ArrayList<Photo> photoList = new ArrayList<>();
   private ScrollPane scrollPane = new ScrollPane();

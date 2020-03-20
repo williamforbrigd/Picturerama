@@ -11,6 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Class that is used to display photos in the search scene
+ */
 public class PhotoContainer {
 
     private Photo photo;

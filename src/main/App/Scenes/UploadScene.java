@@ -15,7 +15,9 @@ import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 
-
+/**
+ * Class for the upload scene
+ */
 public class UploadScene extends SceneBuilder {
     private Label titleLabel = new Label("Title: ");
     private TextField titleField = new TextField();

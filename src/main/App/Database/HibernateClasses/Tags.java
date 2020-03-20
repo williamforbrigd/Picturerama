@@ -3,6 +3,9 @@ package Database.HibernateClasses;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Hibernate database class for the table TAGS
+ */
 @Entity
 @Table(name = "TAGS")
 public class Tags implements Serializable {
