@@ -99,13 +99,19 @@ public class UploadScene extends SceneBuilder {
                     Photo photo = ImageAnalyzer.analyze(titleField.getText(), urlField.getText());
                     UserInfo.getUser().getPhotos().add(photo);
                     Hibernate.updateUser(UserInfo.getUser());
-                    StageInitializer.setMainMenuScene();
+                    titleField.clear();
+                    urlField.clear();
+                    Css.setSuccessLabel(feedbackLabel);
+                    feedbackLabel.setText(photo.getTitle() + " was stored");
                 } catch (IOException ex) {
                     Css.setErrorLabel(feedbackLabel);
                     feedbackLabel.setText("Something went wrong when retrieving image from url.");
                 } catch (NullPointerException ex) {
                     Css.setErrorLabel(feedbackLabel);
                     feedbackLabel.setText("Something went wrong when analyzing image.");
+                }
+                finally {
+                    loadingAnimation.setVisible(false);
                 }
             }
             else{
