@@ -1,6 +1,7 @@
 package Scenes;
 
 import Database.Hibernate;
+import Database.HibernateClasses.Album;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -65,6 +66,12 @@ public class StageInitializer {
 		Albums albums = new Albums();
 		stage.setScene(albums.getScene());
 	}
+
+    public static void setAlbumScene(Album album){
+        AlbumScene albumScene = new AlbumScene();
+        albumScene.setup(album);
+        stage.setScene(albumScene.getScene());
+    }
 
     //No access modifier to make it available in the package
     static void closeProgram(){

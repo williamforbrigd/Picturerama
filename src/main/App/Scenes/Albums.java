@@ -65,6 +65,7 @@ public class Albums extends SceneBuilder {
         try {
             UserInfo.getUser().getAlbums().forEach(album -> {
                 Button albumButton = new Button(album.getName());
+                albumButton.setOnAction(e -> StageInitializer.setAlbumScene(album));
                 albumButtons.add(albumButton);
                 Css.setAlbumButtons(albumButton);
                 scrollPaneVbox.getChildren().add(albumButton);

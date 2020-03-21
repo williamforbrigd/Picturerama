@@ -181,7 +181,7 @@ public class Css {
     }
 
     /**
-     * set atyling for album buttons
+     * Set styling for album buttons
      * @param button a amount of buttons
      */
     public static void setAddAlbumButton(Button button) {
