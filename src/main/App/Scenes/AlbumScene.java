@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 /**
- * Class for the album scene
+ * Class for the album scene, which shows all the pictures in an album.
  */
 public class AlbumScene extends SceneBuilder {
     private VBox scrollPaneVBox;
@@ -68,7 +68,7 @@ public class AlbumScene extends SceneBuilder {
     }
 
     /**
-     * Sets up the scrollpane which will contain photos
+     * Sets up the scrollpane which will contain photos. The scrollpane will be the center layout of the scene.
      */
     private void setupScrollPane() {
         scrollPane.setContent(scrollPaneVBox);
@@ -145,7 +145,8 @@ public class AlbumScene extends SceneBuilder {
 
     /**
      * Sets up the album scene with pagetitle and the album's photos in the scrollpane
-     * @param album the album which should be shown
+     * @param album the album which will be shown with all the pictures in the album. If the album contains no pictures,
+     *              a text will be shown in the scene to inform the user.
      */
     public void setup(Album album) {
         super.setPageTitle(album.getName());

@@ -139,7 +139,7 @@ public class Albums extends SceneBuilder {
     }
 
     /**
-     * Creates a the popup that that is used when creating a album
+     * Creates a the popup that that is used when creating
      */
     private void createPopupDialog() {
         dialogWindow = new Stage();
