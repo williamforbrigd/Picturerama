@@ -1,5 +1,6 @@
 package Database.HibernateClasses;
 
+import java.util.Objects;
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -22,16 +23,16 @@ public class Tags implements Serializable {
     @Column(name = "photo_id")
     private int photoId;
 
-    public int getId() {
-        return id;
-    }
-
     public Tags() {
     }
 
     public Tags(String tag, int photoId) {
         this.tag = tag;
         this.photoId = photoId;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
@@ -52,5 +53,33 @@ public class Tags implements Serializable {
 
     public void setPhotoId(int photoId) {
         this.photoId = photoId;
+    }
+
+    /**
+     * Equals method for tags
+     * Tags are equal if they have the same String tag (the text in the tag) and int photo_id (the id of the photo it belong to)
+     * @param o an object o
+     * @return boolean true/false, depending on if the object is equal to the tag or not.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Tags)) {
+            return false;
+        }
+        Tags tags = (Tags) o;
+        return this.getPhotoId() == tags.getPhotoId() &&
+            this.getTag().equals(tags.getTag());
+    }
+
+    /**
+     * Generates hashcode for the tag, based on the attributes used in the equals method
+     * @return the hashcode for the tag
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getTag(), this.getPhotoId());
     }
 }

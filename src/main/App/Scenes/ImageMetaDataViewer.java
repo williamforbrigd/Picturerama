@@ -128,8 +128,7 @@ public class ImageMetaDataViewer {
 
     Button addTagButton = new Button("Add tag");
     addTagButton.setOnAction(e -> {
-      Tags tag = new Tags();
-      tag.setTag(tagField.getText());
+      Tags tag = new Tags(tagField.getText(), photo.getId());
       if (tagField.getText() == null || tagField.getText().trim().equals("")) {
         feedbackLabel.setText("Error: the tag has to have a name");
       } else if (photo.getTags().contains(tag)) {
@@ -195,6 +194,9 @@ public class ImageMetaDataViewer {
     Hibernate.updateUser(UserInfo.getUser());
   }
 
+  /**
+   * Displays the the stage created in the object
+   */
   public void display() {
     stage.showAndWait();
   }
