@@ -151,6 +151,7 @@ public class Search extends SceneBuilder {
    * Method that creates the popup that can create albums
    */
   private void createNewAlbumButtonPressed() {
+
     createAlbumPopupDialog();
 
     dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
@@ -177,6 +178,7 @@ public class Search extends SceneBuilder {
    * Sets up the checkboxes and adds styling to it
    */
   public void setupChoiceBox(){
+    choiceBox.getItems().clear();
     choiceBox.getStyleClass().add("choice-box");
     choiceBox.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
     UserInfo.getUser().getAlbums().forEach(s->{
