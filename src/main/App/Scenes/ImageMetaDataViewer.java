@@ -132,7 +132,7 @@ public class ImageMetaDataViewer {
       if (tagField.getText() == null || tagField.getText().trim().equals("")) {
         feedbackLabel.setText("Error: the tag has to have a name");
       } else if (photo.getTags().contains(tag)) {
-        feedbackLabel.setText("Tag already in registered");
+        feedbackLabel.setText("Tag already registered");
       } else {
         tag.setPhotoId(photo.getId());
         photo.getTags().add(tag);

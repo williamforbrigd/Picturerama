@@ -45,6 +45,7 @@ public class SignUp extends SceneBuilder {
         usernameField.setPromptText("Username here...");
         emailField.setPromptText("Email here...");
         passwordField.setPromptText("Password here...");
+        passwordField.setTooltip(new Tooltip("Password has to be at least 8 characters long"));
         confirmPasswordField.setPromptText("Password here...");
         super.getGridPane().add(usernameLabel, 10, 0);
         super.getGridPane().add(emailLabel, 10, 2);
