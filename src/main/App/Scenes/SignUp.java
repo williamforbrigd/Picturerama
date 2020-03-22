@@ -187,8 +187,8 @@ public class SignUp extends SceneBuilder {
             Css.setErrorLabel(signupFeedbackLabel);
             return false;
         }
-        //Checks if password is greater than or equal to 8
-        if (passwordField.getText().length() <= 8) {
+        //Checks if password is shorter than 8 characters
+        if (passwordField.getText().length() < 8) {
             signupFeedbackLabel.setText("Error: Password needs to contain 8 characters");
             Css.setErrorLabel(signupFeedbackLabel);
             return false;
