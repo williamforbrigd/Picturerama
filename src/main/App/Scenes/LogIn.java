@@ -88,6 +88,7 @@ public class LogIn extends SceneBuilder {
                 }
             } catch (ExceptionInInitializerError error) {
                 logInLabel.setText("Could not connect to database");
+                loadingAnimation.setVisible(false);
             }
         });
         pause.play();

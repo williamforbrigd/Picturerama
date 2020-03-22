@@ -95,7 +95,7 @@ public class SignUp extends SceneBuilder {
                     else{
                         signupFeedbackLabel.setText("Error: This username is already taken");
                         Css.setErrorLabel(signupFeedbackLabel);
-
+                        loadingAnimation.setVisible(false);
                     }
                 }
                 else{
@@ -104,6 +104,7 @@ public class SignUp extends SceneBuilder {
             } catch (ExceptionInInitializerError error) {
                 signupFeedbackLabel.setText("Error: Could not connect to database");
                 Css.setErrorLabel(signupFeedbackLabel);
+                loadingAnimation.setVisible(false);
             }
         });
         pause.play();
