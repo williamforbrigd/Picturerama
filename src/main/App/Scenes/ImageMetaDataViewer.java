@@ -1,6 +1,5 @@
 package Scenes;
 
-
 import Components.TagContainer;
 import Components.UserInfo;
 import Css.Css;
@@ -21,14 +20,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * CLass that is used to display photo metadata
+ * Class that is used to display photo metadata
  */
 public class ImageMetaDataViewer {
   //The flowPane containing the tag containers
   private FlowPane tagContainer;
-
   private Photo photo;
-
   private Stage stage;
 
   public ImageMetaDataViewer(Photo photo) {

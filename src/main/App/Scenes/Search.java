@@ -25,7 +25,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- * CLass for the Search scene
+ * Class for the Search scene
  */
 public class Search extends SceneBuilder {
   private ArrayList<Photo> photoList = new ArrayList<>();
