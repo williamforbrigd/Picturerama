@@ -37,7 +37,7 @@ public class Album implements Serializable {
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     @JoinTable(
             name = "ALBUMPHOTO",
-            joinColumns = { @JoinColumn(name = "album_id") },
+            joinColumns = { @JoinColumn(name = "album_id",nullable = false, insertable = false) },
             inverseJoinColumns = { @JoinColumn(name = "photo_id") }
     )
     private Set<Photo> albumPhotos = new HashSet<>();

@@ -31,11 +31,11 @@ public class User implements Serializable {
     private String salt;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false, insertable = false )
     private List<Photo> photos = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false, insertable = false )
     private List<Album> albums = new ArrayList<>();
 
     public User() {
