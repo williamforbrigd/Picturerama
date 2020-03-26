@@ -1,7 +1,6 @@
 package Components;
 
 import Database.HibernateClasses.Photo;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,8 +25,8 @@ public class ImageAnalyzer {
         javaxt.io.Image image = new javaxt.io.Image(in);
         java.util.HashMap<Integer, Object> exif = image.getExifTags();
         try {
+			Photo photo = new Photo();
 	        double[] coord = image.getGPSCoordinate();
-	        Photo photo = new Photo();
 	        photo.setTitle(title);
 	        photo.setUrl(url);
 	        photo.setTime((String) exif.get(0x0132));

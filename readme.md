@@ -15,10 +15,13 @@ These instructions will get you a copy of the project up and running on your loc
 git clone git@gitlab.stud.idi.ntnu.no:gruppe-12/picturerama.git
 ```
 
-In order to be able to connect to our database you'll need a ```config.properties``` file in the project root. It should look like this:
+In order to be able to connect to our database, and be able to upload local images, you'll need a ```config.properties``` file in the project root. It should look like this:
 ```
-username="your_username"
-password="your_password"
+username=your_username
+password=your_password
+cloudinary_cloud_name=your_cloud_name
+cloudinary_api_key=your_api_key
+cloudinary_api_secret=your_api_secret
 ```
 
 

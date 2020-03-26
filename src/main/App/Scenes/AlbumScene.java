@@ -93,6 +93,7 @@ public class AlbumScene extends SceneBuilder {
 
         savelocation.setPromptText("Save location");
         Css.setTextFieldAlbums(savelocation);
+        savelocation.setDisable(true);
 
         Button fileExplorer = new Button("Explore");
         Css.setAddAlbumButton(fileExplorer);

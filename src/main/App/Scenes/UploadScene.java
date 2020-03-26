@@ -5,6 +5,8 @@ import Components.UserInfo;
 import Css.Css;
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,8 +14,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Class for the upload scene
@@ -26,6 +35,8 @@ public class UploadScene extends SceneBuilder {
     private Button uploadButton = new Button("Upload image");
     private Label feedbackLabel = new Label();
     private ProgressIndicator loadingAnimation = new ProgressIndicator();
+    private Button fileExplorer = new Button("Select local image");
+    private String selectedDirectory;
 
     /**
      * Constructor that sets up the layout of the upload scene
@@ -34,6 +45,25 @@ public class UploadScene extends SceneBuilder {
         super();
         this.setLayout();
     }
+
+    /**
+     * Method that gets cloudinary properties
+     * @return returns a map with the properties
+     */
+    private static Map getProperties() {
+        Map result = new HashMap();
+        try (InputStream input = new FileInputStream("config.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+            result.put( "cloud_name", prop.getProperty("cloudinary_cloud_name"));
+            result.put( "api_key", prop.getProperty("cloudinary_api_key"));
+            result.put( "api_secret", prop.getProperty("cloudinary_api_secret"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
 
     /**
      * Overrides SceneBuilder method.
@@ -52,18 +82,31 @@ public class UploadScene extends SceneBuilder {
         super.getGridPane().add(titleField, 0, 1);
         super.getGridPane().add(urlLabel, 0, 2);
         super.getGridPane().add(urlField, 0, 3);
-        super.getGridPane().add(uploadButton, 0, 4);
-        super.getGridPane().add(loadingAnimation,1,4);
-        super.getGridPane().add(feedbackLabel, 0, 5);
+        super.getGridPane().add(fileExplorer, 0, 4);
+        super.getGridPane().add(uploadButton, 0, 5);
+        super.getGridPane().add(loadingAnimation,1,5);
+        super.getGridPane().add(feedbackLabel, 0, 6);
         super.getGridPane().setAlignment(Pos.TOP_CENTER);
 
         //Sets styling on layout components
-        Css.setButtonsSignUpLogin(uploadButton);
+        Css.setButtonsSignUpLogin(uploadButton,fileExplorer);
         Css.setLabel(titleLabel, urlLabel);
         Css.setTextField(titleField,urlField);
         Css.setLoadingAnimation(loadingAnimation);
 
         uploadButton.setOnAction(e -> upLoadComplete());
+        fileExplorer.setOnAction(e ->{
+        try {
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Upload local image");
+            File defaultDirectory = new File("c:/");
+            chooser.setInitialDirectory(defaultDirectory);
+            selectedDirectory = chooser.showOpenDialog(StageInitializer.getStage()).getAbsolutePath();
+            urlField.setText(selectedDirectory);
+        }catch (Exception exp){
+            urlField.clear();
+        }
+    });
 
         super.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
@@ -96,7 +139,16 @@ public class UploadScene extends SceneBuilder {
         pause.setOnFinished(e -> {
             if (checkField()) {
                 try {
-                    Photo photo = ImageAnalyzer.analyze(titleField.getText(), urlField.getText());
+                    String photo_url;
+                    if(!urlField.getText().contains("https")) {
+                        Cloudinary cloudinary = new Cloudinary(getProperties());
+                        File file = new File(urlField.getText());
+                        Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+                        photo_url = (String) uploadResult.get("url");
+                    }else {
+                        photo_url = urlField.getText();
+                    }
+                    Photo photo = ImageAnalyzer.analyze(titleField.getText(), photo_url);
                     UserInfo.getUser().getPhotos().add(photo);
                     Hibernate.updateUser(UserInfo.getUser());
                     titleField.clear();
