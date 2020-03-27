@@ -288,7 +288,7 @@ public class Css {
 
     /**
      * Sets styling for a error label
-     * @param args A amount for labels
+     * @param args An amount of labels
      */
     public static void setErrorLabel(Label... args) {
         for (Label label : args) {
@@ -299,7 +299,7 @@ public class Css {
 
     /**
      * Sets styling for title labels
-     * @param args A amount of Labels
+     * @param args An amount of Labels
      */
     public static void setTitleLabel(Label... args) {
         for (Label arg : args) {
@@ -309,7 +309,7 @@ public class Css {
 
     /**
      * Sets styling for semi title labels
-     * @param args A amount of labels
+     * @param args An amount of labels
      */
     public static void setSemiTitleLabel(Label... args) {
         for (Label arg : args) {
@@ -319,7 +319,7 @@ public class Css {
 
     /**
      * Sets styling for paragrah labels
-     * @param args A amount of labels
+     * @param args An amount of labels
      */
     public static void setParagraphLabel(Label... args) {
         for (Label arg : args) {
@@ -329,7 +329,7 @@ public class Css {
 
     /**
      * Sets styling for success labels
-     * @param args A amount of Labels
+     * @param args An amount of Labels
      */
     public static void setSuccessLabel(Label... args) {
         for (Label label : args) {
@@ -340,7 +340,7 @@ public class Css {
 
     /**
      * Sets styling for labels
-     * @param args A amount of labels
+     * @param args An amount of labels
      */
     public static void setLabel(Label... args){
         for (Label label : args){
@@ -363,7 +363,7 @@ public class Css {
 
     /**
      * Sets home button styling in the header
-     * @param button A button
+     * @param button An button
      */
     public static void setHomeButton(Button button) {
         button.setStyle("-fx-background-color: none;");

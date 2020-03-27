@@ -99,7 +99,7 @@ public class UploadScene extends SceneBuilder {
         try {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Upload local image");
-            File defaultDirectory = new File("c:/");
+            File defaultDirectory = new File(System.getProperty("user.home"));
             chooser.setInitialDirectory(defaultDirectory);
             selectedDirectory = chooser.showOpenDialog(StageInitializer.getStage()).getAbsolutePath();
             urlField.setText(selectedDirectory);
