@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -34,7 +35,8 @@ public class AlbumScene extends SceneBuilder {
     private VBox scrollPaneVBox = new VBox();
     private ScrollPane scrollPane = new ScrollPane();
     private Button PDFbtn = new Button("Generate PDF Album");
-    private Button deleteAlbum = new Button("Delete Album");
+    private Button deleteAlbum = new Button("Delete album");
+	private Button deletePhoto = new Button("Delete selected photos");
     private Set<Photo> albumPhotoList;
     private String albumName;
     private TextField savelocation = new TextField();
@@ -43,6 +45,7 @@ public class AlbumScene extends SceneBuilder {
     private HBox dialogHBox;
     private Text dialogText;
     private String selectedDirectory;
+    private ArrayList<PhotoContainer> containers = new ArrayList<>();
 
     /**
      * Album scene constructor, uses SceneBuilder constructor to create an object of the album scene class
@@ -59,13 +62,14 @@ public class AlbumScene extends SceneBuilder {
     public void setLayout() {
         super.setLayout();
         super.setGridPane();
-        setupScrollPane();
-        Css.setAlbumButtons(PDFbtn, deleteAlbum);
-        PDFbtn.setOnAction(s ->generatePdfPressed());
         super.getGridPane().add(scrollPane, 0, 2);
-        super.getGridPane().add(PDFbtn, 0, 4);
+        super.getGridPane().add(PDFbtn, 0, 3);
+        super.getGridPane().add(deletePhoto, 0, 4);
         super.getGridPane().add(deleteAlbum, 0, 5);
         super.getGridPane().setMaxWidth(700.0D);
+	    PDFbtn.setOnAction(s ->generatePdfPressed());
+	    Css.setAlbumButtons(PDFbtn, deletePhoto, deleteAlbum);
+	    this.setupScrollPane();
     }
 
     /**
@@ -146,9 +150,8 @@ public class AlbumScene extends SceneBuilder {
     }
 
     /**
-     * Sets up the album scene with pagetitle and the album's photos in the scrollpane
-     * @param album the album which will be shown with all the pictures in the album. If the album contains no pictures,
-     *              a text will be shown in the scene to inform the user.
+     * Sets up the album scene with pagetitle and the album's photos in the scrollpane. If the album contains no pictures, a text will be shown in the scene to inform the user.
+     * @param album the album which will be shown with all the pictures in the album
      */
     public void setup(Album album) {
         super.setPageTitle(album.getName());
@@ -159,35 +162,74 @@ public class AlbumScene extends SceneBuilder {
             albumPhotoList.forEach(photo -> {
                 PhotoContainer p = new PhotoContainer(photo);
                 scrollPaneVBox.getChildren().add(p.getPhotoContainer());
+                containers.add(p);
             });
         } else {
-            Text text = new Text("This album does not contain any photos yet. You can add more photos in \"Photos\"");
-            Css.setTextAlbums(text);
-            scrollPane.setContent(text);
+	        showAlbumIsEmpty();
         }
         deleteAlbum.setOnAction(e -> {
             UserInfo.getUser().getAlbums().remove(album);
             Hibernate.updateUser(UserInfo.getUser());
             StageInitializer.setAlbumsScene();
         });
+	    deletePhoto.setOnAction(e -> deleteSelectedPhotos(album));
+    }
+
+	/**
+	 * Tell user that this album does not contain any photos
+	 */
+	private void showAlbumIsEmpty() {
+		Text text = new Text("This album does not contain any photos yet. You can add more photos in \"Photos\"");
+		Css.setTextAlbums(text);
+		scrollPane.setContent(text);
     }
 
     /**
-     * Method to generate pdf and is ran when clicking download in generatepdf window
-     * @param savelocation is the location that the user wanted the pdf saved to
+     * Method which deletes the selected photos from the album and updates the scene
+     * @param album the album that the selected photos will be removed from
      */
-    private void generatePDF(String savelocation) {
-        ArrayList<Photo> photos = new ArrayList<>();
-        this.albumPhotoList.forEach(p -> photos.add(p));
-        String savelink = savelocation + "/" + albumName + ".pdf";
-        try {
-            PDFcreator.createPDF(photos, savelink);
-            File pdfFile = new File(savelink);
-            if (pdfFile.exists()) {
-                if (Desktop.isDesktopSupported()) {
-                    Desktop.getDesktop().open(pdfFile);
-                }
-            }
-        } catch (Exception ignored){}
+    private void deleteSelectedPhotos(Album album) {
+        ArrayList<Photo> selectedPhotos = getSelectedPhotos();
+        selectedPhotos.forEach(photo -> {
+            album.getAlbumPhotos().remove(photo);
+            PhotoContainer photoContainer = containers.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
+            scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
+        });
+        Hibernate.updateUser(UserInfo.getUser());
+	    if (albumPhotoList.size() == 0) {
+		    showAlbumIsEmpty();
+	    }
     }
+
+    /**
+     * Helping method to retrieve the photos that are selected by the user. These photos are collected in a list.
+     * @return photos which is a list of the photos that are selected.
+     */
+    private ArrayList<Photo> getSelectedPhotos() {
+        ArrayList<Photo> photos = new ArrayList<>();
+        containers.forEach(container -> {
+            if(container.getCheckBox().isSelected())
+                photos.add(container.getPhoto());
+        });
+        return photos;
+    }
+
+	/**
+	 * Method to generate pdf and is ran when clicking download in generatepdf window
+	 * @param savelocation is the location that the user wanted the pdf saved to
+	 */
+	private void generatePDF(String savelocation) {
+		ArrayList<Photo> photos = new ArrayList<>();
+		photos.addAll(this.albumPhotoList);
+		String savelink = savelocation + "/" + albumName + ".pdf";
+		try {
+			PDFcreator.createPDF(photos, savelink);
+			File pdfFile = new File(savelink);
+			if (pdfFile.exists()) {
+				if (Desktop.isDesktopSupported()) {
+					Desktop.getDesktop().open(pdfFile);
+				}
+			}
+		} catch (Exception ignored){}
+	}
 }
