@@ -29,9 +29,9 @@ import java.util.Set;
  * Class for the album scene, which shows all the pictures in an album.
  */
 public class AlbumScene extends SceneBuilder {
-    private VBox scrollPaneVBox;
-    private ScrollPane scrollPane;
-    private Button PDFbtn;
+    private VBox scrollPaneVBox = new VBox();
+    private ScrollPane scrollPane = new ScrollPane();
+    private Button PDFbtn = new Button("Generate PDF Album");
     Set<Photo> albumPhotoList;
     String albumName;
     private TextField savelocation = new TextField();
@@ -46,9 +46,6 @@ public class AlbumScene extends SceneBuilder {
      */
     public AlbumScene() {
         super();
-        scrollPaneVBox = new VBox();
-        scrollPane = new ScrollPane();
-        PDFbtn = new Button("Generate PDF Album");
         this.setLayout();
     }
 

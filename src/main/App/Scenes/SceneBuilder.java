@@ -16,17 +16,15 @@ public abstract class SceneBuilder {
     private Header header;
 
     //Creating class scene and grid pane
-    private BorderPane borderPane;
-    private GridPane gridPane;
+    private BorderPane borderPane = new BorderPane();
+    private GridPane gridPane = new GridPane();
     private Scene scene;
 
     /**
      * SceneBuilder constructor, used by it's subclasses
      */
     public SceneBuilder() {
-        this.gridPane = new GridPane();
         this.setGridPane();
-        this.borderPane = new BorderPane();
         this.scene = new Scene(borderPane, WIDTH, HEIGHT);
     }
 

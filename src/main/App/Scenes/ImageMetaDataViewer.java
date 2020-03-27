@@ -24,13 +24,12 @@ import javafx.stage.Stage;
  */
 public class ImageMetaDataViewer {
   //The flowPane containing the tag containers
-  private FlowPane tagContainer;
+  private FlowPane tagContainer = new FlowPane();
   private Photo photo;
   private Stage stage;
 
   public ImageMetaDataViewer(Photo photo) {
     this.photo = photo;
-    this.tagContainer = new FlowPane();
     this.stage = setup();
   }
 

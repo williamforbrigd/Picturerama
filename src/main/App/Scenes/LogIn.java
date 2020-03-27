@@ -12,13 +12,13 @@ import javafx.util.Duration;
  */
 public class LogIn extends SceneBuilder {
 
-    private Label usernameLabel;
-    private TextField usernameField;
-    private Label passwordLabel;
-    private PasswordField passwordField;
-    private Label logInLabel;
-    private Button logInButton;
-    private Button signUpButton;
+    private Label usernameLabel = new Label("Username:");
+    private TextField usernameField = new TextField();
+    private Label passwordLabel = new Label("Password:");
+    private PasswordField passwordField = new PasswordField();
+    private Label logInLabel = new Label();
+    private Button logInButton = new Button("Log in");
+    private Button signUpButton = new Button("Sign up");
     private ProgressIndicator loadingAnimation = new ProgressIndicator();
 
     /**
@@ -26,13 +26,6 @@ public class LogIn extends SceneBuilder {
      */
     public LogIn() {
         super();
-        usernameLabel = new Label("Username:");
-        usernameField = new TextField();
-        passwordLabel = new Label("Password:");
-        passwordField = new PasswordField();
-        logInLabel = new Label();
-        logInButton = new Button("Log in");
-        signUpButton = new Button("Sign up");
         this.setLayout();
     }
 
