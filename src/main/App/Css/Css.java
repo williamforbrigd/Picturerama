@@ -203,23 +203,25 @@ public class Css {
 
     /**
      * Sets styling for add album buttons
-     * @param arg A amount of buttons
+     * @param args A amount of buttons
      */
-    public static void setNewAlbumButton(Button arg) {
-        String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
-                "-fx-border-width: 1px;-fx-border-radius: 15px;" +
-                " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
-                " -fx-background-radius: 15px;-fx-background-insets: 0";
-        arg.setStyle(style);
-        arg.setFont(new Font("Montserrat", 18.0D));
-        arg.setOnMouseEntered((e) -> {
-            arg.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
-        });
-        arg.setOnMouseExited((e) -> {
+    public static void setButtonsAlbumScene(Button... args) {
+        for (Button arg : args) {
+            String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
+                    "-fx-border-width: 1px;-fx-border-radius: 15px;" +
+                    " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
+                    " -fx-background-radius: 15px;-fx-background-insets: 0";
             arg.setStyle(style);
-        });
-        arg.setPrefHeight(50);
-        arg.setPrefWidth(200);
+            arg.setFont(new Font("Montserrat", 18.0D));
+            arg.setOnMouseEntered((e) -> {
+                arg.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
+            });
+            arg.setOnMouseExited((e) -> {
+                arg.setStyle(style);
+            });
+            arg.setPrefHeight(50);
+            arg.setPrefWidth(200);
+        }
     }
 
     /**

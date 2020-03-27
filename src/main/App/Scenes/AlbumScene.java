@@ -2,7 +2,9 @@ package Scenes;
 
 import Components.PhotoContainer;
 import Components.PDFcreator;
+import Components.UserInfo;
 import Css.Css;
+import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
 import javafx.geometry.Insets;
@@ -32,8 +34,9 @@ public class AlbumScene extends SceneBuilder {
     private VBox scrollPaneVBox = new VBox();
     private ScrollPane scrollPane = new ScrollPane();
     private Button PDFbtn = new Button("Generate PDF Album");
-    Set<Photo> albumPhotoList;
-    String albumName;
+    private Button deleteAlbum = new Button("Delete Album");
+    private Set<Photo> albumPhotoList;
+    private String albumName;
     private TextField savelocation = new TextField();
     private Stage dialogWindow;
     private VBox dialogVbox;
@@ -57,10 +60,11 @@ public class AlbumScene extends SceneBuilder {
         super.setLayout();
         super.setGridPane();
         setupScrollPane();
-        Css.setAlbumButtons(PDFbtn);
+        Css.setAlbumButtons(PDFbtn, deleteAlbum);
         PDFbtn.setOnAction(s ->generatePdfPressed());
         super.getGridPane().add(scrollPane, 0, 2);
         super.getGridPane().add(PDFbtn, 0, 4);
+        super.getGridPane().add(deleteAlbum, 0, 5);
         super.getGridPane().setMaxWidth(700.0D);
     }
 
@@ -148,8 +152,8 @@ public class AlbumScene extends SceneBuilder {
      */
     public void setup(Album album) {
         super.setPageTitle(album.getName());
-       this.albumPhotoList = album.getAlbumPhotos();
-       this.albumName = album.getName();
+        this.albumPhotoList = album.getAlbumPhotos();
+        this.albumName = album.getName();
 
         if (albumPhotoList.size() > 0) {
             albumPhotoList.forEach(photo -> {
@@ -161,13 +165,18 @@ public class AlbumScene extends SceneBuilder {
             Css.setTextAlbums(text);
             scrollPane.setContent(text);
         }
+        deleteAlbum.setOnAction(e -> {
+            UserInfo.getUser().getAlbums().remove(album);
+            Hibernate.updateUser(UserInfo.getUser());
+            StageInitializer.setAlbumsScene();
+        });
     }
 
     /**
      * Method to generate pdf and is ran when clicking download in generatepdf window
      * @param savelocation is the location that the user wanted the pdf saved to
      */
-    public void generatePDF(String savelocation) {
+    private void generatePDF(String savelocation) {
         ArrayList<Photo> photos = new ArrayList<>();
         this.albumPhotoList.forEach(p -> photos.add(p));
         String savelink = savelocation + "/" + albumName + ".pdf";
