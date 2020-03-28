@@ -22,6 +22,7 @@ password=your_password
 cloudinary_cloud_name=your_cloud_name
 cloudinary_api_key=your_api_key
 cloudinary_api_secret=your_api_secret
+google_maps_api_key=your_google_maps_api_key
 ```
 
 

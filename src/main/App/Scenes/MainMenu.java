@@ -12,6 +12,7 @@ public class MainMenu extends SceneBuilder {
     private Button uploadButton = new Button("Upload");
     private Button myPhotosButton = new Button("Photos");
     private Button albumsButton = new Button("Albums");
+    private Button mapButton = new Button("Map");
     private Button logOutButton = new Button("Log out");
 
     public MainMenu() {
@@ -28,16 +29,18 @@ public class MainMenu extends SceneBuilder {
         super.setLayout();
         super.setPageTitle("Main Menu");
 
-        Css.setButtonsMainMenu(uploadButton, myPhotosButton, albumsButton, logOutButton);
+        Css.setButtonsMainMenu(uploadButton, myPhotosButton, albumsButton, mapButton, logOutButton);
 
         uploadButton.setOnAction(e -> StageInitializer.setUploadScene());
         myPhotosButton.setOnAction(e -> StageInitializer.setSearchScene());
 	    albumsButton.setOnAction(e -> StageInitializer.setAlbumsScene());
+	    mapButton.setOnAction(e -> StageInitializer.setMapScene());
         logOutButton.setOnAction(e -> Authentication.logout());
 
         super.getGridPane().add(uploadButton,0,0);
         super.getGridPane().add(myPhotosButton, 1,0);
         super.getGridPane().add(albumsButton, 0,1);
-        super.getGridPane().add(logOutButton, 1,1);
+        super.getGridPane().add(mapButton, 1,1);
+        super.getGridPane().add(logOutButton, 0,2);
     }
 }

@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
@@ -385,7 +386,13 @@ public class Css {
                 "-fx-background-color: white;-fx-background-radius: 15px");
     }
 
-    //TODO add more functionality to method
+    /**
+     * Sets styling for the stackpane in mapscene
+     * @param stackPane a stackpane
+     */
+    public static void setMapPane(StackPane stackPane) {
+        stackPane.setStyle("-fx-border-style: solid inside;-fx-border-radius: 15px;-fx-border-width: 1px;-fx-border-color: #DDDDDD;");
+    }
 
     /**
      * Sets the dark mode for the application

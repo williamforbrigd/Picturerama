@@ -105,6 +105,15 @@ public class StageInitializer {
     }
 
     /**
+     * Sets the scene of the stage as the map scene.
+     * The scene where the user can view a map with pointers of where the uploaded photos was photographed
+     */
+    public static void setMapScene(){
+        MapScene mapScene = new MapScene();
+        stage.setScene(mapScene.getScene());
+    }
+
+    /**
      * Gives a confirmation box with the choices of exiting or not.
      * If the user exits the program the connection to the database will be closed
      */
