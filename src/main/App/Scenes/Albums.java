@@ -1,22 +1,20 @@
 package Scenes;
 
+import Components.ActionPopup;
 import Components.UserInfo;
 import Css.Css;
 import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -31,10 +29,6 @@ public class Albums extends SceneBuilder {
     private VBox scrollPaneVbox = new VBox();
     private Button newAlbumButton = new Button("New Album");
     private Button deleteAlbumButton = new Button("Delete Album");
-    private Stage dialogWindow;
-    private VBox dialogVbox;
-    private HBox dialogHBox;
-    private Text dialogText;
     private ChoiceBox<String> choiceBox = new ChoiceBox();
 
     /**
@@ -111,10 +105,10 @@ public class Albums extends SceneBuilder {
      * Opens opp a new scene where you can create a new album
      */
     private void createNewAlbumButtonPressed() {
-        createPopupDialog();
+        ActionPopup ap = new ActionPopup(500, 100);
 
-        dialogWindow.setTitle("Add Album");
-        dialogText.setText("Please enter the name of the album to be added:");
+        ap.getDialogWindow().setTitle("Add Album");
+        ap.getDialogText().setText("Please enter the name of the album to be added:");
 
         TextField nameAlbumInput = new TextField();
         nameAlbumInput.setPromptText("Album name");
@@ -122,50 +116,26 @@ public class Albums extends SceneBuilder {
 
         Button addAlbum = new Button("Add album");
         Css.setAddAlbumButton(addAlbum);
-        dialogHBox.getChildren().addAll(nameAlbumInput, addAlbum);
-        dialogVbox.getChildren().addAll(dialogText, dialogHBox);
+        ap.getDialogHBox().getChildren().addAll(nameAlbumInput, addAlbum);
 
         addAlbum.setOnAction(e -> {
             if(nameAlbumInput.getText().trim().equals("") || nameAlbumInput.getText() == null) {
-                dialogText.setText("Please enter a valid name");
+                ap.getDialogText().setText("Please enter a valid name");
                 Button tryAgain = new Button("Try again");
                 Css.setAddAlbumButton(tryAgain);
-                dialogVbox.getChildren().clear();
-                dialogVbox.getChildren().addAll(dialogText, tryAgain);
+                ap.getDialogVbox().getChildren().clear();
+                ap.getDialogVbox().getChildren().addAll(ap.getDialogText(), tryAgain);
                 tryAgain.setOnAction(event -> {
-                    dialogVbox.getChildren().clear();
-                    dialogText.setText("Please enter the name of the album to be added:");
-                    dialogVbox.getChildren().addAll(dialogText, dialogHBox);
+                    ap.getDialogVbox().getChildren().clear();
+                    ap.getDialogText().setText("Please enter the name of the album to be added:");
+                    ap.getDialogVbox().getChildren().addAll(ap.getDialogText(), ap.getDialogHBox());
                 });
             } else {
                 addAlbumButtonPressed(nameAlbumInput.getText().trim());
                 nameAlbumInput.clear();
-                dialogWindow.close();
+                ap.getDialogWindow().close();
             }
         });
-    }
-
-    /**
-     * Creates a the popup that that is used when creating
-     */
-    private void createPopupDialog() {
-        dialogWindow = new Stage();
-        dialogWindow.initModality(Modality.APPLICATION_MODAL);
-        dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
-
-        dialogVbox = new VBox();
-        dialogVbox.setAlignment(Pos.CENTER);
-
-        dialogText = new Text();
-        Css.setTextAlbums(dialogText);
-
-        dialogHBox = new HBox();
-        dialogHBox.setPadding(new Insets(10,10,10,10));
-        dialogHBox.setSpacing(10);
-
-        Scene dialogScene = new Scene(dialogVbox, 500, 100);
-        dialogWindow.setScene(dialogScene);
-        dialogWindow.show();
     }
 
     /**
@@ -190,33 +160,32 @@ public class Albums extends SceneBuilder {
      * printed out to the screen containing this information.
      */
     private void deleteButtonPressed() {
-        this.createPopupDialog();
+        ActionPopup ap = new ActionPopup(500,100);
         this.setupChoiceBox();
         
-        dialogWindow.setTitle("Delete Album");
-        dialogText.setText("Please select the album to be deleted.");
+        ap.getDialogWindow().setTitle("Delete Album");
+        ap.getDialogText().setText("Please select the album to be deleted.");
         Button deleteButton = new Button("Delete Album");
         Css.setAddAlbumButton(deleteButton);
-        dialogHBox.getChildren().addAll(choiceBox, deleteButton);
-        dialogVbox.getChildren().addAll(dialogText, dialogHBox);
+        ap.getDialogHBox().getChildren().addAll(choiceBox, deleteButton);
 
         if(UserInfo.getUser().getAlbums().isEmpty()) {
-            dialogText.setText("You don't have any albums");
-            dialogVbox.getChildren().remove(dialogHBox);
+            ap.getDialogText().setText("You don't have any albums");
+            ap.getDialogVbox().getChildren().remove(ap.getDialogHBox());
             Button button = new Button("Ok");
-            dialogVbox.getChildren().add(button);
+            ap.getDialogVbox().getChildren().addAll(button);
             Css.setAddAlbumButton(button);
             button.setOnAction(event -> {
-                dialogVbox.getChildren().remove(button);
-                dialogVbox.getChildren().add(dialogHBox);
-                dialogWindow.close();
+                ap.getDialogVbox().getChildren().remove(button);
+                ap.getDialogVbox().getChildren().add(ap.getDialogHBox());
+                ap.getDialogWindow().close();
             });
         }
 
         deleteButton.setOnAction(e -> {
             deleteAlbum();
             choiceBox.getItems().remove(choiceBox.getSelectionModel().getSelectedItem());
-            dialogWindow.close();
+            ap.getDialogWindow().close();
         });
     }
 

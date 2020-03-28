@@ -297,6 +297,13 @@ public class Css {
             label.setFont(Font.font("Montserrat", 13));
         }
     }
+    /**
+     * Styles font of a text in the Action popup class
+     * @param text A text
+     */
+    public static void setActionPopupText(Text text) {
+        text.setFont(new Font("Montserrat", 17));
+    }
 
     /**
      * Sets styling for title labels

@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.ActionPopup;
 import Components.PDFcreator;
 import Components.PhotoContainer;
 import Components.UserInfo;
@@ -39,10 +40,6 @@ public class AlbumScene extends SceneBuilder {
   private Set<Photo> albumPhotoList;
   private String albumName;
   private TextField saveLocation = new TextField();
-  private Stage dialogWindow;
-  private VBox dialogVBox;
-  private HBox dialogHBox;
-  private Text dialogText;
   private Label dialogFeedBackLabel;
   private ArrayList<PhotoContainer> containers = new ArrayList<>();
 
@@ -84,16 +81,17 @@ public class AlbumScene extends SceneBuilder {
   }
 
   /**
-   * Method that is ran when clicking the generate pdf button
+   * Method that is ran when clicking the generate pdf button and sets up the action popup
    */
   private void generatePdfPressed() {
-    createPopupDialog();
+    ActionPopup ap = new ActionPopup(500,150);
 
-    dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
-    dialogWindow.setTitle("Download album");
+    ap.getDialogWindow().setTitle("Download album");
 
-    dialogText.setText("Save location: ");
-    Css.setTextAlbums(dialogText);
+    dialogFeedBackLabel = new Label();
+    Css.setErrorLabel(dialogFeedBackLabel);
+
+    ap.getDialogText().setText("Save location: ");
 
     saveLocation.setPromptText("Save location");
     Css.setTextFieldAlbums(saveLocation);
@@ -103,7 +101,7 @@ public class AlbumScene extends SceneBuilder {
     Css.setAddAlbumButton(fileExplorer);
     fileExplorer.setOnAction(s -> {
       try {
-        this.setSaveLocation(System.getProperty("user.home"));
+        this.setSaveLocation(System.getProperty("user.home"), ap.getDialogWindow());
       } catch (Exception e) {
         dialogFeedBackLabel.setText("Could not retrieve image from file explorer");
         saveLocation.clear();
@@ -116,35 +114,11 @@ public class AlbumScene extends SceneBuilder {
     downloadPdf.setOnAction(e -> {
       generatePDF(saveLocation.getText());
       saveLocation.clear();
-      dialogWindow.close();
+      ap.getDialogWindow().close();
     });
 
-    dialogHBox.getChildren().addAll(saveLocation, fileExplorer);
-    dialogVBox.getChildren().addAll(dialogText, dialogHBox, dialogFeedBackLabel, downloadPdf);
-  }
-
-  /**
-   * Creates the popup window that is shown when clicking the generate pdf button
-   */
-  private void createPopupDialog() {
-    dialogWindow = new Stage();
-    dialogWindow.initModality(Modality.APPLICATION_MODAL);
-
-    dialogVBox = new VBox();
-    dialogVBox.setAlignment(Pos.CENTER);
-
-    dialogText = new Text();
-
-    dialogFeedBackLabel = new Label();
-    Css.setErrorLabel(dialogFeedBackLabel);
-
-    dialogHBox = new HBox();
-    dialogHBox.setPadding(new Insets(10, 10, 10, 10));
-    dialogHBox.setSpacing(10);
-
-    Scene dialogScene = new Scene(dialogVBox, 500, 150);
-    dialogWindow.setScene(dialogScene);
-    dialogWindow.show();
+    ap.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
+    ap.getDialogVbox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
   }
 
   /**
@@ -217,13 +191,13 @@ public class AlbumScene extends SceneBuilder {
     return photos;
   }
 
-  public void setSaveLocation(String startDirectory) {
+  public void setSaveLocation(String startDirectory, Stage stage) {
     dialogFeedBackLabel.setText("");
     DirectoryChooser chooser = new DirectoryChooser();
     chooser.setTitle("Explore");
     File defaultDirectory = new File(startDirectory);
     chooser.setInitialDirectory(defaultDirectory);
-    String selectedDirectory = chooser.showDialog(this.dialogWindow).getAbsolutePath();
+    String selectedDirectory = chooser.showDialog(stage).getAbsolutePath();
     saveLocation.setText(selectedDirectory);
   }
 

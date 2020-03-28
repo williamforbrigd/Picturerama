@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.ActionPopup;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
@@ -37,10 +38,6 @@ public class Search extends SceneBuilder {
   private CheckBox selectAllCheckBox = new CheckBox("Select all:");
   private Button addToAlbumButton = new Button("Add to album");
   ChoiceBox<String> choiceBox = new ChoiceBox<>();
-  private Stage dialogWindow;
-  private VBox dialogVbox;
-  private HBox dialogHBox;
-  private Text dialogText;
 
 
   /**
@@ -127,38 +124,14 @@ public class Search extends SceneBuilder {
   }
 
   /**
-   * Method that creates the popup dialog for the add album dialog box
-   */
-  private void createAlbumPopupDialog() {
-    dialogWindow = new Stage();
-    dialogWindow.initModality(Modality.APPLICATION_MODAL);
-
-    dialogVbox = new VBox();
-    dialogVbox.setAlignment(Pos.CENTER);
-
-    dialogText = new Text();
-
-    dialogHBox = new HBox();
-    dialogHBox.setPadding(new Insets(10,10,10,10));
-    dialogHBox.setSpacing(10);
-
-    Scene dialogScene = new Scene(dialogVbox, 500, 100);
-    dialogWindow.setScene(dialogScene);
-    dialogWindow.show();
-  }
-
-  /**
-   * Method that creates the popup that can create albums
+   * Method that creates the popup that can create albums and creates the action popup
    */
   private void createNewAlbumButtonPressed() {
+    ActionPopup ap = new ActionPopup(500,100);
 
-    createAlbumPopupDialog();
+    ap.getDialogWindow().setTitle("Add to Album");
 
-    dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
-    dialogWindow.setTitle("Add to Album");
-
-    dialogText.setText("Please select the name of the album: ");
-    Css.setTextAlbums(dialogText);
+    ap.getDialogText().setText("Please select the name of the album: ");
 
     setupChoiceBox();
     Css.setChoiceBoxAlbums(choiceBox);
@@ -167,11 +140,10 @@ public class Search extends SceneBuilder {
     Css.setAddAlbumButton(addAlbum);
     addAlbum.setOnAction(e -> {
       updateUser(choiceBox.getValue());
-      dialogWindow.close();
+      ap.getDialogWindow().close();
     });
 
-    dialogHBox.getChildren().addAll(choiceBox, addAlbum);
-    dialogVbox.getChildren().addAll(dialogText, dialogHBox);
+    ap.getDialogHBox().getChildren().addAll(choiceBox, addAlbum);
   }
 
   /**
@@ -220,7 +192,6 @@ public class Search extends SceneBuilder {
    * Method that updates the photos in the selected album
    * @param albumnName name of the selected album
    */
-
   public void updateUser(String albumnName){
     int index = indexOfAlbum(albumnName);
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
