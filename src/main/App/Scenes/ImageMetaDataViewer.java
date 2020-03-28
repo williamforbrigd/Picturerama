@@ -3,6 +3,7 @@ package Scenes;
 import Components.TagContainer;
 import Components.UserInfo;
 import Css.Css;
+import Css.FeedBackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
 import Database.HibernateClasses.Tags;
@@ -59,11 +60,11 @@ public class ImageMetaDataViewer {
     VBox imageInfoContainer = new VBox();
     Label photoTitleLabel = new Label();
 
-    Css.setTitleLabel(photoTitleLabel);
+    Css.setLabel(30,photoTitleLabel);
     Label metadataLabel = new Label();
-    Css.setParagraphLabel(metadataLabel);
+    Css.setLabel(12, metadataLabel);
     Label errorInLoadingImage = new Label("Image could not be loaded");
-    Css.setErrorLabel(errorInLoadingImage);
+    Css.setFeedBackLabel(FeedBackType.Error, 13, errorInLoadingImage);
 
 
     Scene scene;
@@ -113,14 +114,14 @@ public class ImageMetaDataViewer {
     Label tagLabel = new Label("Tags:");
     tagLabel.setPadding(new Insets(10,0,0,0));
     Label addTagLabel = new Label("Add a tag to picture:");
-    Css.setSemiTitleLabel(tagLabel, addTagLabel);
+    Css.setLabel(15, tagLabel, addTagLabel);
 
     TextField tagField = new TextField();
-    Css.setTextFieldAddTag(tagField);
+    Css.setTextField(150,10,14,tagField);
     tagField.setPromptText("Tag name");
 
     Label feedbackLabel = new Label();
-    Css.setErrorLabel(feedbackLabel);
+    Css.setFeedBackLabel(FeedBackType.Error, 13, feedbackLabel);
 
     Button addTagButton = new Button("Add tag");
     addTagButton.setOnAction(e -> {
@@ -150,7 +151,7 @@ public class ImageMetaDataViewer {
     });
 
     Button closeButton = new Button("Close");
-    Css.setButtonsImageMetaDataViewer(addTagButton, closeButton);
+    Css.setButton(582,25,20,addTagButton,closeButton);
     closeButton.setOnAction(e -> {
       updateDatabase();
       _stage.close();

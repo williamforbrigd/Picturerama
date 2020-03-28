@@ -68,6 +68,6 @@ public class Header {
         hBox.getChildren().add(homeButton);
         hBox.setMaxWidth(700.0D);
         hBox.setPrefHeight(100.0D);
-        Css.setHeaderHBox(hBox);
+        Css.setPane(hBox);
     }
 }

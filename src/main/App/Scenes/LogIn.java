@@ -49,9 +49,9 @@ public class LogIn extends SceneBuilder {
         super.getGridPane().add(logInLabel, 0, 6);
 
         //Sets styling for the layout components
-        Css.setButtonsSignUpLogin(logInButton, signUpButton);
-        Css.setTextField(usernameField,passwordField);
-        Css.setLabel(usernameLabel,passwordLabel,logInLabel);
+        Css.setButton(700,25,20,logInButton,signUpButton);
+        Css.setTextField(700,20,17,usernameField,passwordField);
+        Css.setLabel(13, usernameLabel,passwordLabel,logInLabel);
         Css.setLoadingAnimation(loadingAnimation);
 
         //Sets functionality for the layout components

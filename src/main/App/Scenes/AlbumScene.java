@@ -5,6 +5,7 @@ import Components.PDFcreator;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
+import Css.FeedBackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
@@ -12,19 +13,13 @@ import java.awt.Desktop;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Set;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -64,7 +59,7 @@ public class AlbumScene extends SceneBuilder {
     super.getGridPane().add(deleteAlbum, 0, 5);
     super.getGridPane().setMaxWidth(700.0D);
     pdfButton.setOnAction(s -> generatePdfPressed());
-    Css.setAlbumButtons(pdfButton, deletePhoto, deleteAlbum);
+    Css.setButton(700,50,18,pdfButton,deletePhoto,deleteAlbum);
     this.setupScrollPane();
   }
 
@@ -89,16 +84,18 @@ public class AlbumScene extends SceneBuilder {
     ap.getDialogWindow().setTitle("Download album");
 
     dialogFeedBackLabel = new Label();
-    Css.setErrorLabel(dialogFeedBackLabel);
+    Css.setFeedBackLabel(FeedBackType.Error,13, dialogFeedBackLabel);
 
     ap.getDialogText().setText("Save location: ");
 
     saveLocation.setPromptText("Save location");
-    Css.setTextFieldAlbums(saveLocation);
+    Css.setTextField(700,20,17,saveLocation);
     saveLocation.setDisable(true);
 
     Button fileExplorer = new Button("Explore");
-    Css.setAddAlbumButton(fileExplorer);
+    Button downloadPdf = new Button("Download");
+    Css.setButton(500,20,17,fileExplorer, downloadPdf);
+
     fileExplorer.setOnAction(s -> {
       try {
         this.setSaveLocation(System.getProperty("user.home"), ap.getDialogWindow());
@@ -108,8 +105,6 @@ public class AlbumScene extends SceneBuilder {
       }
     });
 
-    Button downloadPdf = new Button("Download");
-    Css.setAddAlbumButton(downloadPdf);
     downloadPdf.setMaxWidth(450);
     downloadPdf.setOnAction(e -> {
       generatePDF(saveLocation.getText());
@@ -154,7 +149,7 @@ public class AlbumScene extends SceneBuilder {
    */
   private void showAlbumIsEmpty() {
     Text text = new Text("This album does not contain any photos yet. You can add more photos in \"Photos\"");
-    Css.setTextAlbums(text);
+    Css.setText(17, text);
     scrollPane.setContent(text);
   }
 

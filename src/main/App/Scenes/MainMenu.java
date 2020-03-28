@@ -29,7 +29,7 @@ public class MainMenu extends SceneBuilder {
         super.setLayout();
         super.setPageTitle("Main Menu");
 
-        Css.setButtonsMainMenu(uploadButton, myPhotosButton, albumsButton, mapButton, logOutButton);
+        Css.setButton(340,100,40,uploadButton, myPhotosButton, albumsButton, mapButton, logOutButton);
 
         uploadButton.setOnAction(e -> StageInitializer.setUploadScene());
         myPhotosButton.setOnAction(e -> StageInitializer.setSearchScene());

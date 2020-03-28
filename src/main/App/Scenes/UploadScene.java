@@ -3,6 +3,7 @@ package Scenes;
 import Components.ImageAnalyzer;
 import Components.UserInfo;
 import Css.Css;
+import Css.FeedBackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
 import com.cloudinary.Cloudinary;
@@ -89,9 +90,9 @@ public class UploadScene extends SceneBuilder {
         super.getGridPane().setAlignment(Pos.TOP_CENTER);
 
         //Sets styling on layout components
-        Css.setButtonsSignUpLogin(uploadButton,fileExplorer);
-        Css.setLabel(titleLabel, urlLabel);
-        Css.setTextField(titleField,urlField);
+        Css.setButton(700,25,20,uploadButton,fileExplorer);
+        Css.setLabel(13,titleLabel, urlLabel);
+        Css.setTextField(700,20,17,titleField,urlField);
         Css.setLoadingAnimation(loadingAnimation);
 
         uploadButton.setOnAction(e -> upLoadComplete());
@@ -123,7 +124,7 @@ public class UploadScene extends SceneBuilder {
     private boolean checkField() {
         if (titleField.getText().trim().length() == 0 || urlField.getText().trim().length() == 0) {
             feedbackLabel.setText("Title or URL are missing");
-            Css.setErrorLabel(feedbackLabel);
+            Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
             return false;
         }
         return true;
@@ -153,14 +154,14 @@ public class UploadScene extends SceneBuilder {
                     Hibernate.updateUser(UserInfo.getUser());
                     titleField.clear();
                     urlField.clear();
-                    Css.setSuccessLabel(feedbackLabel);
+                    Css.setFeedBackLabel(FeedBackType.Successful,13,feedbackLabel);
                     feedbackLabel.setText(photo.getTitle() + " was stored");
                 } catch (IOException ex) {
-                    Css.setErrorLabel(feedbackLabel);
-                    feedbackLabel.setText("Something went wrong when retrieving image from url.");
+                    Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
+                    feedbackLabel.setText("Something went wrong when retrieving the image from the url.");
                 } catch (NullPointerException ex) {
-                    Css.setErrorLabel(feedbackLabel);
-                    feedbackLabel.setText("Something went wrong when analyzing image.");
+                    Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
+                    feedbackLabel.setText("Something went wrong when analyzing the image.");
                 }
                 finally {
                     loadingAnimation.setVisible(false);

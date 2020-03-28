@@ -27,7 +27,7 @@ public class ActionPopup {
         dialogVbox.setAlignment(Pos.CENTER);
 
         dialogText = new Text();
-        Css.setActionPopupText(dialogText);
+        Css.setText(17,dialogText);
 
         dialogHBox = new HBox();
         dialogHBox.setPadding(new Insets(10,10,10,10));

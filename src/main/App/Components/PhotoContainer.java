@@ -74,7 +74,7 @@ public class PhotoContainer {
         imageBox.setMinSize(155, 155);
 
         photoButton = new Button(photo.getTitle(), imageBox);
-        Css.setImageContainerButtons(photoButton);
+        Css.setImageContainerButton(photoButton);
 
         photoButton.setOnAction(action -> {
             ImageMetaDataViewer imageMetaDataViewer = new ImageMetaDataViewer(photo);

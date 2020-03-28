@@ -34,7 +34,7 @@ public class TagContainer {
     container.getChildren().addAll(this.tag, deleteTag);
     Css.setPane(container);
     container.setAlignment(Pos.CENTER);
-    Css.setLabelButton(deleteTag);
+    Css.setTagContainerButton(deleteTag);
   }
 
   public Button getDeleteTag() {

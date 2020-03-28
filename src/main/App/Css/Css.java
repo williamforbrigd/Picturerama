@@ -2,7 +2,6 @@ package Css;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -13,247 +12,107 @@ import javafx.stage.Screen;
  * Css class used for styling different JavaFX elements
  */
 public class Css {
+    private static final String FONT = "Montserrat";
+    private static final String PANE_STYLE = "-fx-padding: 4;-fx-border-style: solid inside;-fx-border-width: 1px; -fx-border-radius: 15px;-fx-border-color: #DDDDDD; -fx-background-color: white;-fx-background-radius: 15px;";
+    private static final String BUTTON_STYLE = "-fx-cursor: hand;-fx-border-style:solid inside;-fx-border-width: 1px;-fx-border-radius: 15px; -fx-border-color: #DDDDDD; -fx-background-radius: 15px;-fx-background-insets: 0;";
+    private static final String UN_HOVERED_BUTTON_STYLE = "-fx-background-color: white;";
+    private static final String HOVERED_BUTTON_STYLE = "-fx-background-color: #00000022;";
+    private static final String TEXTFIELD_STYLE = "-fx-background-color: white;-fx-border-color: #656565; -fx-border-radius: 15px;-fx-background-radius: 15px;";
 
     /**
-     * set pane takes in an amount of panes or its subclasses (border pane, grid pane)
-     *
-     * @param args an amount of panes
+     * Private constructor to hinder creation of utility class
      */
-    public static void setPane(Pane... args) {
-        for (Pane arg : args) {
-            arg.setStyle("-fx-padding: 3;-fx-border-style: solid inside;-fx-border-width: 1px;" +
-                "-fx-border-radius: 5px;-fx-border-color: black;" +
-                "-fx-background-color: white;-fx-background-radius: 10px");
+    private Css(){
+        throw new IllegalStateException("Can not make instance of utility class");
+    }
+
+    /**
+     * setPane takes in an amount of panes or its subclasses (border pane, grid pane)
+     * @param panes an amount of panes
+     */
+    public static void setPane(Pane... panes) {
+        for (Pane pane : panes) {
+            pane.setStyle(PANE_STYLE);
         }
     }
 
     /**
-     * Method to style lable buttons
-     * @param args Is multiple buttons
+     * Sets styling for the stack pane in the map scene
+     * @param stackPane a stack pane
      */
-    public static void setLabelButton(Button... args){
-        for(Button arg : args){
-            arg.setMaxSize(10,10);
-            arg.setStyle("-fx-background-color: none");
+    public static void setMapPane(StackPane stackPane) {
+        stackPane.setStyle("-fx-border-style: solid inside;-fx-border-radius: 15px;-fx-border-width: 1px;-fx-border-color: #DDDDDD;");
+    }
+
+    /**
+     * setButton style takes in width, height, fontSize and an amount of buttons and sets their styling
+     * @param width the preferred width of buttons
+     * @param height the preferred height of the buttons
+     * @param fontSize the font size of the text in the buttons
+     * @param buttons an amount of buttons
+     */
+    public static void setButton(int width, int height, int fontSize, Button... buttons) {
+        for (Button button : buttons) {
+            button.setStyle(BUTTON_STYLE + UN_HOVERED_BUTTON_STYLE);
+            button.setFont(Font.font(FONT, fontSize));
+            button.setPrefWidth(width);
+            button.setPrefHeight(height);
+            button.setOnMouseEntered(e -> button.setStyle(BUTTON_STYLE + HOVERED_BUTTON_STYLE));
+            button.setOnMouseExited(e -> button.setStyle(BUTTON_STYLE + UN_HOVERED_BUTTON_STYLE));
         }
     }
 
     /**
-     * setButtons style for ImageMetaDataViewer class takes in an amount of buttons and sets their styling
-     *
-     * @param args an amount of buttons
+     * Method to style buttons from the tag container class
+     * @param buttons Is multiple buttons
      */
-    public static void setButtonsImageMetaDataViewer(Button... args) {
-        for (Button button : args) {
-            String style = "-fx-cursor: hand;-fx-border-style:solid inside;-fx-border-width: 1px;-fx-border-radius: 15px; " +
-                "-fx-border-color: #DDDDDD;-fx-background-color: white; " +
-                "-fx-background-radius: 15px;-fx-background-insets: 0";
-            button.setStyle(style);
-            button.setFont(Font.font("Montserrat", 20));
-            button.setPrefHeight(25);
-            button.setPrefWidth(570);
-            button.setOnMouseEntered((e) -> {
-                button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;" +
-                    "-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;" +
-                    "-fx-background-radius: 15px;-fx-background-insets: 0");
-            });
-            button.setOnMouseExited((e) -> {
-                button.setStyle(style);
-            });
+    public static void setTagContainerButton(Button... buttons){
+        for(Button button : buttons){
+            button.setMaxSize(10,10);
+            button.setStyle("-fx-background-color: none");
         }
     }
 
     /**
-     * setButtons style for tags in tag container takes in an amount of buttons and sets their styling
-     *
-     * @param args an amount of buttons
+     * Sets home button styling in the header
+     * @param button An button
      */
-    public static void setButtonsAddTag(Button... args) {
-        for (Button button : args) {
-            String style = "-fx-cursor: hand;-fx-border-style:solid inside;-fx-border-width: 1px;-fx-border-radius: 15px; " +
-                "-fx-border-color: #DDDDDD;-fx-background-color: white; " +
-                "-fx-background-radius: 15px;-fx-background-insets: 0";
-            button.setStyle(style);
-            button.setFont(Font.font("Montserrat", 15));
-            button.setPrefHeight(25);
-            button.setPrefWidth(200);
-            button.setOnMouseEntered((e) -> {
-                button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;" +
-                    "-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;" +
-                    "-fx-background-radius: 15px;-fx-background-insets: 0");
-            });
-            button.setOnMouseExited((e) -> {
-                button.setStyle(style);
-            });
+    public static void setHomeButton(Button button) {
+        button.setStyle("-fx-background-color: none;");
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #00000022; -fx-cursor: hand"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: none"));
+    }
+
+    /**
+     * Sets style in image container class for an amount of buttons
+     * @param buttons an amount of buttons
+     */
+    public static void setImageContainerButton(Button... buttons) {
+        for (Button button : buttons) {
+            button.setStyle("-fx-background-color: #FFFFFF;");
+            button.setOnMouseExited(action -> button.setStyle("-fx-background-color: #FFFFFF;"));
+            button.setOnMouseEntered(action -> button.setStyle("-fx-background-color: #82CBFF; -fx-border-color: #6BC1FF; -fx-border-width: 1.2;"));
+            button.setAlignment(Pos.CENTER_LEFT);
+            button.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
+            button.setMinHeight(160);
+            button.setMaxHeight(160);
         }
     }
 
     /**
-     * setButtons style on buttons for sign up and login scene takes in an amount of buttons and sets their styling
-     *
-     * @param args an amount of buttons
+     * sets Textfield styling for an amount of text fields
+     * @param width the preferred width of text fields
+     * @param height the preferred height of text fields
+     * @param fontSize the font size of the prompt text in text fields
+     * @param textFields an amount of text fields
      */
-    public static void setButtonsSignUpLogin(Button... args) {
-        for (Button button : args) {
-            String style = "-fx-cursor: hand;-fx-border-style:solid inside;-fx-border-width: 1px;-fx-border-radius: 15px; " +
-                    "-fx-border-color: #DDDDDD;-fx-background-color: white; " +
-                    "-fx-background-radius: 15px;-fx-background-insets: 0";
-            button.setStyle(style);
-            button.setFont(Font.font("Montserrat", 20));
-            button.setPrefHeight(25);
-            button.setPrefWidth(700);
-            button.setOnMouseEntered((e) -> {
-                button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;" +
-                        "-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;" +
-                        "-fx-background-radius: 15px;-fx-background-insets: 0");
-            });
-            button.setOnMouseExited((e) -> {
-                button.setStyle(style);
-            });
+    public static void setTextField(int width, int height, int fontSize, TextField... textFields){
+        for(TextField textField: textFields){
+            textField.setStyle(TEXTFIELD_STYLE);
+            textField.setPrefWidth(width);
+            textField.setPrefHeight(height);
+            textField.setFont(Font.font(FONT, fontSize));
         }
-    }
-
-    /**
-     * SetButtons style in image container class for a amount of buttons
-     * @param args a amount of buttons
-     */
-    public static void setImageContainerButtons(Button... args) {
-        for (Button arg : args) {
-            arg.setStyle("-fx-background-color: #FFFFFF;");
-            arg.setOnMouseExited(action -> arg.setStyle("-fx-background-color: #FFFFFF;"));
-            arg.setOnMouseEntered(action -> arg.setStyle("-fx-background-color: #82CBFF; -fx-border-color: #6BC1FF; -fx-border-width: 1.2;"));
-            arg.setAlignment(Pos.CENTER_LEFT);
-            arg.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
-            arg.setMinHeight(160);
-            arg.setMaxHeight(160);
-        }
-    }
-
-    /**
-     * sets Textfield syling for a amount o textfield
-     * @param args A amount of textfields
-     */
-    public static void setTextField(TextField... args){
-        for(TextField textField: args){
-            textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
-                    "-fx-border-radius: 15px;-fx-background-radius: 15px");
-            textField.setPrefHeight(20);
-            textField.setPrefWidth(700);
-            textField.setFont(Font.font("Montserrat", 17));
-        }
-    }
-
-    /**
-     * Sets Text fields styling for add tags
-     * @param args A amount of text fields
-     */
-    public static void setTextFieldAddTag(TextField... args){
-        for(TextField textField: args){
-            textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
-                "-fx-border-radius: 15px;-fx-background-radius: 15px");
-            textField.setPrefHeight(10);
-            textField.setPrefWidth(150);
-            textField.setMaxWidth(150);
-            textField.setFont(Font.font("Montserrat", 14));
-        }
-    }
-
-    /**
-     * Sets styling for main menu buttons
-     * @param args a amount of buttons
-     */
-    public static void setButtonsMainMenu(Button... args) {
-        for (Button button : args) {
-            String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
-                    "-fx-border-width: 1px;-fx-border-radius: 15px;" +
-                    " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
-                    " -fx-background-radius: 15px;-fx-background-insets: 0";
-            button.setStyle(style);
-            button.setFont(new Font("Montserrat", 40.0D));
-            button.setOnMouseEntered((e) -> {
-                button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
-            });
-            button.setOnMouseExited((e) -> {
-                button.setStyle(style);
-            });
-            button.setPrefHeight(100);
-            button.setPrefWidth(340);
-        }
-    }
-
-    /**
-     * Set styling for album buttons
-     * @param button a amount of buttons
-     */
-    public static void setAddAlbumButton(Button button) {
-        String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
-                "-fx-border-width: 1px;-fx-border-radius: 15px;" +
-                " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
-                " -fx-background-radius: 15px;-fx-background-insets: 0";
-        button.setStyle(style);
-        button.setFont(new Font("Montserrat", 17.0D));
-        button.setOnMouseEntered((e) -> {
-            button.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
-        });
-        button.setOnMouseExited((e) -> {
-            button.setStyle(style);
-        });
-        button.setPrefHeight(20);
-        button.setPrefWidth(500);
-    }
-
-    /**
-     * Sets styling for add album buttons
-     * @param args A amount of buttons
-     */
-    public static void setButtonsAlbumScene(Button... args) {
-        for (Button arg : args) {
-            String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
-                    "-fx-border-width: 1px;-fx-border-radius: 15px;" +
-                    " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
-                    " -fx-background-radius: 15px;-fx-background-insets: 0";
-            arg.setStyle(style);
-            arg.setFont(new Font("Montserrat", 18.0D));
-            arg.setOnMouseEntered((e) -> {
-                arg.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
-            });
-            arg.setOnMouseExited((e) -> {
-                arg.setStyle(style);
-            });
-            arg.setPrefHeight(50);
-            arg.setPrefWidth(200);
-        }
-    }
-
-    /**
-     * Sets styling for buttons in album scene
-     * @param args A amount of buttons
-     */
-    public static void setAlbumButtons(Button... args) {
-        for(Button arg : args) {
-            String style = "-fx-cursor: hand;-fx-border-style: solid inside;" +
-                    "-fx-border-width: 1px;-fx-border-radius: 15px;" +
-                    " -fx-border-color: #DDDDDD;-fx-background-color: white;" +
-                    " -fx-background-radius: 15px;-fx-background-insets: 0";
-            arg.setStyle(style);
-            arg.setFont(new Font("Montserrat", 18.0D));
-            arg.setOnMouseEntered((e) -> {
-                arg.setStyle("-fx-cursor: hand;-fx-border-style: solid inside;-fx-border-width: 1px;-fx-border-radius: 15px;-fx-border-color: #DDDDDD;-fx-background-color: #00000022;-fx-background-radius: 15px;-fx-background-insets: 0");
-            });
-            arg.setOnMouseExited((e) -> {
-                arg.setStyle(style);
-            });
-            arg.setPrefHeight(50);
-            arg.setPrefWidth(650);
-        }
-    }
-
-    /**
-     * Styles font of a text in albums
-     * @param text A text
-     */
-    public static void setTextAlbums(Text text) {
-        text.setFont(new Font("Montserrat", 17));
     }
 
     /**
@@ -262,18 +121,6 @@ public class Css {
      */
     public static void setAlbumScrollPaneBorder(ScrollPane scrollPane) {
         scrollPane.setStyle("-fx-background-color:transparent;");
-    }
-
-    /**
-     * Sets styling for text fields in add album popup
-     * @param textField A text field
-     */
-    public static void setTextFieldAlbums(TextField textField) {
-        textField.setFont(new Font("Montserrat", 17));
-        textField.setPrefHeight(20);
-        textField.setPrefWidth(700);
-        textField.setStyle("-fx-background-color: white;-fx-border-color: #656565;" +
-                "-fx-border-radius: 15px;-fx-background-radius: 15px");
     }
 
     /**
@@ -288,127 +135,50 @@ public class Css {
     }
 
     /**
-     * Sets styling for a error label
-     * @param args An amount of labels
+     * Sets styling for labels
+     * @param fontSize the size of the font in the labels
+     * @param labels An amount of Labels
      */
-    public static void setErrorLabel(Label... args) {
-        for (Label label : args) {
-            label.setStyle("-fx-text-fill: red");
-            label.setFont(Font.font("Montserrat", 13));
+    public static void setLabel(int fontSize, Label... labels) {
+        for (Label label : labels) {
+            label.setFont(Font.font(FONT, fontSize));
         }
     }
+
+    /**
+     * Sets styling for feedback labels
+     * @param feedBackType FeedBackType Enum, the type of feedback (success or error)
+     * @param fontSize the size of the font
+     * @param labels, an amount of labels.
+     */
+    public static void setFeedBackLabel(FeedBackType feedBackType, int fontSize, Label... labels){
+        for (Label label : labels) {
+            label.setStyle("-fx-text-fill:" + feedBackType.getColor());
+            label.setFont(Font.font(FONT, fontSize));
+        }
+    }
+
     /**
      * Styles font of a text in the Action popup class
-     * @param text A text
+     * @param fontSize the size of the font
+     * @param texts A number of texts
      */
-    public static void setActionPopupText(Text text) {
-        text.setFont(new Font("Montserrat", 17));
-    }
-
-    /**
-     * Sets styling for title labels
-     * @param args An amount of Labels
-     */
-    public static void setTitleLabel(Label... args) {
-        for (Label arg : args) {
-            arg.setFont(Font.font("Montserrat", 30));
-        }
-    }
-
-    /**
-     * Sets styling for semi title labels
-     * @param args An amount of labels
-     */
-    public static void setSemiTitleLabel(Label... args) {
-        for (Label arg : args) {
-            arg.setFont(Font.font("Montserrat", 15));
-        }
-    }
-
-    /**
-     * Sets styling for paragrah labels
-     * @param args An amount of labels
-     */
-    public static void setParagraphLabel(Label... args) {
-        for (Label arg : args) {
-            arg.setFont(Font.font("Montserrat", 12));
-        }
-    }
-
-    /**
-     * Sets styling for success labels
-     * @param args An amount of Labels
-     */
-    public static void setSuccessLabel(Label... args) {
-        for (Label label : args) {
-            label.setStyle("-fx-text-fill: green");
-            label.setFont(Font.font("Montserrat",13));
-        }
-    }
-
-    /**
-     * Sets styling for labels
-     * @param args An amount of labels
-     */
-    public static void setLabel(Label... args){
-        for (Label label : args){
-            label.setFont(Font.font("Montserrat", 13));
-            label.setStyle("-fx-text-fill: #656565");
+    public static void setText(int fontSize, Text... texts) {
+        for (Text text : texts){
+            text.setFont(Font.font(FONT, fontSize));
         }
     }
 
     /**
      * setLoadingAnimation styles all ProgressIndicator put as parameter
-     * @param args
+     * @param progressIndicators an amount of progressIndicators
      */
-    public static void setLoadingAnimation(ProgressIndicator... args){
-        for(ProgressIndicator progressIndicator : args){
+    public static void setLoadingAnimation(ProgressIndicator... progressIndicators){
+        for(ProgressIndicator progressIndicator : progressIndicators){
             progressIndicator.setStyle("-fx-progress-color: dimgrey; -fx-cursor: wait");
             progressIndicator.setMaxSize(30,30);
             progressIndicator.setVisible(false);
         }
     }
 
-    /**
-     * Sets home button styling in the header
-     * @param button An button
-     */
-    public static void setHomeButton(Button button) {
-        button.setStyle("-fx-background-color: none;");
-        button.setOnMouseEntered((e) -> {
-            button.setStyle("-fx-background-color: #00000022; -fx-cursor: hand");
-        });
-        button.setOnMouseExited((e) -> {
-            button.setStyle("-fx-background-color: none");
-        });
-    }
-
-    /**
-     * Sets styling for the HBox in header
-     * @param headerHBox A HBox
-     */
-    public static void setHeaderHBox(HBox headerHBox) {
-        headerHBox.setStyle("-fx-padding: 10;-fx-border-style: solid inside;-fx-border-width: 1px;" +
-                "-fx-border-radius: 15px;-fx-border-color: #DDDDDD;" +
-                "-fx-background-color: white;-fx-background-radius: 15px");
-    }
-
-    /**
-     * Sets styling for the stackpane in mapscene
-     * @param stackPane a stackpane
-     */
-    public static void setMapPane(StackPane stackPane) {
-        stackPane.setStyle("-fx-border-style: solid inside;-fx-border-radius: 15px;-fx-border-width: 1px;-fx-border-color: #DDDDDD;");
-    }
-
-    /**
-     * Sets the dark mode for the application
-     *
-     * @param args a number of objects that are of or extends the Pane class
-     */
-    public static void setDarkMode(Pane... args) {
-        for (Pane arg : args) {
-            arg.setStyle("-fx-background-color: #2d2d2d");
-        }
-    }
 }

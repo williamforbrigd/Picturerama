@@ -8,22 +8,14 @@ import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ChoiceBox;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 /**
  * Class for the Search scene
@@ -66,7 +58,7 @@ public class Search extends SceneBuilder {
     super.getGridPane().add(addToAlbumButton, 0, 2, 3, 1);
     super.getGridPane().setGridLinesVisible(false);
     super.getGridPane().setMaxWidth(700.0D);
-    Css.setTextField(searchTextField);
+    Css.setTextField(700,20,17,searchTextField);
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SearchField.css");
   }
 
@@ -101,7 +93,7 @@ public class Search extends SceneBuilder {
    * Sets up the add to album buttion
    */
   private void setupAlbumButtons(){
-    Css.setButtonsSignUpLogin(addToAlbumButton);
+    Css.setButton(700,25,20,addToAlbumButton);
     addToAlbumButton.setOnAction(s->{
         createNewAlbumButtonPressed();
     });
@@ -137,7 +129,7 @@ public class Search extends SceneBuilder {
     Css.setChoiceBoxAlbums(choiceBox);
 
     Button addAlbum = new Button("Add to album");
-    Css.setAddAlbumButton(addAlbum);
+    Css.setButton(500,20,17,addAlbum);
     addAlbum.setOnAction(e -> {
       updateUser(choiceBox.getValue());
       ap.getDialogWindow().close();

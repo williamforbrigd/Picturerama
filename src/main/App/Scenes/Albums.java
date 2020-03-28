@@ -14,8 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -62,7 +60,7 @@ public class Albums extends SceneBuilder {
                 Button albumButton = new Button(album.getName());
                 albumButton.setOnAction(e -> StageInitializer.setAlbumScene(album));
                 albumButtons.add(albumButton);
-                Css.setAlbumButtons(albumButton);
+                Css.setButton(650,50,18,albumButton);
                 scrollPaneVbox.getChildren().add(albumButton);
             });
         } catch(NullPointerException e) {
@@ -98,7 +96,7 @@ public class Albums extends SceneBuilder {
 
         newAlbumButton.setOnAction(e -> createNewAlbumButtonPressed());
         deleteAlbumButton.setOnAction(e -> deleteButtonPressed());
-        Css.setButtonsAlbumScene(newAlbumButton, deleteAlbumButton);
+        Css.setButton(340,50,18,newAlbumButton,deleteAlbumButton);
     }
 
     /**
@@ -112,17 +110,17 @@ public class Albums extends SceneBuilder {
 
         TextField nameAlbumInput = new TextField();
         nameAlbumInput.setPromptText("Album name");
-        Css.setTextFieldAlbums(nameAlbumInput);
+        Css.setTextField(700,20,17,nameAlbumInput);
 
         Button addAlbum = new Button("Add album");
-        Css.setAddAlbumButton(addAlbum);
+        Css.setButton(500,20,17,addAlbum);
         ap.getDialogHBox().getChildren().addAll(nameAlbumInput, addAlbum);
 
         addAlbum.setOnAction(e -> {
             if(nameAlbumInput.getText().trim().equals("") || nameAlbumInput.getText() == null) {
                 ap.getDialogText().setText("Please enter a valid name");
                 Button tryAgain = new Button("Try again");
-                Css.setAddAlbumButton(tryAgain);
+                Css.setButton(500,20,17,tryAgain);
                 ap.getDialogVbox().getChildren().clear();
                 ap.getDialogVbox().getChildren().addAll(ap.getDialogText(), tryAgain);
                 tryAgain.setOnAction(event -> {
@@ -150,7 +148,7 @@ public class Albums extends SceneBuilder {
         Button albumButton = new Button(albumName);
         albumButton.setOnAction(e -> StageInitializer.setAlbumScene(album));
         albumButtons.add(albumButton);
-        Css.setAlbumButtons(albumButton);
+        Css.setButton(650,50,18,albumButton);
         scrollPaneVbox.getChildren().add(albumButton);
     }
 
@@ -166,7 +164,7 @@ public class Albums extends SceneBuilder {
         ap.getDialogWindow().setTitle("Delete Album");
         ap.getDialogText().setText("Please select the album to be deleted.");
         Button deleteButton = new Button("Delete Album");
-        Css.setAddAlbumButton(deleteButton);
+        Css.setButton(500,20,17,deleteButton);
         ap.getDialogHBox().getChildren().addAll(choiceBox, deleteButton);
 
         if(UserInfo.getUser().getAlbums().isEmpty()) {
@@ -174,7 +172,7 @@ public class Albums extends SceneBuilder {
             ap.getDialogVbox().getChildren().remove(ap.getDialogHBox());
             Button button = new Button("Ok");
             ap.getDialogVbox().getChildren().addAll(button);
-            Css.setAddAlbumButton(button);
+            Css.setButton(500,20,17,button);
             button.setOnAction(event -> {
                 ap.getDialogVbox().getChildren().remove(button);
                 ap.getDialogVbox().getChildren().add(ap.getDialogHBox());
