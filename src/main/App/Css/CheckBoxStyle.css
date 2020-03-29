@@ -13,6 +13,7 @@
     -fx-outer-border: #cadbec;
     -fx-background-insets: 0, 1;
     -fx-background-radius: 3px, 0px;
+    -fx-cursor: hand;
 }
 
 .check-box > .box > .mark {

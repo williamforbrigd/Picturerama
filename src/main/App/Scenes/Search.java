@@ -58,8 +58,10 @@ public class Search extends SceneBuilder {
     super.getGridPane().add(addToAlbumButton, 0, 2, 3, 1);
     super.getGridPane().setGridLinesVisible(false);
     super.getGridPane().setMaxWidth(700.0D);
+    //Styles layout components
     Css.setTextField(700,20,17,searchTextField);
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SearchField.css");
+    Css.setAlbumScrollPaneBorder(scrollPane);
   }
 
   /**
@@ -74,7 +76,6 @@ public class Search extends SceneBuilder {
     });
     scrollPane.setContent(scrollPaneVBox);
     scrollPane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
-    scrollPaneVBox.setStyle("-fx-background-color: #FFFFFF");
     scrollPane.fitToWidthProperty().set(true);
     scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
   }

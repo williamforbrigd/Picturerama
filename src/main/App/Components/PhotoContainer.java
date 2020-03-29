@@ -19,41 +19,37 @@ public class PhotoContainer {
     private Photo photo;
     private Image image;
     private ImageView imageView;
-    private VBox imageBox;
     private CheckBox checkBox;
     private Button photoButton;
     private HBox photoContainer;
 
     /**
      * Constructor that takes a photo object and initializes the photocontainer with that photo in it
+     *
      * @param photo a photo object
      */
-    public PhotoContainer(Photo photo){
+    public PhotoContainer(Photo photo) {
         this.photo = photo;
         setupPhotoContainer(photo);
     }
 
-    public Photo getPhoto(){
+    public Photo getPhoto() {
         return photo;
     }
 
-    public Image getImage(){
+    public Image getImage() {
         return image;
     }
 
-    public ImageView getImageView(){
+    public ImageView getImageView() {
         return imageView;
     }
 
-    public VBox getImageBox(){
-        return imageBox;
-    }
-
-    public CheckBox getCheckBox(){
+    public CheckBox getCheckBox() {
         return checkBox;
     }
 
-    public Button getPhotoButton(){
+    public Button getPhotoButton() {
         return photoButton;
     }
 
@@ -63,19 +59,14 @@ public class PhotoContainer {
 
     /**
      * Makes a photo container that is a button that contains a photo and a checkbox
+     *
      * @param photo a photo object
      */
-    private void setupPhotoContainer(Photo photo){
+    private void setupPhotoContainer(Photo photo) {
         image = new Image(photo.getUrl(), 150, 150, true, true);
         imageView = new ImageView(image);
-        imageBox = new VBox(imageView);
-        imageBox.setAlignment(Pos.CENTER);
-        imageBox.setStyle("-fx-background-color: #F1F1F1;");
-        imageBox.setMinSize(155, 155);
 
-        photoButton = new Button(photo.getTitle(), imageBox);
-        Css.setImageContainerButton(photoButton);
-
+        photoButton = new Button(photo.getTitle(), imageView);
         photoButton.setOnAction(action -> {
             ImageMetaDataViewer imageMetaDataViewer = new ImageMetaDataViewer(photo);
             imageMetaDataViewer.display();
@@ -85,13 +76,13 @@ public class PhotoContainer {
         photoContainer.getStylesheets().add("file:src/main/App/Css/CheckBoxStyle.css");
         photoContainer.setSpacing(10);
         photoContainer.setAlignment(Pos.CENTER_LEFT);
-        photoContainer.setStyle("-fx-border-radius: 1; -fx-border-color: #616161");
+        Css.setImageContainer(photoButton, photoContainer);
     }
 
     /**
-     * Creates a checkbox and adds teh correct styleing to it
+     * Creates a checkbox and adds the correct styling to it
      */
-    private void setupContainerCheckBox(){
+    private void setupContainerCheckBox() {
         checkBox = new CheckBox();
         checkBox.getStyleClass().add("check-box");
     }

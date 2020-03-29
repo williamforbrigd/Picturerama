@@ -70,7 +70,7 @@ public class AlbumScene extends SceneBuilder {
     scrollPane.setContent(scrollPaneVBox);
     scrollPane.setStyle("-fx-background-color:transparent;");
     scrollPane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
-    scrollPaneVBox.setStyle("-fx-background-color: #FFFFFF");
+    scrollPaneVBox.setStyle("-fx-background-color: transparent");
     scrollPane.fitToWidthProperty().set(true);
     scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
   }
