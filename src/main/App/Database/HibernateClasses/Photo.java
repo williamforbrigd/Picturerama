@@ -213,16 +213,28 @@ public class Photo implements Serializable {
         this.albums = employees;
     }
 
+    /**
+     * fileSizeToKileBytes, converts the file size from bytes to kilo bytes
+     * @return the file size converted to kilo bytes
+     * @returns null if there is no fileSize registered
+     */
+    private Double fileSizeToKiloBytes(){
+        if(fileSize != null){
+            return Math.round(100 * ((double) fileSize / 1024)) / 100.00;
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
-        return "Filetype: "+getFileType()+"\n"+
-                "Proportions"+getWidth()+"x"+getHeight()+"\n"+
-                "size: "+getFileSize()+"\n"+
-                "Latitude: "+getLatitude()+"\n"+
-                "Longitude: "+getLongitude()+"\n"+
-                "Date: "+getTime()+"\n"+
-                "Model: "+getCamera()+"\n"+
-                "Aperture: "+getAperture()+"\n"+
-                "Exposuretime: "+getExposureTime()+"\n";
+        return "File type: " + getFileType() + "\n" +
+                "Dimensions: " + getWidth() + " x " + getHeight() + "\n" +
+                "Size: " + fileSizeToKiloBytes() + " kB\n" +
+                "Latitude: " + getLatitude() + "\n" +
+                "Longitude: " + getLongitude() + "\n" +
+                "Date: " + getTime() + "\n" +
+                "Model: " + getCamera() + "\n" +
+                "Aperture: " + getAperture() + "\n" +
+                "Exposure time: " + getExposureTime() + "\n";
     }
 }
