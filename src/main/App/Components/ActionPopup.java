@@ -17,7 +17,7 @@ public class ActionPopup {
     private HBox dialogHBox;
     private Text dialogText;
 
-    public ActionPopup(double width, double hight){
+    public ActionPopup(double width, double height){
 
         dialogWindow = new Stage();
         dialogWindow.initModality(Modality.APPLICATION_MODAL);
@@ -25,6 +25,7 @@ public class ActionPopup {
 
         dialogVbox = new VBox();
         dialogVbox.setAlignment(Pos.CENTER);
+        dialogVbox.setSpacing(10);
 
         dialogText = new Text();
         Css.setText(17,dialogText);
@@ -34,7 +35,7 @@ public class ActionPopup {
         dialogHBox.setSpacing(10);
 
         dialogVbox.getChildren().addAll(dialogText, dialogHBox);
-        Scene dialogScene = new Scene(dialogVbox, width, hight);
+        Scene dialogScene = new Scene(dialogVbox, width, height);
         dialogWindow.setScene(dialogScene);
         dialogWindow.show();
     }
