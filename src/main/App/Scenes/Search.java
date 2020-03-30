@@ -8,8 +8,10 @@ import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ChoiceBox;
 import java.util.ArrayList;
@@ -27,7 +29,8 @@ public class Search extends SceneBuilder {
   private ArrayList<CheckBox> checkBoxArrayList = new ArrayList<>();
   private ArrayList<PhotoContainer> photoContainerList = new ArrayList<>();
   private TextField searchTextField = new TextField();
-  private CheckBox selectAllCheckBox = new CheckBox("Select all:");
+  private HBox selectAllHBox = new HBox();
+  private CheckBox selectAllCheckBox = new CheckBox();
   private Button addToAlbumButton = new Button("Add to album");
   ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
@@ -51,10 +54,12 @@ public class Search extends SceneBuilder {
     setupImagesInAScrollPane();
     setupSearchBar();
     setupAlbumButtons();
+    setupSelectAllHBox();
     super.getGridPane().add(scrollPane,0,1, 3, 1);
     super.getGridPane().add(searchTextField, 0, 0, 2, 1);
-    super.getGridPane().add(selectAllCheckBox, 2, 0, 1, 1);
-    GridPane.setHalignment(selectAllCheckBox, HPos.RIGHT);
+    super.getGridPane().add(selectAllHBox, 2, 0, 1, 1);
+    super.getGridPane().setHalignment(selectAllHBox, HPos.RIGHT);
+    super.getGridPane().getStylesheets().add("file:src/main/App/Css/SelectAllCheckBoxStyle.css");
     super.getGridPane().add(addToAlbumButton, 0, 2, 3, 1);
     super.getGridPane().setGridLinesVisible(false);
     super.getGridPane().setMaxWidth(700.0D);
@@ -81,13 +86,22 @@ public class Search extends SceneBuilder {
   }
 
   /**
-   * Sets ups the search bar and its functionality
+   * Sets up the search bar and its functionality
    */
   private void setupSearchBar(){
     searchTextField.setId("searchField");
     searchTextField.setPromptText("Search for image...");
     searchTextField.setOnKeyTyped(action -> filter());
     selectAllCheckBox.setOnAction(action -> checkBoxArrayList.stream().forEach(checkBox -> checkBox.setSelected(selectAllCheckBox.isSelected())));
+  }
+
+  /**
+   * Sets up the select-all button
+   */
+  private void setupSelectAllHBox(){
+    selectAllHBox.getChildren().addAll(new Label("Select all:"), selectAllCheckBox);
+    selectAllHBox.setAlignment(Pos.CENTER_RIGHT);
+    selectAllCheckBox.getStyleClass().add("check-box");
   }
 
   /**
