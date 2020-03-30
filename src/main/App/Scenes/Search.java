@@ -10,7 +10,6 @@ import Database.HibernateClasses.Photo;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ChoiceBox;
@@ -33,6 +32,7 @@ public class Search extends SceneBuilder {
   private CheckBox selectAllCheckBox = new CheckBox();
   private Button addToAlbumButton = new Button("Add to album");
   ChoiceBox<String> choiceBox = new ChoiceBox<>();
+  private Button deleteButton = new Button("Delete selected photos");
 
 
   /**
@@ -55,12 +55,14 @@ public class Search extends SceneBuilder {
     setupSearchBar();
     setupAlbumButtons();
     setupSelectAllHBox();
+    setupDeleteButton();
     super.getGridPane().add(scrollPane,0,1, 3, 1);
     super.getGridPane().add(searchTextField, 0, 0, 2, 1);
     super.getGridPane().add(selectAllHBox, 2, 0, 1, 1);
     super.getGridPane().setHalignment(selectAllHBox, HPos.RIGHT);
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SelectAllCheckBoxStyle.css");
-    super.getGridPane().add(addToAlbumButton, 0, 2, 3, 1);
+    super.getGridPane().add(addToAlbumButton, 0, 2, 1, 1);
+    super.getGridPane().add(deleteButton, 2, 2, 1, 1);
     super.getGridPane().setGridLinesVisible(false);
     super.getGridPane().setMaxWidth(700.0D);
     //Styles layout components
@@ -105,13 +107,19 @@ public class Search extends SceneBuilder {
   }
 
   /**
-   * Sets up the add to album buttion
+   * Sets up button for deleting photos
+   */
+  private void setupDeleteButton(){
+    Css.setButton(700, 25, 20, deleteButton);
+    deleteButton.setOnAction(action -> deleteSelectedPhotos());
+  }
+
+  /**
+   * Sets up the add to album button
    */
   private void setupAlbumButtons(){
     Css.setButton(700,25,20,addToAlbumButton);
-    addToAlbumButton.setOnAction(s->{
-        createNewAlbumButtonPressed();
-    });
+    addToAlbumButton.setOnAction(s -> createNewAlbumButtonPressed());
   }
 
   /**
@@ -160,16 +168,14 @@ public class Search extends SceneBuilder {
     choiceBox.getItems().clear();
     choiceBox.getStyleClass().add("choice-box");
     choiceBox.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
-    UserInfo.getUser().getAlbums().forEach(s->{
-      choiceBox.getItems().add(s.getName());
-    });
+    UserInfo.getUser().getAlbums().forEach(s -> choiceBox.getItems().add(s.getName()));
   }
 
   /**
    * Helper method to get the checked photos in the search scene
    * @return a list of checked photos
    */
-  public ArrayList<Photo> getCheckedPhotos(){
+  private ArrayList<Photo> getCheckedPhotos(){
     ArrayList<Photo> checkedPhotos = new ArrayList<>();
     for (int i = 0; i<checkBoxArrayList.size(); i++) {
       if(checkBoxArrayList.get(i).isSelected()){
@@ -197,13 +203,24 @@ public class Search extends SceneBuilder {
 
   /**
    * Method that updates the photos in the selected album
-   * @param albumnName name of the selected album
+   * @param albumName name of the selected album
    */
-  public void updateUser(String albumnName){
-    int index = indexOfAlbum(albumnName);
+  public void updateUser(String albumName){
+    int index = indexOfAlbum(albumName);
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
-    checkedPhoto.forEach(s ->{
-      UserInfo.getUser().getAlbums().get(index).getAlbumPhotos().add(s);
+    checkedPhoto.forEach(s -> UserInfo.getUser().getAlbums().get(index).getAlbumPhotos().add(s));
+    Hibernate.updateUser(UserInfo.getUser());
+  }
+
+  /**
+   * Private method for deleting selected photos.
+   */
+  private void deleteSelectedPhotos(){
+    ArrayList<Photo> selectedPhotos = getCheckedPhotos();
+    selectedPhotos.forEach(photo -> {
+      UserInfo.getUser().getPhotos().remove(photo);
+      PhotoContainer photoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
+      scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
     });
     Hibernate.updateUser(UserInfo.getUser());
   }
