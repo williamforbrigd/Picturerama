@@ -79,14 +79,14 @@ public class UploadScene extends SceneBuilder {
         //Sets PromptText for TextFields
         titleField.setPromptText("Title here...");
         urlField.setPromptText("URL here...");
-        super.getGridPane().add(titleLabel, 0, 0);
-        super.getGridPane().add(titleField, 0, 1);
-        super.getGridPane().add(urlLabel, 0, 2);
-        super.getGridPane().add(urlField, 0, 3);
-        super.getGridPane().add(fileExplorer, 0, 4);
-        super.getGridPane().add(uploadButton, 0, 5);
-        super.getGridPane().add(loadingAnimation,1,5);
-        super.getGridPane().add(feedbackLabel, 0, 6);
+        super.getGridPane().add(titleLabel, 5, 0);
+        super.getGridPane().add(titleField, 5, 1);
+        super.getGridPane().add(urlLabel, 5, 2);
+        super.getGridPane().add(urlField, 5, 3);
+        super.getGridPane().add(fileExplorer, 5, 4);
+        super.getGridPane().add(uploadButton, 5, 5);
+        super.getGridPane().add(loadingAnimation,6,5);
+        super.getGridPane().add(feedbackLabel, 5, 6);
         super.getGridPane().setAlignment(Pos.TOP_CENTER);
 
         //Sets styling on layout components

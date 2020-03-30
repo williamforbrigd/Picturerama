@@ -39,14 +39,14 @@ public class LogIn extends SceneBuilder {
         usernameField.setPromptText("Username");
         passwordField.setPromptText("Password");
         super.setPageTitle("Log in");
-        super.getGridPane().add(usernameLabel, 0, 0);
-        super.getGridPane().add(usernameField, 0, 1);
-        super.getGridPane().add(passwordLabel, 0, 2);
-        super.getGridPane().add(passwordField, 0, 3);
-        super.getGridPane().add(logInButton, 0, 4);
-        super.getGridPane().add(loadingAnimation,1,4);
-        super.getGridPane().add(signUpButton, 0, 5);
-        super.getGridPane().add(logInLabel, 0, 6);
+        super.getGridPane().add(usernameLabel, 5, 0);
+        super.getGridPane().add(usernameField, 5, 1);
+        super.getGridPane().add(passwordLabel, 5, 2);
+        super.getGridPane().add(passwordField, 5, 3);
+        super.getGridPane().add(logInButton, 5, 4);
+        super.getGridPane().add(loadingAnimation,6,4);
+        super.getGridPane().add(signUpButton, 5, 5);
+        super.getGridPane().add(logInLabel, 5, 6);
 
         //Sets styling for the layout components
         Css.setButton(700,25,20,logInButton,signUpButton);
