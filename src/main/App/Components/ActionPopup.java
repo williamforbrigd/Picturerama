@@ -11,12 +11,20 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Class that creates an universal action popup
+ */
 public class ActionPopup {
     private Stage dialogWindow;
     private VBox dialogVbox;
     private HBox dialogHBox;
     private Text dialogText;
 
+    /**
+     * constructor that takes in the width and hight of the popup
+     * @param width the width of the popup
+     * @param hight the height of the popup
+     */
     public ActionPopup(double width, double height){
 
         dialogWindow = new Stage();
