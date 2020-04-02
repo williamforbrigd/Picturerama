@@ -7,6 +7,7 @@ import Css.Css;
 import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
+import Database.HibernateClasses.Tags;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -14,8 +15,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ChoiceBox;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import javafx.stage.Screen;
 
 /**
@@ -31,7 +33,7 @@ public class Search extends SceneBuilder {
   private HBox selectAllHBox = new HBox();
   private CheckBox selectAllCheckBox = new CheckBox();
   private Button addToAlbumButton = new Button("Add to album");
-  ChoiceBox<String> choiceBox = new ChoiceBox<>();
+  private ChoiceBox<String> choiceBox = new ChoiceBox<>();
   private Button deleteButton = new Button("Delete selected photos");
 
 
@@ -75,7 +77,7 @@ public class Search extends SceneBuilder {
    * Sets up the scroll pane in the search scene with all the photos of the user
    */
   private void setupImagesInAScrollPane(){
-    photoList.stream().forEach(photo -> {
+    photoList.forEach(photo -> {
       PhotoContainer photoContainer = new PhotoContainer(photo);
       scrollPaneVBox.getChildren().add(photoContainer.getPhotoContainer());
       photoContainerList.add(photoContainer);
@@ -94,7 +96,7 @@ public class Search extends SceneBuilder {
     searchTextField.setId("searchField");
     searchTextField.setPromptText("Search for image...");
     searchTextField.setOnKeyTyped(action -> filter());
-    selectAllCheckBox.setOnAction(action -> checkBoxArrayList.stream().forEach(checkBox -> checkBox.setSelected(selectAllCheckBox.isSelected())));
+    selectAllCheckBox.setOnAction(action -> checkBoxArrayList.forEach(checkBox -> checkBox.setSelected(selectAllCheckBox.isSelected())));
   }
 
   /**
@@ -123,16 +125,23 @@ public class Search extends SceneBuilder {
   }
 
   /**
-   * Method for the search functionality
+   * Method for the search functionality.
+   * Filters the scrollpanes photos, showing a photo if its title contains the searchtext or one if its tags are equal to the searchtext.
    */
   private void filter(){
     scrollPaneVBox.getChildren().clear();
-    if(searchTextField.getText().equals("")){
-      photoContainerList.stream().forEach(child -> scrollPaneVBox.getChildren().add(child.getPhotoContainer()));
+    if(searchTextField.getText().trim().equals("")){
+      photoContainerList.forEach(child -> scrollPaneVBox.getChildren().add(child.getPhotoContainer()));
     } else {
-      photoContainerList.stream().forEach(child -> {
-        if(child.getPhoto().getTitle().toLowerCase().contains(searchTextField.getText().toLowerCase())) {
-          scrollPaneVBox.getChildren().add(child.getPhotoContainer());
+      photoContainerList.forEach(container -> {
+        if(container.getPhoto().getTitle().toLowerCase().contains(searchTextField.getText().trim().toLowerCase())) {
+          scrollPaneVBox.getChildren().add(container.getPhotoContainer());
+        } else {
+          String textInput = searchTextField.getText().trim().toLowerCase().replaceAll(" ","");
+          String[] multipleTags = textInput.split(",");
+          if (getPhotoTags(container.getPhoto()).containsAll(Arrays.asList(multipleTags))) {
+            scrollPaneVBox.getChildren().add(container.getPhotoContainer());
+          }
         }
       });
     }
@@ -224,5 +233,16 @@ public class Search extends SceneBuilder {
     });
     Hibernate.updateUser(UserInfo.getUser());
   }
-}
 
+  /**
+   * Helping method to retrieve all the tags to a specific photo.
+   * @param photo gets the tags of the photo.
+   * @return all the tags to the specific photo.
+   */
+  private List<String> getPhotoTags(Photo photo) {
+    return photo.getTags().stream()
+                          .map(Tags::getTag)
+                          .map(String::toLowerCase)
+                          .collect(Collectors.toList());
+  }
+}
