@@ -81,7 +81,7 @@ public class Photo implements Serializable {
     @JoinColumn(name = "photo_id",nullable = false, insertable = false )
     private List<Tags> tags = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "albumPhotos", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "photos", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Album> albums = new HashSet<>();
 
     public int getId() {
@@ -200,7 +200,6 @@ public class Photo implements Serializable {
         return tags;
     }
 
-
     public void setTags(List<Tags> tags) {
         this.tags = tags;
     }
@@ -209,14 +208,14 @@ public class Photo implements Serializable {
         return albums;
     }
 
-    public void setAlbums(Set<Album> employees) {
-        this.albums = employees;
+    public void addAlbum(Album album) {
+        albums.add(album);
+        album.getPhotos().add(this);
     }
 
     /**
      * fileSizeToKileBytes, converts the file size from bytes to kilo bytes
-     * @return the file size converted to kilo bytes
-     * @returns null if there is no fileSize registered
+     * @return the file size converted to kilo bytes, null if there is no fileSize registered
      */
     private Double fileSizeToKiloBytes(){
         if(fileSize != null){

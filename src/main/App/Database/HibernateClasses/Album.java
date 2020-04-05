@@ -40,8 +40,7 @@ public class Album implements Serializable {
             joinColumns = { @JoinColumn(name = "album_id",nullable = false, insertable = false) },
             inverseJoinColumns = { @JoinColumn(name = "photo_id") }
     )
-    private Set<Photo> albumPhotos = new HashSet<>();
-
+    private Set<Photo> photos = new HashSet<>();
 
     public int getId() {
         return id;
@@ -67,11 +66,7 @@ public class Album implements Serializable {
         this.userId = userId;
     }
 
-    public Set<Photo> getAlbumPhotos() {
-        return albumPhotos;
-    }
-
-    public void setAlbumPhotos(Set<Photo> albumPhotos) {
-        this.albumPhotos = albumPhotos;
+    public Set<Photo> getPhotos() {
+        return photos;
     }
 }

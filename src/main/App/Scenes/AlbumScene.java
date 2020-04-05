@@ -31,7 +31,7 @@ class AlbumScene extends SceneBuilder {
   private ScrollPane scrollPane = new ScrollPane();
   private Button pdfButton = new Button("Generate PDF Album");
   private Button deleteAlbum = new Button("Delete album");
-  private Button deletePhoto = new Button("Delete selected photos");
+  private Button deletePhoto = new Button("Remove selected photos");
   private Set<Photo> albumPhotoList;
   private String albumName;
   private TextField saveLocation = new TextField();
@@ -124,7 +124,7 @@ class AlbumScene extends SceneBuilder {
    */
   void setup(Album album) {
     super.setPageTitle(album.getName());
-    this.albumPhotoList = album.getAlbumPhotos();
+    this.albumPhotoList = album.getPhotos();
     this.albumName = album.getName();
 
     if (!albumPhotoList.isEmpty()) {
@@ -161,7 +161,7 @@ class AlbumScene extends SceneBuilder {
   private void deleteSelectedPhotos(Album album) {
     ArrayList<Photo> selectedPhotos = getSelectedPhotos();
     selectedPhotos.forEach(photo -> {
-      album.getAlbumPhotos().remove(photo);
+      album.getPhotos().remove(photo);
       PhotoContainer photoContainer = containers.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
       scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
     });

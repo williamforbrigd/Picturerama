@@ -192,15 +192,21 @@ class Albums extends SceneBuilder {
      */
     private void deleteAlbum() {
         String albumSelected = choiceBox.getSelectionModel().getSelectedItem();
-        UserInfo.getUser().getAlbums().removeIf(album -> album.getName().equals(albumSelected));
-        Hibernate.updateUser(UserInfo.getUser());
-        albumButtons.removeIf(button -> {
-            if(button.getText().equals(albumSelected)) {
-                scrollPaneVbox.getChildren().remove(button);
-                return true;
-            }
-            return false;
-        });
+        Album album = UserInfo.getUser().getAlbums().stream().filter(a -> a.getName().equals(albumSelected)).findAny().orElse(null);
+        if (album != null) {
+            album.getPhotos().forEach(photo -> {
+                photo.getAlbums().remove(album);
+            });
+            UserInfo.getUser().getAlbums().remove(album);
+            Hibernate.updateUser(UserInfo.getUser());
+            albumButtons.removeIf(button -> {
+                if (button.getText().equals(albumSelected)) {
+                    scrollPaneVbox.getChildren().remove(button);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     /**
