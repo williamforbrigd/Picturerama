@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 /**
  * Class for the Main menu scene
  */
-public class MainMenu extends SceneBuilder {
+class MainMenu extends SceneBuilder {
 
     private Button uploadButton = new Button("Upload");
     private Button myPhotosButton = new Button("Photos");
@@ -15,7 +15,7 @@ public class MainMenu extends SceneBuilder {
     private Button mapButton = new Button("Map");
     private Button logOutButton = new Button("Log out");
 
-    public MainMenu() {
+    MainMenu() {
         super();
         this.setLayout();
     }
@@ -25,7 +25,7 @@ public class MainMenu extends SceneBuilder {
      * called in the method in order to modify the method.
      */
     @Override
-    public void setLayout() {
+    void setLayout() {
         super.setLayout();
         super.setPageTitle("Main Menu");
 

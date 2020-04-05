@@ -24,7 +24,7 @@ import javafx.stage.Screen;
 /**
  * Class for the Search scene
  */
-public class Search extends SceneBuilder {
+class Search extends SceneBuilder {
   private ArrayList<Photo> photoList = new ArrayList<>();
   private ScrollPane scrollPane = new ScrollPane();
   private VBox scrollPaneVBox = new VBox();
@@ -42,7 +42,7 @@ public class Search extends SceneBuilder {
   /**
    * Sets up the search scene and adds all the users photos to the photo list
    */
-  public Search(){
+  Search(){
     super();
     photoList.addAll(UserInfo.getUser().getPhotos());
     this.setLayout();
@@ -52,7 +52,7 @@ public class Search extends SceneBuilder {
    * Sets up the layout of the search scene overrides the setlayout method of scenbuilder
    */
   @Override
-  public void setLayout(){
+  void setLayout(){
     super.setLayout();
     super.setPageTitle("Search");
     setupImagesInAScrollPane();
@@ -177,7 +177,7 @@ public class Search extends SceneBuilder {
   /**
    * Sets up the checkboxes and adds styling to it
    */
-  public void setupChoiceBox(){
+  private void setupChoiceBox(){
     choiceBox.getItems().clear();
     choiceBox.getStyleClass().add("choice-box");
     choiceBox.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
@@ -203,7 +203,7 @@ public class Search extends SceneBuilder {
    * @param albumName the name of the selected album
    * @return the index of the selected album in the users album list
    */
-  public int indexOfAlbum(String albumName){
+  private int indexOfAlbum(String albumName){
     int index = -1;
     List<Album> albums = UserInfo.getUser().getAlbums();
     for (int i = 0; i <albums.size() ; i++) {
@@ -218,7 +218,7 @@ public class Search extends SceneBuilder {
    * Method that updates the photos in the selected album
    * @param albumName name of the selected album
    */
-  public void updateUser(String albumName){
+  private void updateUser(String albumName){
     int index = indexOfAlbum(albumName);
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
     checkedPhoto.forEach(s -> UserInfo.getUser().getAlbums().get(index).getAlbumPhotos().add(s));

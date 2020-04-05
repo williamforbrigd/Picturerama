@@ -28,7 +28,7 @@ import java.util.Properties;
 /**
  * Class for the upload scene
  */
-public class UploadScene extends SceneBuilder {
+class UploadScene extends SceneBuilder {
     private Label titleLabel = new Label("Title: ");
     private TextField titleField = new TextField();
     private Label urlLabel = new Label("URL: ");
@@ -42,7 +42,7 @@ public class UploadScene extends SceneBuilder {
     /**
      * Constructor that sets up the layout of the upload scene
      */
-    public UploadScene() {
+    UploadScene() {
         super();
         this.setLayout();
     }
@@ -73,7 +73,7 @@ public class UploadScene extends SceneBuilder {
      * Sets functionality to button nodes
      */
     @Override
-    public void setLayout() {
+    void setLayout() {
         super.setLayout();
         super.setPageTitle("Upload");
         //Sets PromptText for TextFields

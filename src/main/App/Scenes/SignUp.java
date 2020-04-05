@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 
-public class SignUp extends SceneBuilder {
+class SignUp extends SceneBuilder {
     private Label usernameLabel = new Label("Username: ");
     private Label emailLabel = new Label("Email: ");
     private Label passwordLabel = new Label("Password: ");
@@ -27,7 +27,7 @@ public class SignUp extends SceneBuilder {
     /**
      * Creates a object of the class SignUp
      */
-    public SignUp() {
+    SignUp() {
         super();
         this.setLayout();
     }
@@ -39,7 +39,7 @@ public class SignUp extends SceneBuilder {
      * Sets functionality to button nodes
      */
     @Override
-    public void setLayout() {
+    void setLayout() {
         super.setLayout();
         super.setPageTitle("Sign up");
         //Sets PromptText to TextFields

@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
 /**
  * Class that creates the header of the application
  */
-public class Header {
+class Header {
     private static final Image logo = new Image("file:src/main/App/Images/Logo.png", 80, 80, true, true);
     private static final ImageView logoView = new ImageView(logo);
     private static final Label picturerama = new Label("Picturerama");
@@ -28,7 +28,7 @@ public class Header {
     /**
      * Constructor that sets up the header of the application
      */
-    public Header() {
+    Header() {
         if(UserInfo.getUser() != null) {
             homeButton.setOnAction(e -> Scenes.StageInitializer.setMainMenuScene());
         }else{
@@ -38,15 +38,11 @@ public class Header {
         this.setHBox();
     }
 
-    public static Label getPicturerama() {
-        return picturerama;
-    }
-
-    public static HBox getHBox() {
+    static HBox getHBox() {
         return hBox;
     }
 
-    public void setPageTitle(String newTitle) {
+    void setPageTitle(String newTitle) {
         this.pageTitle.setText("- "+newTitle);
     }
 

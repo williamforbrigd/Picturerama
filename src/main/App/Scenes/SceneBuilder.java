@@ -9,7 +9,7 @@ import javafx.scene.layout.GridPane;
 /**
  * Class that has the basic structure of the application and that all other scenes extends
  */
-public abstract class SceneBuilder {
+abstract class SceneBuilder {
     //Making height and class constants to keep every scene the same size
     private static final int WIDTH = 900;
     private static final int HEIGHT = 600;
@@ -23,19 +23,31 @@ public abstract class SceneBuilder {
     /**
      * SceneBuilder constructor, used by it's subclasses
      */
-    public SceneBuilder() {
+    SceneBuilder() {
         this.setGridPane();
         this.scene = new Scene(borderPane, WIDTH, HEIGHT);
     }
 
-    public BorderPane getBorderPane() {
+    Scene getScene() {
+        return scene;
+    }
+
+    void setPageTitle(String title) {
+        header.setPageTitle(title);
+    }
+
+    BorderPane getBorderPane() {
         return borderPane;
+    }
+
+    GridPane getGridPane() {
+        return gridPane;
     }
 
     /**
      * SetGridPane void, sets padding and alignment for the grid pane
      */
-    public void setGridPane() {
+    void setGridPane() {
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
@@ -45,25 +57,15 @@ public abstract class SceneBuilder {
     /**
      * Sets the basic layout of the application
      */
-    public void setLayout() {
+    void setLayout() {
         header = new Header();
         BorderPane.setAlignment(Header.getHBox(), Pos.CENTER);
         BorderPane.setMargin(Header.getHBox(), new Insets(10.0D, 10.0D, 10.0D, 10.0D));
         borderPane.setTop(Header.getHBox());
         borderPane.setCenter(gridPane);
+
+        //TODO remove
         //Css.setBorderPane(borderPane);
         //Css.setGridPane(gridPane);
-    }
-
-    public void setPageTitle(String title) {
-        header.setPageTitle(title);
-    }
-
-    public GridPane getGridPane() {
-        return gridPane;
-    }
-
-    public Scene getScene() {
-        return scene;
     }
 }

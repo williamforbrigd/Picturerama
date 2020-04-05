@@ -7,8 +7,8 @@ import Css.Css;
 /**
  * Utility class that is used to create confirmations boxes
  */
-public class ConfirmationBox {
-    static boolean answer;
+class ConfirmationBox {
+    private static boolean answer;
 
     /**
      * Private constructor to hinder the creation of the utility class
@@ -23,7 +23,7 @@ public class ConfirmationBox {
      * @param message the massage that the confirmation box is going to display
      * @return the answer of the confirmation box
      */
-    public static boolean display(String title, String message){
+    static boolean display(String title, String message){
         ActionPopup dialogWindow = new ActionPopup(250,150);
         dialogWindow.getDialogWindow().close();
 

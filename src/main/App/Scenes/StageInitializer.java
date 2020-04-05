@@ -41,7 +41,7 @@ public class StageInitializer {
      * Gets the main stage of the application
      * @return stage, the main stage of the application
      */
-    public static Stage getStage() {
+    static Stage getStage() {
         return stage;
     }
 
@@ -56,7 +56,7 @@ public class StageInitializer {
     /**
      * Sets the scene of the stage as the sign up scene
      */
-    public static void setSignUpScene() {
+    static void setSignUpScene() {
         SignUp signUp = new SignUp();
         stage.setScene(signUp.getScene());
     }
@@ -64,7 +64,7 @@ public class StageInitializer {
     /**
      * Sets the scene of the stage as the main menu scene
      */
-    public static void setMainMenuScene() {
+    static void setMainMenuScene() {
         MainMenu mainMenu = new MainMenu();
         stage.setScene(mainMenu.getScene());
     }
@@ -72,7 +72,7 @@ public class StageInitializer {
     /**
      * Sets the scene of the stage as the upload scene where the user can upload a picture
      */
-    public static void setUploadScene() {
+    static void setUploadScene() {
         UploadScene uploadScene = new UploadScene();
         stage.setScene(uploadScene.getScene());
     }
@@ -80,7 +80,7 @@ public class StageInitializer {
     /**
      * Sets the scene of the stage as the search scene where the user can search through its pictures
      */
-    public static void setSearchScene() {
+    static void setSearchScene() {
 	    Search search = new Search();
         stage.setScene(search.getScene());
     }
@@ -89,7 +89,7 @@ public class StageInitializer {
      * Sets the scene of the stage as the albums scene.
      * The scene where the user can view it's albums, and create new ones
      */
-	public static void setAlbumsScene() {
+	static void setAlbumsScene() {
 		Albums albums = new Albums();
 		stage.setScene(albums.getScene());
 	}
@@ -98,7 +98,7 @@ public class StageInitializer {
      * Sets the scene of the stage as the album scene.
      * The scene where the user can view a album, and generate a pdf of it
      */
-    public static void setAlbumScene(Album album){
+    static void setAlbumScene(Album album){
         AlbumScene albumScene = new AlbumScene();
         albumScene.setup(album);
         stage.setScene(albumScene.getScene());
@@ -108,7 +108,7 @@ public class StageInitializer {
      * Sets the scene of the stage as the map scene.
      * The scene where the user can view a map with pointers of where the uploaded photos was photographed
      */
-    public static void setMapScene(){
+    static void setMapScene(){
         MapScene mapScene = new MapScene();
         stage.setScene(mapScene.getScene());
     }
@@ -118,7 +118,7 @@ public class StageInitializer {
      * If the user exits the program the connection to the database will be closed
      */
     //No access modifier to make it available in the package
-    static void closeProgram(){
+    private static void closeProgram(){
         boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit");
         if(close) {
             stage.close();

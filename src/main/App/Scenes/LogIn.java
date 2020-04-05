@@ -10,7 +10,7 @@ import javafx.util.Duration;
 /**
  * Class for the log inn scene
  */
-public class LogIn extends SceneBuilder {
+class LogIn extends SceneBuilder {
 
     private Label usernameLabel = new Label("Username:");
     private TextField usernameField = new TextField();
@@ -24,7 +24,7 @@ public class LogIn extends SceneBuilder {
     /**
      * LogIn constructor, uses SceneBuilder constructor. To create an object of the LogIn class
      */
-    public LogIn() {
+    LogIn() {
         super();
         this.setLayout();
     }
@@ -33,7 +33,7 @@ public class LogIn extends SceneBuilder {
      * SetLayout method used for setting the layout for the log in page
      */
     @Override
-    public void setLayout() {
+    void setLayout() {
         //Uses the super classes set layout method for setting the base of the layout
         super.setLayout();
         usernameField.setPromptText("Username");

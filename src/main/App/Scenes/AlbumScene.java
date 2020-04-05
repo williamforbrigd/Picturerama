@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 /**
  * Class for the album scene, which shows all the pictures in an album.
  */
-public class AlbumScene extends SceneBuilder {
+class AlbumScene extends SceneBuilder {
   private VBox scrollPaneVBox = new VBox();
   private ScrollPane scrollPane = new ScrollPane();
   private Button pdfButton = new Button("Generate PDF Album");
@@ -50,7 +50,7 @@ public class AlbumScene extends SceneBuilder {
    * Sets up the layout of the album scene, overrides the setlayout method of scenebuilder
    */
   @Override
-  public void setLayout() {
+  void setLayout() {
     super.setLayout();
     super.setGridPane();
     super.getGridPane().add(scrollPane, 0, 2);
@@ -122,7 +122,7 @@ public class AlbumScene extends SceneBuilder {
    * @param album the album which will be shown with all the pictures in the album. If the album contains no pictures,
    *              a text will be shown in the scene to inform the user.
    */
-  public void setup(Album album) {
+  void setup(Album album) {
     super.setPageTitle(album.getName());
     this.albumPhotoList = album.getAlbumPhotos();
     this.albumName = album.getName();
@@ -186,7 +186,7 @@ public class AlbumScene extends SceneBuilder {
     return photos;
   }
 
-  public void setSaveLocation(String startDirectory, Stage stage) {
+  private void setSaveLocation(String startDirectory, Stage stage) {
     dialogFeedBackLabel.setText("");
     DirectoryChooser chooser = new DirectoryChooser();
     chooser.setTitle("Explore");
@@ -201,7 +201,7 @@ public class AlbumScene extends SceneBuilder {
    *
    * @param saveLocation is the location that the user wanted the pdf saved to
    */
-  public void generatePDF(String saveLocation) {
+  private void generatePDF(String saveLocation) {
     ArrayList<Photo> photos = new ArrayList<>();
     photos.addAll(this.albumPhotoList);
     String saveLink = saveLocation + "/" + albumName + ".pdf";

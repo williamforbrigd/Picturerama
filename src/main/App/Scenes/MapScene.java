@@ -27,7 +27,7 @@ public class MapScene extends SceneBuilder {
 	/**
 	 * Instantiates a new Map scene.
 	 */
-	public MapScene() {
+	MapScene() {
         super();
         photoList.addAll(UserInfo.getUser().getPhotos());
         this.setLayout();
@@ -38,7 +38,7 @@ public class MapScene extends SceneBuilder {
      * called in the method in order to modify the method.
      */
     @Override
-    public void setLayout() {
+    void setLayout() {
         super.setLayout();
         super.setPageTitle("Map");
         super.getGridPane().add(stackPane,0,0);

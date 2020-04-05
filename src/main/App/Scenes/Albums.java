@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Class for the scene albums
  */
-public class Albums extends SceneBuilder {
+class Albums extends SceneBuilder {
 
     private ArrayList<Button> albumButtons = new ArrayList<>();
     private ScrollPane scrollPane = new ScrollPane();
@@ -32,7 +32,7 @@ public class Albums extends SceneBuilder {
     /**
      * Constructor that initializes the basic structure of the app and the structure of the album scene
      */
-    public Albums() {
+    Albums() {
         super();
         this.setLayout();
     }
@@ -41,7 +41,7 @@ public class Albums extends SceneBuilder {
      * Overrides the setLayout in scenebuilder and adds the structure of the album scene
      */
     @Override
-    public void setLayout() {
+    void setLayout() {
         super.setLayout();
         super.setGridPane();
         super.setPageTitle("Albums");
