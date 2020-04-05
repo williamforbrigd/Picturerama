@@ -1,5 +1,6 @@
 package Css;
 
+import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -8,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 
 /**
  * Css class used for styling different JavaFX elements
@@ -175,6 +177,21 @@ public class Css {
             label.setStyle("-fx-text-fill:" + feedBackType.getColor());
             label.setFont(Font.font(FONT, fontSize));
         }
+    }
+
+    /**
+     * Plays a fading transition on a feedback label
+     *
+     * @param feedBackType     FeedBackType Enum, the type of feedback (success or error)
+     * @param fontSize         the size of the font
+     * @param label            label to play the transition on
+     */
+    public static void playFeedBackLabelTransition(FeedBackType feedBackType, int fontSize, Label label){
+        setFeedBackLabel(feedBackType, fontSize, label);
+        FadeTransition ft = new FadeTransition(Duration.seconds(5), label);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.play();
     }
 
     /**

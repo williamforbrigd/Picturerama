@@ -4,6 +4,7 @@ import Components.ActionPopup;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
+import Css.FeedBackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
@@ -35,6 +36,7 @@ public class Search extends SceneBuilder {
   private Button addToAlbumButton = new Button("Add to album");
   private ChoiceBox<String> choiceBox = new ChoiceBox<>();
   private Button deleteButton = new Button("Delete selected photos");
+  private Label feedbackLabel = new Label();
 
 
   /**
@@ -60,6 +62,8 @@ public class Search extends SceneBuilder {
     setupDeleteButton();
     super.getGridPane().add(scrollPane,0,1, 3, 1);
     super.getGridPane().add(searchTextField, 0, 0, 2, 1);
+    super.getGridPane().add(feedbackLabel, 2, 0, 1, 1);
+    super.getGridPane().setHalignment(feedbackLabel, HPos.LEFT);
     super.getGridPane().add(selectAllHBox, 2, 0, 1, 1);
     super.getGridPane().setHalignment(selectAllHBox, HPos.RIGHT);
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SelectAllCheckBoxStyle.css");
@@ -218,6 +222,14 @@ public class Search extends SceneBuilder {
     int index = indexOfAlbum(albumName);
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
     checkedPhoto.forEach(s -> UserInfo.getUser().getAlbums().get(index).getAlbumPhotos().add(s));
+    //An exception is thrown here if no album is chosen when clicking "Add" button!
+    if(checkedPhoto.isEmpty()){
+      feedbackLabel.setText("Unsuccessful: No photos were chosen");
+      Css.playFeedBackLabelTransition(FeedBackType.Error, 13, feedbackLabel);
+    } else {
+      feedbackLabel.setText("Added to " + albumName);
+      Css.playFeedBackLabelTransition(FeedBackType.Successful, 13, feedbackLabel);
+    }
     Hibernate.updateUser(UserInfo.getUser());
   }
 
@@ -226,12 +238,20 @@ public class Search extends SceneBuilder {
    */
   private void deleteSelectedPhotos(){
     ArrayList<Photo> selectedPhotos = getCheckedPhotos();
-    selectedPhotos.forEach(photo -> {
-      UserInfo.getUser().getPhotos().remove(photo);
-      PhotoContainer photoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
-      scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
-    });
+    int noSuccess = 0;
+    for (Photo photo: selectedPhotos) {
+      if(UserInfo.getUser().getPhotos().remove(photo)) {
+        noSuccess++;
+        PhotoContainer photoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
+        photoContainer.getCheckBox().setSelected(false);
+        scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
+      }
+    }
     Hibernate.updateUser(UserInfo.getUser());
+    if(noSuccess == selectedPhotos.size()){
+      feedbackLabel.setText("Deleted successfully");
+      Css.playFeedBackLabelTransition(FeedBackType.Successful, 13, feedbackLabel);
+    }
   }
 
   /**
