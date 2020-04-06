@@ -1,12 +1,15 @@
 package Scenes;
 
 import Components.Authentication;
+import Components.FileLogger;
 import Css.Css;
 import Css.FeedBackType;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
+
+import java.util.logging.Level;
 
 
 class SignUp extends SceneBuilder {
@@ -106,6 +109,8 @@ class SignUp extends SceneBuilder {
                 signupFeedbackLabel.setText("Error: Could not connect to database");
                 Css.setFeedBackLabel(FeedBackType.Error, 13, signupFeedbackLabel);
                 loadingAnimation.setVisible(false);
+                FileLogger.getLogger().log(Level.FINE,error.getMessage());
+                FileLogger.closeHandler();
             }
         });
         pause.play();

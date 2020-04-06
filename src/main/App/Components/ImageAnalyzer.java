@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.logging.Level;
 
 /**
  * Class that is used to analyze a image and extract all its metadata
@@ -44,6 +45,8 @@ public class ImageAnalyzer {
 	        photo.setUserId(UserInfo.getUser().getId());
 	        return photo;
         } catch (NullPointerException e) {
+        	FileLogger.getLogger().log(Level.FINE,e.getMessage());
+        	FileLogger.closeHandler();
         	throw e;
         }
     }

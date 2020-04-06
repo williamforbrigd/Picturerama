@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.FileLogger;
 import Components.ImageAnalyzer;
 import Components.UserInfo;
 import Css.Css;
@@ -24,6 +25,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * Class for the upload scene
@@ -159,9 +161,13 @@ class UploadScene extends SceneBuilder {
                 } catch (IOException ex) {
                     Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
                     feedbackLabel.setText("Something went wrong when retrieving the image from the url.");
+                    FileLogger.getLogger().log(Level.FINE,ex.getMessage());
+                    FileLogger.closeHandler();
                 } catch (NullPointerException ex) {
                     Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
                     feedbackLabel.setText("Something went wrong when analyzing the image.");
+                    FileLogger.getLogger().log(Level.FINE,ex.getMessage());
+                    FileLogger.closeHandler();
                 }
                 finally {
                     loadingAnimation.setVisible(false);

@@ -1,11 +1,13 @@
 package Database;
 
+import Components.FileLogger;
 import Database.HibernateClasses.*;
 import javax.persistence.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Class that is used to connect to the database
@@ -27,7 +29,8 @@ public class Hibernate {
             result.put( "hibernate.connection.username", prop.getProperty("username"));
             result.put( "hibernate.connection.password", prop.getProperty("password"));
         } catch (IOException ex) {
-            ex.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE,ex.getMessage());
+            FileLogger.closeHandler();
         }
         return result;
     }
@@ -63,7 +66,8 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
-            e.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
             isSuccess = false;
         } finally {
             return isSuccess;
@@ -87,7 +91,8 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
-            e.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
         }
     }
 
@@ -114,8 +119,12 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
             throw e;
         } catch (Error | Exception e) {
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
             throw e;
         }
     }
@@ -142,7 +151,8 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
-            e.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
         }
         return null;
     }
@@ -171,6 +181,8 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
             return false;
         }
     }
@@ -197,7 +209,8 @@ public class Hibernate {
             if (et != null) {
                 et.rollback();
             }
-            e.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
         }
         return -1;
     }
@@ -219,7 +232,8 @@ public class Hibernate {
             if(et !=null){
                 et.rollback();
             }
-            e.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
         }
     }
 

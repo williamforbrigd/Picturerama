@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.FileLogger;
 import Components.UserInfo;
 import Css.Css;
 import Database.HibernateClasses.Photo;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * Class for the map scene
@@ -172,6 +174,8 @@ public class MapScene extends SceneBuilder {
 				return "&key=" + prop.getProperty("google_maps_api_key");
 			}
 		} catch (IOException ex) {
+			FileLogger.getLogger().log(Level.FINE,ex.getMessage());
+			FileLogger.closeHandler();
 			return "";
 		}
 	}

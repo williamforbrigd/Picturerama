@@ -1,11 +1,14 @@
 package Scenes;
 
 import Components.Authentication;
+import Components.FileLogger;
 import Css.Css;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
+
+import java.util.logging.Level;
 
 /**
  * Class for the log inn scene
@@ -82,6 +85,8 @@ class LogIn extends SceneBuilder {
             } catch (ExceptionInInitializerError error) {
                 logInLabel.setText("Could not connect to database");
                 loadingAnimation.setVisible(false);
+                FileLogger.getLogger().log(Level.FINE,error.getMessage());
+                FileLogger.closeHandler();
             }
         });
         pause.play();

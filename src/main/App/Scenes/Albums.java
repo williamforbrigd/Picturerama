@@ -1,6 +1,7 @@
 package Scenes;
 
 import Components.ActionPopup;
+import Components.FileLogger;
 import Components.UserInfo;
 import Css.Css;
 import Database.Hibernate;
@@ -16,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  * Class for the scene albums
@@ -64,7 +66,8 @@ class Albums extends SceneBuilder {
                 scrollPaneVbox.getChildren().add(albumButton);
             });
         } catch(NullPointerException e) {
-            e.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE,e.getMessage());
+            FileLogger.closeHandler();
         }
     }
 

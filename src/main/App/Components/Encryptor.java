@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.logging.Level;
 
 /**
  * Encryptor class for encrypting password using hash and salt
@@ -44,7 +45,8 @@ public class Encryptor {
 			String hashed = buildHexString(hashedPassword);
 			return hashed + "|" + salted;
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			FileLogger.getLogger().log(Level.FINE,e.getMessage());
+			FileLogger.closeHandler();
 		}
 		return null;
 	}

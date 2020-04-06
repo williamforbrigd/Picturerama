@@ -3,6 +3,8 @@ package Components;
 import Database.Hibernate;
 import Scenes.StageInitializer;
 
+import java.util.logging.Level;
+
 /**
  * Authentication class for authenticating username and password for each user
  */
@@ -26,8 +28,12 @@ public class Authentication {
 
 			return Hibernate.registerUser(username, email, hash, salt);
 		} catch (ExceptionInInitializerError | NoClassDefFoundError e) {
+			FileLogger.getLogger().log(Level.FINE,e.getMessage());
+			FileLogger.closeHandler();
 			throw e;
 		} catch (IllegalArgumentException e) {
+			FileLogger.getLogger().log(Level.FINE,e.getMessage());
+			FileLogger.closeHandler();
 			return false;
 		}
 	}
@@ -56,8 +62,12 @@ public class Authentication {
 				return false;
 			}
 		} catch (ExceptionInInitializerError | NoClassDefFoundError e) {
+			FileLogger.getLogger().log(Level.FINE,e.getMessage());
+			FileLogger.closeHandler();
 			throw e;
 		} catch (Exception e) {
+			FileLogger.getLogger().log(Level.FINE,e.getMessage());
+			FileLogger.closeHandler();
 			return false;
 		}
 	}
