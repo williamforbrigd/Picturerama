@@ -1,13 +1,13 @@
-package Scenes;
+package Components;
 
-import Components.ActionPopup;
+import Components.PopupWindow;
 import javafx.scene.control.Button;
 import Css.Css;
 
 /**
  * Utility class that is used to create confirmations boxes
  */
-class ConfirmationBox {
+public class ConfirmationBox {
     private static boolean answer;
 
     /**
@@ -23,8 +23,8 @@ class ConfirmationBox {
      * @param message the massage that the confirmation box is going to display
      * @return the answer of the confirmation box
      */
-    static boolean display(String title, String message){
-        ActionPopup dialogWindow = new ActionPopup(250,150);
+    public static boolean display(String title, String message){
+        PopupWindow dialogWindow = new PopupWindow(250,150);
         dialogWindow.getDialogWindow().close();
 
         Button yesButton = new Button("Yes");
@@ -42,7 +42,7 @@ class ConfirmationBox {
 
         Css.setButton(150,30,15,yesButton,noButton);
 
-        dialogWindow.getDialogWindow().setTitle("Exit");
+        dialogWindow.getDialogWindow().setTitle(title);
         dialogWindow.getDialogText().setText(message);
         dialogWindow.getDialogVbox().getChildren().addAll(yesButton,noButton);
 

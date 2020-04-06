@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.Header;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -63,9 +64,5 @@ abstract class SceneBuilder {
         BorderPane.setMargin(Header.getHBox(), new Insets(10.0D, 10.0D, 10.0D, 10.0D));
         borderPane.setTop(Header.getHBox());
         borderPane.setCenter(gridPane);
-
-        //TODO remove
-        //Css.setBorderPane(borderPane);
-        //Css.setGridPane(gridPane);
     }
 }

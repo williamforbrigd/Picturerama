@@ -8,11 +8,12 @@ import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
-
 import java.util.logging.Level;
 
-
-class SignUp extends SceneBuilder {
+/**
+ * Class for the signup scene
+ */
+class SignupScene extends SceneBuilder {
     private Label usernameLabel = new Label("Username: ");
     private Label emailLabel = new Label("Email: ");
     private Label passwordLabel = new Label("Password: ");
@@ -28,9 +29,9 @@ class SignUp extends SceneBuilder {
     private ProgressIndicator loadingAnimation = new ProgressIndicator();
 
     /**
-     * Creates a object of the class SignUp
+     * Creates a object of the class Signup
      */
-    SignUp() {
+    SignupScene() {
         super();
         this.setLayout();
     }

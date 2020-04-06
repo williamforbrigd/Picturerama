@@ -11,10 +11,9 @@ import javafx.util.Duration;
 import java.util.logging.Level;
 
 /**
- * Class for the log inn scene
+ * Class for the login scene
  */
-class LogIn extends SceneBuilder {
-
+class LoginScene extends SceneBuilder {
     private Label usernameLabel = new Label("Username:");
     private TextField usernameField = new TextField();
     private Label passwordLabel = new Label("Password:");
@@ -25,15 +24,15 @@ class LogIn extends SceneBuilder {
     private ProgressIndicator loadingAnimation = new ProgressIndicator();
 
     /**
-     * LogIn constructor, uses SceneBuilder constructor. To create an object of the LogIn class
+     * Login constructor, uses SceneBuilder constructor. To create an object of the Login class
      */
-    LogIn() {
+    LoginScene() {
         super();
         this.setLayout();
     }
 
     /**
-     * SetLayout method used for setting the layout for the log in page
+     * SetLayout method used for setting the layout for the login page
      */
     @Override
     void setLayout() {
@@ -59,7 +58,7 @@ class LogIn extends SceneBuilder {
 
         //Sets functionality for the layout components
         logInButton.setOnAction(e -> login());
-        signUpButton.setOnAction(e -> StageInitializer.setSignUpScene());
+        signUpButton.setOnAction(e -> StageInitializer.setSignupScene());
 
         super.getScene().setOnKeyPressed((e) -> {
             if (e.getCode() == KeyCode.ENTER) {
@@ -77,7 +76,7 @@ class LogIn extends SceneBuilder {
         pause.setOnFinished(e -> {
             try {
                 if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
-                    StageInitializer.setMainMenuScene();
+                    StageInitializer.setMenuScene();
                 } else {
                     logInLabel.setText("Log in failed");
                     loadingAnimation.setVisible(false);

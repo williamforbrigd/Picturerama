@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.PhotoViewer;
 import Components.FileLogger;
 import Components.UserInfo;
 import Css.Css;
@@ -19,7 +20,7 @@ import java.util.logging.Level;
 /**
  * Class for the map scene
  */
-public class MapScene extends SceneBuilder {
+class MapScene extends SceneBuilder {
 
     private ArrayList<Photo> photoList = new ArrayList<>();
 	private WebView webView = new WebView();
@@ -72,14 +73,14 @@ public class MapScene extends SceneBuilder {
 	 */
 	public class MapBridge {
 		/**
-		 * Open ImageMetaDataViewer with the given photo id
+		 * Open PhotoViewer with the given photo id
 		 * @param photo_id the photo id of the photo
 		 */
 		public void open(int photo_id) {
 			Photo photo = findPhotoById(photo_id);
 			if (photo != null) {
-				ImageMetaDataViewer imageMetaDataViewer = new ImageMetaDataViewer(photo);
-				imageMetaDataViewer.display();
+				PhotoViewer photoViewer = new PhotoViewer(photo);
+				photoViewer.display();
 			}
 		}
 	}

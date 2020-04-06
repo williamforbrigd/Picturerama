@@ -12,20 +12,20 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Class that creates an universal action popup
+ * Class that creates an universal popup window
  */
-public class ActionPopup {
+public class PopupWindow {
     private Stage dialogWindow;
     private VBox dialogVbox;
     private HBox dialogHBox;
     private Text dialogText;
 
     /**
-     * constructor that takes in the width and hight of the popup
+     * Constructor that takes in the width and height of the popup window
      * @param width the width of the popup
-     * @param hight the height of the popup
+     * @param height the height of the popup
      */
-    public ActionPopup(double width, double height){
+    public PopupWindow(double width, double height){
 
         dialogWindow = new Stage();
         dialogWindow.initModality(Modality.APPLICATION_MODAL);

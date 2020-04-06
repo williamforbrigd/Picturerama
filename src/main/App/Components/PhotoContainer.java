@@ -1,7 +1,6 @@
 package Components;
 
 import Css.Css;
-import Scenes.ImageMetaDataViewer;
 import Database.HibernateClasses.Photo;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,7 +8,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 /**
  * Class that is used to display photos in the search scene
@@ -68,8 +66,8 @@ public class PhotoContainer {
 
         photoButton = new Button(photo.getTitle(), imageView);
         photoButton.setOnAction(action -> {
-            ImageMetaDataViewer imageMetaDataViewer = new ImageMetaDataViewer(photo);
-            imageMetaDataViewer.display();
+            PhotoViewer photoViewer = new PhotoViewer(photo);
+            photoViewer.display();
         });
         setupContainerCheckBox();
         photoContainer = new HBox(photoButton, checkBox);

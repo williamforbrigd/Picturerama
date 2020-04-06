@@ -1,4 +1,4 @@
-package Scenes;
+package Components;
 
 import Components.TagContainer;
 import Components.UserInfo;
@@ -7,6 +7,7 @@ import Css.FeedBackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
 import Database.HibernateClasses.Tags;
+import Scenes.StageInitializer;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,13 +24,13 @@ import javafx.stage.Stage;
 /**
  * Class that is used to display photo metadata
  */
-public class ImageMetaDataViewer {
+public class PhotoViewer {
   //The flowPane containing the tag containers
   private FlowPane tagContainer = new FlowPane();
   private Photo photo;
   private Stage stage;
 
-  public ImageMetaDataViewer(Photo photo) {
+  public PhotoViewer(Photo photo) {
     if (photo == null) throw new NullPointerException();
     this.photo = photo;
     this.stage = setup();

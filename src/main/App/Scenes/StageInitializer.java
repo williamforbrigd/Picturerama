@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.ConfirmationBox;
 import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import javafx.scene.image.Image;
@@ -32,8 +33,8 @@ public class StageInitializer {
         });
         stage.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
         stage.setTitle("Picturerama");
-        LogIn logIn = new LogIn();
-        stage.setScene(logIn.getScene());
+        LoginScene loginScene = new LoginScene();
+        stage.setScene(loginScene.getScene());
         stage.show();
     }
 
@@ -41,7 +42,7 @@ public class StageInitializer {
      * Gets the main stage of the application
      * @return stage, the main stage of the application
      */
-    static Stage getStage() {
+    public static Stage getStage() {
         return stage;
     }
 
@@ -49,24 +50,24 @@ public class StageInitializer {
      * Sets the scene of the stage as the login scene
      */
     public static void setLoginScene() {
-        LogIn logIn = new LogIn();
-        stage.setScene(logIn.getScene());
+        LoginScene loginScene = new LoginScene();
+        stage.setScene(loginScene.getScene());
     }
 
     /**
      * Sets the scene of the stage as the sign up scene
      */
-    static void setSignUpScene() {
-        SignUp signUp = new SignUp();
-        stage.setScene(signUp.getScene());
+    static void setSignupScene() {
+        SignupScene signupScene = new SignupScene();
+        stage.setScene(signupScene.getScene());
     }
 
     /**
      * Sets the scene of the stage as the main menu scene
      */
-    static void setMainMenuScene() {
-        MainMenu mainMenu = new MainMenu();
-        stage.setScene(mainMenu.getScene());
+    public static void setMenuScene() {
+        MenuScene menuScene = new MenuScene();
+        stage.setScene(menuScene.getScene());
     }
 
     /**
@@ -80,9 +81,9 @@ public class StageInitializer {
     /**
      * Sets the scene of the stage as the search scene where the user can search through its pictures
      */
-    static void setSearchScene() {
-	    Search search = new Search();
-        stage.setScene(search.getScene());
+    static void setPhotosScene() {
+	    PhotosScene photosScene = new PhotosScene();
+        stage.setScene(photosScene.getScene());
     }
 
     /**
@@ -90,18 +91,18 @@ public class StageInitializer {
      * The scene where the user can view it's albums, and create new ones
      */
 	static void setAlbumsScene() {
-		Albums albums = new Albums();
-		stage.setScene(albums.getScene());
+		AlbumsScene albumsScene = new AlbumsScene();
+		stage.setScene(albumsScene.getScene());
 	}
 
     /**
      * Sets the scene of the stage as the album scene.
      * The scene where the user can view a album, and generate a pdf of it
      */
-    static void setAlbumScene(Album album){
-        AlbumScene albumScene = new AlbumScene();
-        albumScene.setup(album);
-        stage.setScene(albumScene.getScene());
+    static void setAlbumDetailsScene(Album album){
+        AlbumDetailsScene albumDetailsScene = new AlbumDetailsScene();
+        albumDetailsScene.setup(album);
+        stage.setScene(albumDetailsScene.getScene());
     }
 
     /**

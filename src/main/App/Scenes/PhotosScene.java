@@ -1,6 +1,6 @@
 package Scenes;
 
-import Components.ActionPopup;
+import Components.PopupWindow;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
@@ -24,7 +24,7 @@ import javafx.stage.Screen;
 /**
  * Class for the Search scene
  */
-class Search extends SceneBuilder {
+class PhotosScene extends SceneBuilder {
   private ArrayList<Photo> photoList = new ArrayList<>();
   private ScrollPane scrollPane = new ScrollPane();
   private VBox scrollPaneVBox = new VBox();
@@ -38,23 +38,22 @@ class Search extends SceneBuilder {
   private Button deleteButton = new Button("Delete selected photos");
   private Label feedbackLabel = new Label();
 
-
   /**
-   * Sets up the search scene and adds all the users photos to the photo list
+   * Sets up the photos scene and adds all the users photos to the photo list
    */
-  Search(){
+  PhotosScene(){
     super();
     photoList.addAll(UserInfo.getUser().getPhotos());
     this.setLayout();
   }
 
   /**
-   * Sets up the layout of the search scene overrides the setlayout method of scenbuilder
+   * Sets up the layout of the photos scene overrides the setLayout method of SceneBuilder
    */
   @Override
   void setLayout(){
     super.setLayout();
-    super.setPageTitle("Search");
+    super.setPageTitle("Photos");
     setupImagesInAScrollPane();
     setupSearchBar();
     setupAlbumButtons();
@@ -155,11 +154,9 @@ class Search extends SceneBuilder {
    * Method that creates the popup that can create albums and creates the action popup
    */
   private void createNewAlbumButtonPressed() {
-    ActionPopup ap = new ActionPopup(500,100);
-
-    ap.getDialogWindow().setTitle("Add to Album");
-
-    ap.getDialogText().setText("Please select the name of the album: ");
+    PopupWindow popupWindow = new PopupWindow(500,100);
+    popupWindow.getDialogWindow().setTitle("Add to Album");
+    popupWindow.getDialogText().setText("Please select the name of the album: ");
 
     setupChoiceBox();
     Css.setChoiceBoxAlbums(choiceBox);
@@ -168,10 +165,10 @@ class Search extends SceneBuilder {
     Css.setButton(500,20,17,addAlbum);
     addAlbum.setOnAction(e -> {
       updateUser(choiceBox.getValue());
-      ap.getDialogWindow().close();
+      popupWindow.getDialogWindow().close();
     });
 
-    ap.getDialogHBox().getChildren().addAll(choiceBox, addAlbum);
+    popupWindow.getDialogHBox().getChildren().addAll(choiceBox, addAlbum);
   }
 
   /**

@@ -1,4 +1,4 @@
-package Scenes;
+package Components;
 
 import Components.UserInfo;
 import Css.Css;
@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
 /**
  * Class that creates the header of the application
  */
-class Header {
+public class Header {
     private static final Image logo = new Image("file:src/main/App/Images/Logo.png", 80, 80, true, true);
     private static final ImageView logoView = new ImageView(logo);
     private static final Label picturerama = new Label("Picturerama");
@@ -28,9 +28,9 @@ class Header {
     /**
      * Constructor that sets up the header of the application
      */
-    Header() {
+    public Header() {
         if(UserInfo.getUser() != null) {
-            homeButton.setOnAction(e -> Scenes.StageInitializer.setMainMenuScene());
+            homeButton.setOnAction(e -> Scenes.StageInitializer.setMenuScene());
         }else{
             homeButton.setOnAction(e -> Scenes.StageInitializer.setLoginScene());
         }
@@ -38,12 +38,12 @@ class Header {
         this.setHBox();
     }
 
-    static HBox getHBox() {
+    public static HBox getHBox() {
         return hBox;
     }
 
-    void setPageTitle(String newTitle) {
-        this.pageTitle.setText("- "+newTitle);
+    public void setPageTitle(String newTitle) {
+        this.pageTitle.setText("- " + newTitle);
     }
 
     /**

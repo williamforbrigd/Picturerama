@@ -1,6 +1,6 @@
 package Scenes;
 
-import Components.ActionPopup;
+import Components.PopupWindow;
 import Components.PDFcreator;
 import Components.PhotoContainer;
 import Components.UserInfo;
@@ -24,9 +24,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- * Class for the album scene, which shows all the pictures in an album.
+ * Class for the album details scene, which shows all the pictures in an album.
  */
-class AlbumScene extends SceneBuilder {
+class AlbumDetailsScene extends SceneBuilder {
   private VBox scrollPaneVBox = new VBox();
   private ScrollPane scrollPane = new ScrollPane();
   private Button pdfButton = new Button("Generate PDF Album");
@@ -39,15 +39,15 @@ class AlbumScene extends SceneBuilder {
   private ArrayList<PhotoContainer> containers = new ArrayList<>();
 
   /**
-   * Album scene constructor, uses SceneBuilder constructor to create an object of the album scene class
+   * Album details scene constructor, uses SceneBuilder constructor to create an object of the album details scene class
    */
-  public AlbumScene() {
+  AlbumDetailsScene() {
     super();
     this.setLayout();
   }
 
   /**
-   * Sets up the layout of the album scene, overrides the setlayout method of scenebuilder
+   * Sets up the layout of the album details scene, overrides the setlayout method of scenebuilder
    */
   @Override
   void setLayout() {
@@ -79,14 +79,14 @@ class AlbumScene extends SceneBuilder {
    * Method that is ran when clicking the generate pdf button and sets up the action popup
    */
   private void generatePdfPressed() {
-    ActionPopup ap = new ActionPopup(500,150);
+    PopupWindow popupWindow = new PopupWindow(500,150);
 
-    ap.getDialogWindow().setTitle("Download album");
+    popupWindow.getDialogWindow().setTitle("Download album");
 
     dialogFeedBackLabel = new Label();
     Css.setFeedBackLabel(FeedBackType.Error,13, dialogFeedBackLabel);
 
-    ap.getDialogText().setText("Save location: ");
+    popupWindow.getDialogText().setText("Save location: ");
 
     saveLocation.setPromptText("Save location");
     Css.setTextField(700,20,17,saveLocation);
@@ -98,7 +98,7 @@ class AlbumScene extends SceneBuilder {
 
     fileExplorer.setOnAction(s -> {
       try {
-        this.setSaveLocation(System.getProperty("user.home"), ap.getDialogWindow());
+        this.setSaveLocation(System.getProperty("user.home"), popupWindow.getDialogWindow());
       } catch (Exception e) {
         dialogFeedBackLabel.setText("Could not retrieve image from file explorer");
         saveLocation.clear();
@@ -109,11 +109,11 @@ class AlbumScene extends SceneBuilder {
     downloadPdf.setOnAction(e -> {
       generatePDF(saveLocation.getText());
       saveLocation.clear();
-      ap.getDialogWindow().close();
+      popupWindow.getDialogWindow().close();
     });
 
-    ap.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
-    ap.getDialogVbox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
+    popupWindow.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
+    popupWindow.getDialogVbox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
   }
 
   /**
