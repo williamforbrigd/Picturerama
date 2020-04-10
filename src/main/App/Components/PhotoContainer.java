@@ -61,7 +61,7 @@ public class PhotoContainer {
      * @param photo a photo object
      */
     private void setupPhotoContainer(Photo photo) {
-        image = new Image(photo.getUrl(), 150, 150, true, true);
+        image = new Image(photo.getUrl(), 150, 150, true, true, true);
         imageView = new ImageView(image);
 
         photoButton = new Button(photo.getTitle(), imageView);

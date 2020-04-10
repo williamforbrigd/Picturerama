@@ -132,7 +132,7 @@ public class PhotoViewer {
     });
     closeButton.setOnAction(e -> updateDatabaseAndClose());
 
-    ImageView imageView = new ImageView(new Image(photo.getUrl(), 255, 255, true, true));
+    ImageView imageView = new ImageView(new Image(photo.getUrl(), 255, 255, true, true, true));
 
     //Adding child nodes to parent nodes
     AnchorPane.setLeftAnchor(imageInfoContainer, 10.0);
