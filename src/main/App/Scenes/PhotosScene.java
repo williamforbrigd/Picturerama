@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.FileLogger;
 import Components.PopupWindow;
 import Components.PhotoContainer;
 import Components.UserInfo;
@@ -9,6 +10,8 @@ import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
 import Database.HibernateClasses.Tags;
+import java.util.Optional;
+import java.util.logging.Level;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -26,11 +29,11 @@ import java.util.stream.Collectors;
  * Class for the Search scene
  */
 class PhotosScene extends SceneBuilder {
-  private ArrayList<Photo> photoList = new ArrayList<>();
+  private List<Photo> photoList = new ArrayList<>();
   private ScrollPane scrollPane = new ScrollPane();
   private VBox scrollPaneVBox = new VBox();
-  private ArrayList<CheckBox> checkBoxArrayList = new ArrayList<>();
-  private ArrayList<PhotoContainer> photoContainerList = new ArrayList<>();
+  private List<CheckBox> checkBoxArrayList = new ArrayList<>();
+  private List<PhotoContainer> photoContainerList = new ArrayList<>();
   private TextField searchTextField = new TextField();
   private HBox selectAllHBox = new HBox();
   private CheckBox selectAllCheckBox = new CheckBox();
@@ -84,7 +87,7 @@ class PhotosScene extends SceneBuilder {
     if (!photoList.isEmpty()) {
       photoList.forEach(photo -> {
         PhotoContainer photoContainer = new PhotoContainer(photo);
-        scrollPaneVBox.getChildren().add(photoContainer.getPhotoContainer());
+        scrollPaneVBox.getChildren().add(photoContainer.getPhotoContainerHBox());
         photoContainerList.add(photoContainer);
         checkBoxArrayList.add(photoContainer.getCheckBox());
       });
@@ -142,17 +145,17 @@ class PhotosScene extends SceneBuilder {
    */
   private void filter(){
     scrollPaneVBox.getChildren().clear();
-    if(searchTextField.getText().trim().equals("")){
-      photoContainerList.forEach(child -> scrollPaneVBox.getChildren().add(child.getPhotoContainer()));
+    if (searchTextField.getText().trim().equals("")) {
+      photoContainerList.forEach(child -> scrollPaneVBox.getChildren().add(child.getPhotoContainerHBox()));
     } else {
       photoContainerList.forEach(container -> {
-        if(container.getPhoto().getTitle().toLowerCase().contains(searchTextField.getText().trim().toLowerCase())) {
-          scrollPaneVBox.getChildren().add(container.getPhotoContainer());
+        if (container.getPhoto().getTitle().toLowerCase().contains(searchTextField.getText().trim().toLowerCase())) {
+          scrollPaneVBox.getChildren().add(container.getPhotoContainerHBox());
         } else {
           String textInput = searchTextField.getText().trim().toLowerCase().replaceAll(" ","");
           String[] multipleTags = textInput.split(",");
           if (getPhotoTags(container.getPhoto()).containsAll(Arrays.asList(multipleTags))) {
-            scrollPaneVBox.getChildren().add(container.getPhotoContainer());
+            scrollPaneVBox.getChildren().add(container.getPhotoContainerHBox());
           }
         }
       });
@@ -213,14 +216,14 @@ class PhotosScene extends SceneBuilder {
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
     if (checkedPhoto.isEmpty()) {
       feedbackLabel.setText("Unsuccessful: No photos were chosen");
-      Css.playFeedBackLabelTransition(FeedBackType.Error, 13, feedbackLabel);
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
     } else if (album == null) {
       feedbackLabel.setText("Unsuccessful: No album were chosen");
-      Css.playFeedBackLabelTransition(FeedBackType.Error, 13, feedbackLabel);
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
     } else {
       checkedPhoto.forEach(s -> s.addAlbum(album));
       feedbackLabel.setText("Added to " + albumName);
-      Css.playFeedBackLabelTransition(FeedBackType.Successful, 13, feedbackLabel);
+      Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, 13, feedbackLabel);
     }
     Hibernate.updateUser(UserInfo.getUser());
   }
@@ -232,21 +235,33 @@ class PhotosScene extends SceneBuilder {
     ArrayList<Photo> selectedPhotos = getCheckedPhotos();
     if(selectedPhotos.isEmpty()){
       feedbackLabel.setText("Unsuccessful: No photos were chosen");
-      Css.playFeedBackLabelTransition(FeedBackType.Error, 13, feedbackLabel);
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
     }
     else {
-      selectedPhotos.forEach(photo -> {
-        photo.getAlbums().forEach(album -> {
-          album.getPhotos().remove(photo);
-        });
-        UserInfo.getUser().getPhotos().remove(photo);
-        PhotoContainer photoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
-        photoContainer.getCheckBox().setSelected(false);
-        scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
-      });
+      boolean successfulDeleteSelectedPhotos = true;
+      for(Photo photo : selectedPhotos){
+        Optional<PhotoContainer> optionalPhotoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny();
+        if (optionalPhotoContainer.isPresent()) {
+          photo.getAlbums().forEach(album -> album.getPhotos().remove(photo));
+          UserInfo.getUser().getPhotos().remove(photo);
+          PhotoContainer photoContainer = optionalPhotoContainer.get();
+          photoContainer.getCheckBox().setSelected(false);
+          scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainerHBox());
+        } else {
+          //If one of the pictures were not successfully deleted, then the operation was not successful
+          successfulDeleteSelectedPhotos = false;
+          FileLogger.getLogger().log(Level.FINE, "Photo: {0} is not present in the list containers",photo);
+          FileLogger.closeHandler();
+        }
+      }
       Hibernate.updateUser(UserInfo.getUser());
-      feedbackLabel.setText("Deleted successfully");
-      Css.playFeedBackLabelTransition(FeedBackType.Successful, 13, feedbackLabel);
+      if (successfulDeleteSelectedPhotos) {
+        feedbackLabel.setText("Deleted successfully");
+        Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, 13, feedbackLabel);
+      }else {
+        feedbackLabel.setText("One or more photos could not be deleted");
+        Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
+      }
     }
   }
 

@@ -28,10 +28,10 @@ public class UserInfo {
   /**
    * Method that runs on login, updates UserInfo.user variable
    *
-   * @param dbuser takes the user object from the database in order to recognize the correct user
+   * @param dbUser takes the user object from the database in order to recognize the correct user
    */
-  public static void initializeUser(User dbuser) {
-      user = dbuser;
+  public static void initializeUser(User dbUser) {
+      user = dbUser;
   }
 
   /**

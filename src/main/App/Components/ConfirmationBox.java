@@ -1,6 +1,5 @@
 package Components;
 
-import Components.PopupWindow;
 import javafx.scene.control.Button;
 import Css.Css;
 
@@ -18,7 +17,7 @@ public class ConfirmationBox {
     }
 
     /**
-     * Creates thes the confirmation box and displays it
+     * Creates the confirmation box and displays it
      * @param title the title of the conformation box
      * @param message the massage that the confirmation box is going to display
      * @return the answer of the confirmation box
@@ -44,7 +43,7 @@ public class ConfirmationBox {
 
         dialogWindow.getDialogWindow().setTitle(title);
         dialogWindow.getDialogText().setText(message);
-        dialogWindow.getDialogVbox().getChildren().addAll(yesButton,noButton);
+        dialogWindow.getDialogVBox().getChildren().addAll(yesButton,noButton);
 
         dialogWindow.getDialogWindow().showAndWait();
 

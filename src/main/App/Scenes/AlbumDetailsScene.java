@@ -1,5 +1,6 @@
 package Scenes;
 
+import Components.FileLogger;
 import Components.PopupWindow;
 import Components.PDFcreator;
 import Components.PhotoContainer;
@@ -12,7 +13,10 @@ import Database.HibernateClasses.Photo;
 import java.awt.Desktop;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -36,7 +40,7 @@ class AlbumDetailsScene extends SceneBuilder {
   private String albumName;
   private TextField saveLocation = new TextField();
   private Label dialogFeedBackLabel;
-  private ArrayList<PhotoContainer> containers = new ArrayList<>();
+  private List<PhotoContainer> containers = new ArrayList<>();
 
   /**
    * Album details scene constructor, uses SceneBuilder constructor to create an object of the album details scene class
@@ -70,7 +74,7 @@ class AlbumDetailsScene extends SceneBuilder {
     scrollPane.setContent(scrollPaneVBox);
     scrollPane.setStyle("-fx-background-color:transparent;");
     scrollPane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
-    scrollPaneVBox.setStyle("-fx-background-color: transparent");
+    scrollPaneVBox.setStyle("-fx-background-color: transparent;");
     scrollPane.fitToWidthProperty().set(true);
     scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
   }
@@ -84,7 +88,7 @@ class AlbumDetailsScene extends SceneBuilder {
     popupWindow.getDialogWindow().setTitle("Download album");
 
     dialogFeedBackLabel = new Label();
-    Css.setFeedBackLabel(FeedBackType.Error,13, dialogFeedBackLabel);
+    Css.setFeedBackLabel(FeedBackType.ERROR, 13, dialogFeedBackLabel);
 
     popupWindow.getDialogText().setText("File location: ");
 
@@ -98,7 +102,7 @@ class AlbumDetailsScene extends SceneBuilder {
     Css.setButton(150,20,17,fileExplorer);
 
     popupWindow.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
-    popupWindow.getDialogVbox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
+    popupWindow.getDialogVBox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
 
     fileExplorer.setOnAction(s -> {
       try {
@@ -109,6 +113,7 @@ class AlbumDetailsScene extends SceneBuilder {
       }
     });
 
+    downloadPdf.setMaxWidth(450);
     downloadPdf.setOnAction(e -> {
       if (saveLocation.getText().trim().length() != 0) {
         generatePDF(saveLocation.getText());
@@ -118,6 +123,9 @@ class AlbumDetailsScene extends SceneBuilder {
         dialogFeedBackLabel.setText("Choose file location before downloading");
       }
     });
+
+    popupWindow.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
+    popupWindow.getDialogVBox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
   }
 
   /**
@@ -134,7 +142,7 @@ class AlbumDetailsScene extends SceneBuilder {
     if (!albumPhotoList.isEmpty()) {
       albumPhotoList.forEach(photo -> {
         PhotoContainer p = new PhotoContainer(photo);
-        scrollPaneVBox.getChildren().add(p.getPhotoContainer());
+        scrollPaneVBox.getChildren().add(p.getPhotoContainerHBox());
         containers.add(p);
       });
     } else {
@@ -163,15 +171,24 @@ class AlbumDetailsScene extends SceneBuilder {
    * @param album the album that the selected photos will be removed from
    */
   private void deleteSelectedPhotos(Album album) {
-    ArrayList<Photo> selectedPhotos = getSelectedPhotos();
-    selectedPhotos.forEach(photo -> {
-      album.getPhotos().remove(photo);
-      PhotoContainer photoContainer = containers.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
-      scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
-    });
-    Hibernate.updateUser(UserInfo.getUser());
     if (albumPhotoList.isEmpty()) {
       showAlbumIsEmpty();
+    } else {
+      ArrayList<Photo> selectedPhotos = getSelectedPhotos();
+      selectedPhotos.forEach(photo -> {
+        Optional<PhotoContainer> optionalPhotoContainer = containers.stream().filter(c -> c.getPhoto().equals(photo)).findAny();
+        if (optionalPhotoContainer.isPresent()) {
+          album.getPhotos().remove(photo);
+          PhotoContainer photoContainer = optionalPhotoContainer.get();
+          scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainerHBox());
+        } else {
+          FileLogger.getLogger().log(Level.FINE, "Photo: " + photo + " is not present in the list containers");
+          FileLogger.closeHandler();
+        }
+      });
+      Hibernate.updateUser(UserInfo.getUser());
+
+
     }
   }
 
@@ -183,9 +200,9 @@ class AlbumDetailsScene extends SceneBuilder {
   private ArrayList<Photo> getSelectedPhotos() {
     ArrayList<Photo> photos = new ArrayList<>();
     containers.forEach(container -> {
-        if (container.getCheckBox().isSelected()) {
-            photos.add(container.getPhoto());
-        }
+      if (container.getCheckBox().isSelected()) {
+        photos.add(container.getPhoto());
+      }
     });
     return photos;
   }

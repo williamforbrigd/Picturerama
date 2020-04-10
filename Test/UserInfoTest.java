@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import Components.Encryptor;
+import Components.Encrypter;
 import Components.UserInfo;
 import Database.HibernateClasses.User;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,12 +12,12 @@ class UserInfoTest {
 
   @BeforeAll
   static void setup(){
-    String encrypted = Encryptor.Encryptor("password", null);
+    String encrypted = Encrypter.encrypt("password", null);
     user = new User();
     user.setUsername("test");
     user.setEmail("test@email.com");
-    user.setHash(Encryptor.getHash(encrypted));
-    user.setSalt(Encryptor.getSalt(encrypted));
+    user.setHash(Encrypter.getHash(encrypted));
+    user.setSalt(Encrypter.getSalt(encrypted));
   }
 
   @Test

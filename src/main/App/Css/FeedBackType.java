@@ -1,7 +1,7 @@
 package Css;
 
 public enum FeedBackType {
-  Error("red"), Successful("green");
+  ERROR("red"), SUCCESSFUL("green");
 
   private String color;
 

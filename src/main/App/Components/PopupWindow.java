@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  */
 public class PopupWindow {
     private Stage dialogWindow;
-    private VBox dialogVbox;
+    private VBox dialogVBox;
     private HBox dialogHBox;
     private Text dialogText;
 
@@ -32,9 +32,9 @@ public class PopupWindow {
         dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
         dialogWindow.setResizable(false);
 
-        dialogVbox = new VBox();
-        dialogVbox.setAlignment(Pos.CENTER);
-        dialogVbox.setSpacing(10);
+        dialogVBox = new VBox();
+        dialogVBox.setAlignment(Pos.CENTER);
+        dialogVBox.setSpacing(10);
 
         dialogText = new Text();
         Css.setText(17,dialogText);
@@ -43,8 +43,8 @@ public class PopupWindow {
         dialogHBox.setPadding(new Insets(10,10,10,10));
         dialogHBox.setSpacing(10);
 
-        dialogVbox.getChildren().addAll(dialogText, dialogHBox);
-        Scene dialogScene = new Scene(dialogVbox, width, height);
+        dialogVBox.getChildren().addAll(dialogText, dialogHBox);
+        Scene dialogScene = new Scene(dialogVBox, width, height);
         dialogWindow.setScene(dialogScene);
         dialogWindow.show();
     }
@@ -53,8 +53,8 @@ public class PopupWindow {
         return dialogWindow;
     }
 
-    public VBox getDialogVbox() {
-        return dialogVbox;
+    public VBox getDialogVBox() {
+        return dialogVBox;
     }
 
     public HBox getDialogHBox() {

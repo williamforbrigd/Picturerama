@@ -99,7 +99,7 @@ class SignupScene extends SceneBuilder {
                     }
                     else{
                         signupFeedbackLabel.setText("Error: This username is already taken");
-                        Css.setFeedBackLabel(FeedBackType.Error,13, signupFeedbackLabel);
+                        Css.setFeedBackLabel(FeedBackType.ERROR,13, signupFeedbackLabel);
                         loadingAnimation.setVisible(false);
                     }
                 }
@@ -108,7 +108,7 @@ class SignupScene extends SceneBuilder {
                 }
             } catch (ExceptionInInitializerError error) {
                 signupFeedbackLabel.setText("Error: Could not connect to database");
-                Css.setFeedBackLabel(FeedBackType.Error, 13, signupFeedbackLabel);
+                Css.setFeedBackLabel(FeedBackType.ERROR, 13, signupFeedbackLabel);
                 loadingAnimation.setVisible(false);
                 FileLogger.getLogger().log(Level.FINE,error.getMessage());
                 FileLogger.closeHandler();
@@ -193,13 +193,13 @@ class SignupScene extends SceneBuilder {
         //Checks if password, username or email trimmed is equal to 0
         if (passwordField.getText().trim().length() == 0 || usernameField.getText().trim().length() == 0 || emailField.getText().trim().length() == 0) {
             signupFeedbackLabel.setText("Error: Password, username or email are missing");
-            Css.setFeedBackLabel(FeedBackType.Error,13, signupFeedbackLabel);
+            Css.setFeedBackLabel(FeedBackType.ERROR,13, signupFeedbackLabel);
             return false;
         }
         //Checks if password is shorter than 8 characters
         if (passwordField.getText().length() < 8) {
             signupFeedbackLabel.setText("Error: Password needs to contain 8 characters");
-            Css.setFeedBackLabel(FeedBackType.Error,13, signupFeedbackLabel);
+            Css.setFeedBackLabel(FeedBackType.ERROR,13, signupFeedbackLabel);
             return false;
         }
         //Checks username for illegal characters
@@ -208,7 +208,7 @@ class SignupScene extends SceneBuilder {
                 if (!Character.isLetter(usernameField.getText().charAt(i)) &&
                         !Character.isDigit(usernameField.getText().charAt(i))) {
                     signupFeedbackLabel.setText("Error: Username contains illegal character");
-                    Css.setFeedBackLabel(FeedBackType.Error,13, signupFeedbackLabel);
+                    Css.setFeedBackLabel(FeedBackType.ERROR,13, signupFeedbackLabel);
                     return false;
                 }
             }
@@ -219,7 +219,7 @@ class SignupScene extends SceneBuilder {
                 if (!Character.isLetter(passwordField.getText().charAt(i)) &&
                         !Character.isDigit(passwordField.getText().charAt(i))) {
                     signupFeedbackLabel.setText("Error: Password contains illegal character");
-                    Css.setFeedBackLabel(FeedBackType.Error,13, signupFeedbackLabel);
+                    Css.setFeedBackLabel(FeedBackType.ERROR,13, signupFeedbackLabel);
                     return false;
                 }
             }
@@ -227,18 +227,18 @@ class SignupScene extends SceneBuilder {
         //Checks confirmpassword and password match
         if (!passwordField.getText().equals(confirmPasswordField.getText())) {
             signupFeedbackLabel.setText("Error: Your passwords don't match");
-            Css.setFeedBackLabel(FeedBackType.Error,13, signupFeedbackLabel);
+            Css.setFeedBackLabel(FeedBackType.ERROR,13, signupFeedbackLabel);
             return false;
         }
         //Checks if email contains "@" and "."
         if (!emailField.getText().contains("@") || !emailField.getText().contains(".")) {
             signupFeedbackLabel.setText("Error: This email is not valid");
-            Css.setFeedBackLabel(FeedBackType.Error,13, signupFeedbackLabel);
+            Css.setFeedBackLabel(FeedBackType.ERROR,13, signupFeedbackLabel);
             return false;
         }
 
         signupFeedbackLabel.setText("You have been signed up!");
-        Css.setFeedBackLabel(FeedBackType.Successful,13, signupFeedbackLabel);
+        Css.setFeedBackLabel(FeedBackType.SUCCESSFUL,13, signupFeedbackLabel);
         return true;
     }
 

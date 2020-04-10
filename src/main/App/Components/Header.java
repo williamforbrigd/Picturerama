@@ -1,6 +1,5 @@
 package Components;
 
-import Components.UserInfo;
 import Css.Css;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

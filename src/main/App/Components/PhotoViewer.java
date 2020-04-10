@@ -1,7 +1,5 @@
 package Components;
 
-import Components.TagContainer;
-import Components.UserInfo;
 import Css.Css;
 import Css.FeedBackType;
 import Database.Hibernate;
@@ -31,7 +29,9 @@ public class PhotoViewer {
   private Stage stage;
 
   public PhotoViewer(Photo photo) {
-    if (photo == null) throw new NullPointerException();
+    if (photo == null) {
+      throw new NullPointerException();
+    }
     this.photo = photo;
     this.stage = setup();
   }
@@ -50,24 +50,24 @@ public class PhotoViewer {
 
     Label photoTitleLabel = new Label();
     photoTitleLabel.setText(photo.getTitle());
-    Css.setLabel(30,photoTitleLabel);
+    Css.setLabel(30, photoTitleLabel);
     Label metadataLabel = new Label();
     metadataLabel.setText(photo.toString());
     Css.setLabel(12, metadataLabel);
     Label tagLabel = new Label("Tags:");
-    tagLabel.setPadding(new Insets(10,0,0,0));
+    tagLabel.setPadding(new Insets(10, 0, 0, 0));
     Label addTagLabel = new Label("Add a tag to picture:");
     Css.setLabel(15, tagLabel, addTagLabel);
     Label feedbackLabel = new Label();
-    Css.setFeedBackLabel(FeedBackType.Error, 13, feedbackLabel);
+    Css.setFeedBackLabel(FeedBackType.ERROR, 13, feedbackLabel);
 
     TextField tagField = new TextField();
     tagField.setPromptText("Tag name");
-    Css.setTextField(150,10,14, tagField);
+    Css.setTextField(150, 10, 14, tagField);
 
     Button addTagButton = new Button("Add tag");
     Button closeButton = new Button("Close");
-    Css.setButton(582,25,20, addTagButton, closeButton);
+    Css.setButton(582, 25, 20, addTagButton, closeButton);
 
     AnchorPane layout = new AnchorPane();
     VBox bottomContainer = new VBox();
@@ -148,11 +148,12 @@ public class PhotoViewer {
 
   /**
    * Sets the up the buttons of a tag container
+   *
    * @param tagContainerObject is the tag container that is being setup
    */
   private void setButtonFunctionality(TagContainer tagContainerObject) {
     //Programs the delete button each tag to remove the tag
-    tagContainerObject.getDeleteTag().setOnAction(e -> {
+    tagContainerObject.getDeleteTagButton().setOnAction(e -> {
       photo.getTags().removeIf(t -> t.getTag().equals(tagContainerObject.getTagAsString()));
       tagContainer.getChildren().removeIf(t -> t.equals(tagContainerObject.getContainer()));
     });

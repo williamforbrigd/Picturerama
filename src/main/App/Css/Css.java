@@ -22,11 +22,11 @@ public class Css {
     private static final String BOX_BACKGROUND_COLOR = "WHITE";
     private static final String BOX_BACKGROUND_COLOR_HOVER = "#00000022";
     private static final String FONT = "Montserrat";
-    private static final String PANE_STYLE = "-fx-padding: 4;-fx-border-style: solid inside;-fx-border-width: " + BORDER_WIDTH + "; -fx-border-radius: " + BORDER_RADIUS + ";-fx-border-color: " + BORDER_COLOR_LIGHT + "; -fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-background-radius: " + BORDER_RADIUS + ";";
+    private static final String PANE_STYLE = "-fx-padding: 4;-fx-border-style: solid inside;-fx-border-width: " + BORDER_WIDTH + ";-fx-border-radius: " + BORDER_RADIUS + ";-fx-border-color: " + BORDER_COLOR_LIGHT + ";-fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-background-radius: " + BORDER_RADIUS + ";";
     private static final String BUTTON_STYLE = "-fx-border-style:solid inside;-fx-border-width: " + BORDER_WIDTH + ";-fx-border-radius: " + BORDER_RADIUS + "; -fx-border-color: " + BORDER_COLOR_LIGHT + "; -fx-background-radius: " + BORDER_RADIUS + ";-fx-background-insets: 0;";
     private static final String UN_HOVERED_BUTTON_STYLE = "-fx-background-color: " + BOX_BACKGROUND_COLOR + ";";
     private static final String HOVERED_BUTTON_STYLE = "-fx-background-color: " + BOX_BACKGROUND_COLOR_HOVER + ";-fx-cursor: hand;";
-    private static final String TEXTFIELD_STYLE = "-fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-border-color: " + BORDER_COLOR_DARK + "; -fx-border-radius: " + BORDER_RADIUS + ";-fx-background-radius: " + BORDER_RADIUS + ";";
+    private static final String TEXTFIELD_STYLE = "-fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-border-color: " + BORDER_COLOR_DARK + ";-fx-border-radius: " + BORDER_RADIUS + ";-fx-background-radius: " + BORDER_RADIUS + ";";
 
     /**
      * Private constructor to hinder creation of utility class
@@ -104,11 +104,11 @@ public class Css {
      * @param container a HBox
      */
     public static void setImageContainer(Button button, HBox container) {
-        String IMAGE_BUTTON_STYLE = "-fx-background-radius: " + BORDER_RADIUS + " 0px 0px " + BORDER_RADIUS + ";";
-        button.setStyle(IMAGE_BUTTON_STYLE + UN_HOVERED_BUTTON_STYLE);
+        String imageButtonStyle = "-fx-background-radius: " + BORDER_RADIUS + " 0px 0px " + BORDER_RADIUS + ";";
+        button.setStyle(imageButtonStyle + UN_HOVERED_BUTTON_STYLE);
         container.setStyle(PANE_STYLE + "-fx-padding: 0; -fx-border-insets: 1; -fx-background-insets: 1");
-        button.setOnMouseExited(action -> button.setStyle(IMAGE_BUTTON_STYLE + UN_HOVERED_BUTTON_STYLE));
-        button.setOnMouseEntered(action -> button.setStyle(IMAGE_BUTTON_STYLE + HOVERED_BUTTON_STYLE));
+        button.setOnMouseExited(action -> button.setStyle(imageButtonStyle + UN_HOVERED_BUTTON_STYLE));
+        button.setOnMouseEntered(action -> button.setStyle(imageButtonStyle + HOVERED_BUTTON_STYLE));
         button.setAlignment(Pos.CENTER_LEFT);
         button.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
         button.setMinHeight(160);
@@ -150,7 +150,7 @@ public class Css {
         choiceBox.setPrefHeight(20);
         choiceBox.setPrefWidth(700);
         choiceBox.setStyle("-fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-border-color: " + BORDER_COLOR_DARK + ";" +
-                "-fx-border-radius: " + BORDER_RADIUS + ";-fx-background-radius: " + BORDER_RADIUS + ";");
+            "-fx-border-radius: " + BORDER_RADIUS + ";-fx-background-radius: " + BORDER_RADIUS + ";");
     }
 
     /**

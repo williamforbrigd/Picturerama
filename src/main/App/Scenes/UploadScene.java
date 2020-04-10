@@ -62,7 +62,8 @@ class UploadScene extends SceneBuilder {
             result.put( "api_key", prop.getProperty("cloudinary_api_key"));
             result.put( "api_secret", prop.getProperty("cloudinary_api_secret"));
         } catch (IOException ex) {
-            ex.printStackTrace();
+            FileLogger.getLogger().log(Level.FINE, ex.getMessage());
+            FileLogger.closeHandler();
         }
         return result;
     }
@@ -126,7 +127,7 @@ class UploadScene extends SceneBuilder {
     private boolean checkField() {
         if (titleField.getText().trim().length() == 0 || urlField.getText().trim().length() == 0) {
             feedbackLabel.setText("Title or URL are missing");
-            Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
+            Css.setFeedBackLabel(FeedBackType.ERROR,13,feedbackLabel);
             return false;
         }
         return true;
@@ -147,7 +148,7 @@ class UploadScene extends SceneBuilder {
                         Cloudinary cloudinary = new Cloudinary(getProperties());
                         File file = new File(urlField.getText());
                         Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-                        photo_url = (String) uploadResult.get("url");
+                        photo_url =  uploadResult.get("url").toString();
                     }else {
                         photo_url = urlField.getText();
                     }
@@ -156,15 +157,15 @@ class UploadScene extends SceneBuilder {
                     Hibernate.updateUser(UserInfo.getUser());
                     titleField.clear();
                     urlField.clear();
-                    Css.setFeedBackLabel(FeedBackType.Successful,13,feedbackLabel);
+                    Css.setFeedBackLabel(FeedBackType.SUCCESSFUL,13,feedbackLabel);
                     feedbackLabel.setText(photo.getTitle() + " was stored");
                 } catch (IOException ex) {
-                    Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
+                    Css.setFeedBackLabel(FeedBackType.ERROR,13,feedbackLabel);
                     feedbackLabel.setText("Something went wrong when retrieving the image from the url.");
                     FileLogger.getLogger().log(Level.FINE,ex.getMessage());
                     FileLogger.closeHandler();
                 } catch (NullPointerException ex) {
-                    Css.setFeedBackLabel(FeedBackType.Error,13,feedbackLabel);
+                    Css.setFeedBackLabel(FeedBackType.ERROR,13,feedbackLabel);
                     feedbackLabel.setText("Something went wrong when analyzing the image.");
                     FileLogger.getLogger().log(Level.FINE,ex.getMessage());
                     FileLogger.closeHandler();

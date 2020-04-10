@@ -19,10 +19,10 @@ public class PhotoContainer {
     private ImageView imageView;
     private CheckBox checkBox;
     private Button photoButton;
-    private HBox photoContainer;
+    private HBox photoContainerHBox;
 
     /**
-     * Constructor that takes a photo object and initializes the photocontainer with that photo in it
+     * Constructor that takes a photo object and initializes the photo container with the photo in it
      *
      * @param photo a photo object
      */
@@ -51,8 +51,8 @@ public class PhotoContainer {
         return photoButton;
     }
 
-    public HBox getPhotoContainer() {
-        return photoContainer;
+    public HBox getPhotoContainerHBox() {
+        return photoContainerHBox;
     }
 
     /**
@@ -70,11 +70,11 @@ public class PhotoContainer {
             photoViewer.display();
         });
         setupContainerCheckBox();
-        photoContainer = new HBox(photoButton, checkBox);
-        photoContainer.getStylesheets().add("file:src/main/App/Css/CheckBoxStyle.css");
-        photoContainer.setSpacing(10);
-        photoContainer.setAlignment(Pos.CENTER_LEFT);
-        Css.setImageContainer(photoButton, photoContainer);
+        photoContainerHBox = new HBox(photoButton, checkBox);
+        photoContainerHBox.getStylesheets().add("file:src/main/App/Css/CheckBoxStyle.css");
+        photoContainerHBox.setSpacing(10);
+        photoContainerHBox.setAlignment(Pos.CENTER_LEFT);
+        Css.setImageContainer(photoButton, photoContainerHBox);
     }
 
     /**
