@@ -30,6 +30,7 @@ public class PopupWindow {
         dialogWindow = new Stage();
         dialogWindow.initModality(Modality.APPLICATION_MODAL);
         dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
+        dialogWindow.setResizable(false);
 
         dialogVbox = new VBox();
         dialogVbox.setAlignment(Pos.CENTER);

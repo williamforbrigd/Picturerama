@@ -120,7 +120,7 @@ public class StageInitializer {
      */
     //No access modifier to make it available in the package
     private static void closeProgram(){
-        boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit");
+        boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit?");
         if(close) {
             stage.close();
             Hibernate.getEm().clear();
