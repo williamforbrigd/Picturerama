@@ -12,11 +12,14 @@ import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
+
+import com.itextpdf.text.DocumentException;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -102,14 +105,11 @@ class AlbumDetailsScene extends SceneBuilder {
     Css.setButton(480,20,17, downloadPdf);
     Css.setButton(150,20,17,fileExplorer);
 
-    popupWindow.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
-    popupWindow.getDialogVBox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
 
     fileExplorer.setOnAction(s -> {
       try {
         this.setSaveLocation(System.getProperty("user.home"), popupWindow.getDialogWindow());
       } catch (Exception e) {
-        dialogFeedBackLabel.setText("Could not retrieve image from file explorer");
         saveLocation.clear();
       }
     });
@@ -224,7 +224,7 @@ class AlbumDetailsScene extends SceneBuilder {
    * @param saveLocation is the location that the user wanted the pdf saved to
    */
   private void generatePDF(String saveLocation) {
-    ArrayList<Photo> photos = new ArrayList<>();
+    List<Photo> photos = new ArrayList<>();
     photos.addAll(this.albumPhotoList);
     String saveLink = saveLocation + "/" + albumName + ".pdf";
     try {
@@ -233,8 +233,15 @@ class AlbumDetailsScene extends SceneBuilder {
       if (pdfFile.exists() && Desktop.isDesktopSupported()) {
         Desktop.getDesktop().open(pdfFile);
       }
-    } catch (Exception ignored) {
-      //TODO handle this exception
+    } catch (DocumentException e) {
+      FileLogger.getLogger().log(Level.FINE, e.getMessage());
+      FileLogger.closeHandler();
+      dialogFeedBackLabel.setText("Could not create a PDF");
+
+    }catch (IOException e) {
+      FileLogger.getLogger().log(Level.FINE, e.getMessage());
+      FileLogger.closeHandler();
+      dialogFeedBackLabel.setText("Could not retrieve images");
     }
   }
 }
