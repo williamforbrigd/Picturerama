@@ -79,22 +79,26 @@ class AlbumDetailsScene extends SceneBuilder {
    * Method that is ran when clicking the generate pdf button and sets up the action popup
    */
   private void generatePdfPressed() {
-    PopupWindow popupWindow = new PopupWindow(500,150);
+    PopupWindow popupWindow = new PopupWindow(500,200);
 
     popupWindow.getDialogWindow().setTitle("Download album");
 
     dialogFeedBackLabel = new Label();
     Css.setFeedBackLabel(FeedBackType.Error,13, dialogFeedBackLabel);
 
-    popupWindow.getDialogText().setText("Save location: ");
+    popupWindow.getDialogText().setText("File location: ");
 
-    saveLocation.setPromptText("Save location");
-    Css.setTextField(700,20,17,saveLocation);
+    saveLocation.setPromptText("File location");
+    Css.setTextField(350,20,17,saveLocation);
     saveLocation.setDisable(true);
 
-    Button fileExplorer = new Button("Explore");
+    Button fileExplorer = new Button("Browse");
     Button downloadPdf = new Button("Download");
-    Css.setButton(500,20,17,fileExplorer, downloadPdf);
+    Css.setButton(480,20,17, downloadPdf);
+    Css.setButton(150,20,17,fileExplorer);
+
+    popupWindow.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
+    popupWindow.getDialogVbox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
 
     fileExplorer.setOnAction(s -> {
       try {
@@ -105,15 +109,15 @@ class AlbumDetailsScene extends SceneBuilder {
       }
     });
 
-    downloadPdf.setMaxWidth(450);
     downloadPdf.setOnAction(e -> {
-      generatePDF(saveLocation.getText());
-      saveLocation.clear();
-      popupWindow.getDialogWindow().close();
+      if (saveLocation.getText().trim().length() != 0) {
+        generatePDF(saveLocation.getText());
+        saveLocation.clear();
+        popupWindow.getDialogWindow().close();
+      } else {
+        dialogFeedBackLabel.setText("Choose file location before downloading");
+      }
     });
-
-    popupWindow.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
-    popupWindow.getDialogVbox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
   }
 
   /**
