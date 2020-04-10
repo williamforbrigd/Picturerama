@@ -17,6 +17,8 @@ public class Hibernate {
             Persistence.createEntityManagerFactory("Database", getProperties());
     private static EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 
+    private Hibernate(){throw new IllegalStateException("Utility class");}
+
     /**
      * Sets up the password and username to the database
      * @return a map with the password and username
@@ -238,12 +240,17 @@ public class Hibernate {
     }
 
     /**
-     * Gets entity manager
+     * Gets entity manager or makes a new one if the connection is not open anymore
      *
      * @return the entity manager
      */
     public static EntityManager getEm() {
+        if(!em.isOpen()) {
+            em.close();
+            em = ENTITY_MANAGER_FACTORY.createEntityManager();
+        }
         return em;
+
     }
 
     /**
