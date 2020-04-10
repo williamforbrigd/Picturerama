@@ -12,8 +12,6 @@ import javafx.scene.layout.GridPane;
  */
 abstract class SceneBuilder {
     //Making height and class constants to keep every scene the same size
-    private static final int WIDTH = 900;
-    private static final int HEIGHT = 600;
     private Header header;
 
     //Creating class scene and grid pane
@@ -26,7 +24,7 @@ abstract class SceneBuilder {
      */
     SceneBuilder() {
         this.setGridPane();
-        this.scene = new Scene(borderPane, WIDTH, HEIGHT);
+        this.scene = new Scene(borderPane);
     }
 
     Scene getScene() {

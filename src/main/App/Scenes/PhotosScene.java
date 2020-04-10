@@ -166,7 +166,7 @@ class PhotosScene extends SceneBuilder {
    * Method that creates the popup that can create albums and creates the action popup
    */
   private void createNewAlbumButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(500,100);
+    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(),500,100);
     popupWindow.getDialogWindow().setTitle("Add to Album");
     popupWindow.getDialogText().setText("Please select the name of the album: ");
 

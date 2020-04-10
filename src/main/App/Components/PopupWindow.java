@@ -25,9 +25,10 @@ public class PopupWindow {
      * @param width the width of the popup
      * @param height the height of the popup
      */
-    public PopupWindow(double width, double height){
+    public PopupWindow(Stage owner, double width, double height){
 
         dialogWindow = new Stage();
+        dialogWindow.initOwner(owner);
         dialogWindow.initModality(Modality.APPLICATION_MODAL);
         dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
         dialogWindow.setResizable(false);

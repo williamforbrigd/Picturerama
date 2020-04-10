@@ -139,7 +139,7 @@ public class PhotoViewer {
     AnchorPane.setRightAnchor(imageView, 10.0);
     layout.getChildren().addAll(imageInfoContainer, imageView);
     layout.setPadding(new Insets(30, 10, 10, 10));
-    layout.setStyle("-fx-padding: 10 0 0 0");
+    layout.setStyle("-fx-padding: 10 0 0 0;");
 
     Scene scene = new Scene(layout, 600, 560);
     _stage.setScene(scene);

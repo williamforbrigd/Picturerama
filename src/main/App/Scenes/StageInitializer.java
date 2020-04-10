@@ -33,6 +33,9 @@ public class StageInitializer {
         });
         stage.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
         stage.setTitle("Picturerama");
+        stage.setWidth(900);
+        stage.setHeight(600);
+
         LoginScene loginScene = new LoginScene();
         stage.setScene(loginScene.getScene());
         stage.show();
@@ -47,71 +50,11 @@ public class StageInitializer {
     }
 
     /**
-     * Sets the scene of the stage as the login scene
+     * Sets the scene of the stage
+     * @param scene an object of a subclass of the SceneBuilder class
      */
-    public static void setLoginScene() {
-        LoginScene loginScene = new LoginScene();
-        stage.setScene(loginScene.getScene());
-    }
-
-    /**
-     * Sets the scene of the stage as the sign up scene
-     */
-    static void setSignupScene() {
-        SignupScene signupScene = new SignupScene();
-        stage.setScene(signupScene.getScene());
-    }
-
-    /**
-     * Sets the scene of the stage as the main menu scene
-     */
-    public static void setMenuScene() {
-        MenuScene menuScene = new MenuScene();
-        stage.setScene(menuScene.getScene());
-    }
-
-    /**
-     * Sets the scene of the stage as the upload scene where the user can upload a picture
-     */
-    static void setUploadScene() {
-        UploadScene uploadScene = new UploadScene();
-        stage.setScene(uploadScene.getScene());
-    }
-
-    /**
-     * Sets the scene of the stage as the search scene where the user can search through its pictures
-     */
-    static void setPhotosScene() {
-	    PhotosScene photosScene = new PhotosScene();
-        stage.setScene(photosScene.getScene());
-    }
-
-    /**
-     * Sets the scene of the stage as the albums scene.
-     * The scene where the user can view it's albums, and create new ones
-     */
-	static void setAlbumsScene() {
-		AlbumsScene albumsScene = new AlbumsScene();
-		stage.setScene(albumsScene.getScene());
-	}
-
-    /**
-     * Sets the scene of the stage as the album scene.
-     * The scene where the user can view a album, and generate a pdf of it
-     */
-    static void setAlbumDetailsScene(Album album){
-        AlbumDetailsScene albumDetailsScene = new AlbumDetailsScene();
-        albumDetailsScene.setup(album);
-        stage.setScene(albumDetailsScene.getScene());
-    }
-
-    /**
-     * Sets the scene of the stage as the map scene.
-     * The scene where the user can view a map with pointers of where the uploaded photos was photographed
-     */
-    static void setMapScene(){
-        MapScene mapScene = new MapScene();
-        stage.setScene(mapScene.getScene());
+    public static void setScene(SceneBuilder scene){
+        stage.setScene(scene.getScene());
     }
 
     /**

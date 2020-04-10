@@ -61,7 +61,7 @@ class AlbumsScene extends SceneBuilder {
     try {
       UserInfo.getUser().getAlbums().forEach(album -> {
         Button albumButton = new Button(album.getName());
-        albumButton.setOnAction(e -> StageInitializer.setAlbumDetailsScene(album));
+        albumButton.setOnAction(e -> StageInitializer.setScene(new AlbumDetailsScene(album)));
         albumButtons.add(albumButton);
         Css.setButton(650, 50, 18, albumButton);
         scrollPaneVBox.getChildren().add(albumButton);
@@ -107,7 +107,7 @@ class AlbumsScene extends SceneBuilder {
    * Opens up a new scene where you can create a new album
    */
   private void createNewAlbumButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(500, 100);
+    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(), 500, 100);
 
     popupWindow.getDialogWindow().setTitle("Add Album");
     popupWindow.getDialogText().setText("Please enter the name of the album to be added:");
@@ -150,7 +150,7 @@ class AlbumsScene extends SceneBuilder {
     UserInfo.getUser().getAlbums().add(album);
     Hibernate.updateUser(UserInfo.getUser());
     Button albumButton = new Button(albumName);
-    albumButton.setOnAction(e -> StageInitializer.setAlbumDetailsScene(album));
+    albumButton.setOnAction(e -> StageInitializer.setScene(new AlbumDetailsScene(album)));
     albumButtons.add(albumButton);
     Css.setButton(650, 50, 18, albumButton);
     scrollPaneVBox.getChildren().add(albumButton);
@@ -162,7 +162,7 @@ class AlbumsScene extends SceneBuilder {
    * printed out to the screen containing this information.
    */
   private void deleteButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(500, 100);
+    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(), 500, 100);
     this.setupChoiceBox();
 
     popupWindow.getDialogWindow().setTitle("Delete Album");

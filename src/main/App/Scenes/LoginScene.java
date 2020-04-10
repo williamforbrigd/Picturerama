@@ -13,7 +13,7 @@ import java.util.logging.Level;
 /**
  * Class for the login scene
  */
-class LoginScene extends SceneBuilder {
+public class LoginScene extends SceneBuilder {
   private Label usernameLabel = new Label("Username:");
   private TextField usernameField = new TextField();
   private Label passwordLabel = new Label("Password:");
@@ -26,7 +26,7 @@ class LoginScene extends SceneBuilder {
   /**
    * Login constructor, uses SceneBuilder constructor. To create an object of the Login class
    */
-  LoginScene() {
+  public LoginScene() {
     super();
     this.setLayout();
   }
@@ -58,7 +58,7 @@ class LoginScene extends SceneBuilder {
 
     //Sets functionality for the layout components
     logInButton.setOnAction(e -> login());
-    signUpButton.setOnAction(e -> StageInitializer.setSignupScene());
+    signUpButton.setOnAction(e -> StageInitializer.setScene(new SignupScene()));
 
     super.getScene().setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER) {
@@ -76,7 +76,7 @@ class LoginScene extends SceneBuilder {
     pause.setOnFinished(e -> {
       try {
         if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
-          StageInitializer.setMenuScene();
+          StageInitializer.setScene(new MenuScene());
         } else {
           logInLabel.setText("Log in failed");
           loadingAnimation.setVisible(false);

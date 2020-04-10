@@ -1,5 +1,6 @@
 package Components;
 
+import Scenes.StageInitializer;
 import javafx.scene.control.Button;
 import Css.Css;
 
@@ -23,7 +24,7 @@ public class ConfirmationBox {
      * @return the answer of the confirmation box
      */
     public static boolean display(String title, String message){
-        PopupWindow dialogWindow = new PopupWindow(250,150);
+        PopupWindow dialogWindow = new PopupWindow(StageInitializer.getStage(), 250,150);
         dialogWindow.getDialogWindow().close();
 
         Button yesButton = new Button("Yes");

@@ -81,7 +81,7 @@ public class Hibernate {
       throw new IllegalArgumentException();
     }
     EntityTransaction et = null;
-    boolean isSuccess;
+    boolean isSuccess = false;
     try {
       et = em.getTransaction();
       et.begin();
@@ -92,14 +92,13 @@ public class Hibernate {
       user.setSalt(salt);
       em.persist(user);
       et.commit();
-
+      isSuccess = true;
     } catch (Exception e) {
       if (et != null) {
         et.rollback();
       }
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      isSuccess = false;
     }
     return isSuccess;
   }

@@ -7,7 +7,6 @@
             <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
             <class>Database.HibernateClasses.User</class>
             <class>Database.HibernateClasses.Album</class>
-            <class>Database.HibernateClasses.AlbumPhoto</class>
             <class>Database.HibernateClasses.Photo</class>
             <class>Database.HibernateClasses.Tags</class>
             <properties>

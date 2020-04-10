@@ -1,6 +1,7 @@
 package Components;
 
 import Database.Hibernate;
+import Scenes.LoginScene;
 import Scenes.StageInitializer;
 
 import java.util.logging.Level;
@@ -85,6 +86,6 @@ public class Authentication {
   public static void logout() {
     UserInfo.logOut();
     Hibernate.getEm().clear();
-    StageInitializer.setLoginScene();
+    StageInitializer.setScene(new LoginScene());
   }
 }

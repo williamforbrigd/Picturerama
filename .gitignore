@@ -33,6 +33,7 @@
 **/.idea/dataSources.local.xml
 **/.idea/dataSources.xml
 **/.idea/dataSources/
+**/.idea/jarRepositories.xml
 *.iml
 
 # File-based project format

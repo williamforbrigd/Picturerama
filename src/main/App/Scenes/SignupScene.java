@@ -79,7 +79,7 @@ class SignupScene extends SceneBuilder {
         signUpButton.setOnAction(e -> signup());
         passwordField.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
-        logInButton.setOnAction(e -> StageInitializer.setLoginScene());
+        logInButton.setOnAction(e -> StageInitializer.setScene(new LoginScene()));
 
         super.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
@@ -95,7 +95,7 @@ class SignupScene extends SceneBuilder {
             try {
                 if (feedback()) {
                     if(Authentication.register(usernameField.getText(),passwordField.getText(),emailField.getText())) {
-                        StageInitializer.setLoginScene();
+                        StageInitializer.setScene(new LoginScene());
                     }
                     else{
                         signupFeedbackLabel.setText("Error: This username is already taken");

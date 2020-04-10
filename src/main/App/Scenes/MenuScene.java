@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 /**
  * Class for the menu scene
  */
-class MenuScene extends SceneBuilder {
+public class MenuScene extends SceneBuilder {
 
     private Button uploadButton = new Button("Upload");
     private Button photosButton = new Button("Photos");
@@ -15,7 +15,7 @@ class MenuScene extends SceneBuilder {
     private Button mapButton = new Button("Map");
     private Button logOutButton = new Button("Log out");
 
-    MenuScene() {
+    public MenuScene() {
         super();
         this.setLayout();
     }
@@ -31,10 +31,10 @@ class MenuScene extends SceneBuilder {
 
         Css.setButton(340,100,40, uploadButton, photosButton, albumsButton, mapButton, logOutButton);
 
-        uploadButton.setOnAction(e -> StageInitializer.setUploadScene());
-        photosButton.setOnAction(e -> StageInitializer.setPhotosScene());
-	    albumsButton.setOnAction(e -> StageInitializer.setAlbumsScene());
-	    mapButton.setOnAction(e -> StageInitializer.setMapScene());
+        uploadButton.setOnAction(e -> StageInitializer.setScene(new UploadScene()));
+        photosButton.setOnAction(e -> StageInitializer.setScene(new PhotosScene()));
+	    albumsButton.setOnAction(e -> StageInitializer.setScene(new AlbumsScene()));
+	    mapButton.setOnAction(e -> StageInitializer.setScene(new MapScene()));
         logOutButton.setOnAction(e -> Authentication.logout());
 
         super.getGridPane().add(uploadButton,0,0);

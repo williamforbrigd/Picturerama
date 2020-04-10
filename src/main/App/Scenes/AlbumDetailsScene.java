@@ -45,9 +45,10 @@ class AlbumDetailsScene extends SceneBuilder {
   /**
    * Album details scene constructor, uses SceneBuilder constructor to create an object of the album details scene class
    */
-  AlbumDetailsScene() {
+  AlbumDetailsScene(Album album) {
     super();
     this.setLayout();
+    this.setup(album);
   }
 
   /**
@@ -83,7 +84,7 @@ class AlbumDetailsScene extends SceneBuilder {
    * Method that is ran when clicking the generate pdf button and sets up the action popup
    */
   private void generatePdfPressed() {
-    PopupWindow popupWindow = new PopupWindow(500,200);
+    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(),500,200);
 
     popupWindow.getDialogWindow().setTitle("Download album");
 
@@ -134,7 +135,7 @@ class AlbumDetailsScene extends SceneBuilder {
    * @param album the album which will be shown with all the pictures in the album. If the album contains no pictures,
    *              a text will be shown in the scene to inform the user.
    */
-  void setup(Album album) {
+  private void setup(Album album) {
     super.setPageTitle(album.getName());
     this.albumPhotoList = album.getPhotos();
     this.albumName = album.getName();
@@ -151,7 +152,7 @@ class AlbumDetailsScene extends SceneBuilder {
     deleteAlbum.setOnAction(e -> {
       UserInfo.getUser().getAlbums().remove(album);
       Hibernate.updateUser(UserInfo.getUser());
-      StageInitializer.setAlbumsScene();
+      StageInitializer.setScene(new AlbumsScene());
     });
     deletePhoto.setOnAction(e -> deleteSelectedPhotos(album));
   }
