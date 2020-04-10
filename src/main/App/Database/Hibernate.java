@@ -20,6 +20,29 @@ public class Hibernate {
     private Hibernate(){throw new IllegalStateException("Utility class");}
 
     /**
+     * Gets entity manager or makes a new one if the connection is not open anymore
+     *
+     * @return the entity manager
+     */
+    public static EntityManager getEm() {
+        if(!em.isOpen()) {
+            em.close();
+            em = ENTITY_MANAGER_FACTORY.createEntityManager();
+        }
+        return em;
+
+    }
+
+    /**
+     * Gets entity manager factory.
+     *
+     * @return the entity manager factory
+     */
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return ENTITY_MANAGER_FACTORY;
+    }
+
+    /**
      * Sets up the password and username to the database
      * @return a map with the password and username
      */
@@ -36,6 +59,7 @@ public class Hibernate {
         }
         return result;
     }
+
 
     /**
      * Register a new user in the database
@@ -238,28 +262,4 @@ public class Hibernate {
             FileLogger.closeHandler();
         }
     }
-
-    /**
-     * Gets entity manager or makes a new one if the connection is not open anymore
-     *
-     * @return the entity manager
-     */
-    public static EntityManager getEm() {
-        if(!em.isOpen()) {
-            em.close();
-            em = ENTITY_MANAGER_FACTORY.createEntityManager();
-        }
-        return em;
-
-    }
-
-    /**
-     * Gets entity manager factory.
-     *
-     * @return the entity manager factory
-     */
-    public static EntityManagerFactory getEntityManagerFactory() {
-        return ENTITY_MANAGER_FACTORY;
-    }
-
 }
