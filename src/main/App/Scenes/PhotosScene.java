@@ -15,11 +15,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.stage.Screen;
 
 /**
  * Class for the Search scene
@@ -80,12 +81,20 @@ class PhotosScene extends SceneBuilder {
    * Sets up the scroll pane in the search scene with all the photos of the user
    */
   private void setupImagesInAScrollPane(){
-    photoList.forEach(photo -> {
-      PhotoContainer photoContainer = new PhotoContainer(photo);
-      scrollPaneVBox.getChildren().add(photoContainer.getPhotoContainer());
-      photoContainerList.add(photoContainer);
-      checkBoxArrayList.add(photoContainer.getCheckBox());
-    });
+    if (!photoList.isEmpty()) {
+      photoList.forEach(photo -> {
+        PhotoContainer photoContainer = new PhotoContainer(photo);
+        scrollPaneVBox.getChildren().add(photoContainer.getPhotoContainer());
+        photoContainerList.add(photoContainer);
+        checkBoxArrayList.add(photoContainer.getCheckBox());
+      });
+    } else {
+      Text noPhotosText = new Text("No photos stored. You can upload photos in \"Upload\"");
+      Css.setText(17,noPhotosText);
+      scrollPaneVBox.getChildren().add(noPhotosText);
+      scrollPaneVBox.setAlignment(Pos.CENTER);
+      selectAllHBox.setDisable(true);
+    }
     scrollPane.setContent(scrollPaneVBox);
     scrollPane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
     scrollPane.fitToWidthProperty().set(true);
@@ -221,18 +230,24 @@ class PhotosScene extends SceneBuilder {
    */
   private void deleteSelectedPhotos(){
     ArrayList<Photo> selectedPhotos = getCheckedPhotos();
-    selectedPhotos.forEach(photo -> {
-      photo.getAlbums().forEach(album -> {
-        album.getPhotos().remove(photo);
+    if(selectedPhotos.isEmpty()){
+      feedbackLabel.setText("Unsuccessful: No photos were chosen");
+      Css.playFeedBackLabelTransition(FeedBackType.Error, 13, feedbackLabel);
+    }
+    else {
+      selectedPhotos.forEach(photo -> {
+        photo.getAlbums().forEach(album -> {
+          album.getPhotos().remove(photo);
+        });
+        UserInfo.getUser().getPhotos().remove(photo);
+        PhotoContainer photoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
+        photoContainer.getCheckBox().setSelected(false);
+        scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
       });
-      UserInfo.getUser().getPhotos().remove(photo);
-      PhotoContainer photoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny().get();
-      photoContainer.getCheckBox().setSelected(false);
-      scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainer());
-    });
-    Hibernate.updateUser(UserInfo.getUser());
-    feedbackLabel.setText("Deleted successfully");
-    Css.playFeedBackLabelTransition(FeedBackType.Successful, 13, feedbackLabel);
+      Hibernate.updateUser(UserInfo.getUser());
+      feedbackLabel.setText("Deleted successfully");
+      Css.playFeedBackLabelTransition(FeedBackType.Successful, 13, feedbackLabel);
+    }
   }
 
   /**
