@@ -45,7 +45,7 @@ class PhotosScene extends SceneBuilder {
   /**
    * Sets up the photos scene and adds all the users photos to the photo list
    */
-  PhotosScene(){
+  PhotosScene() {
     super();
     photoList.addAll(UserInfo.getUser().getPhotos());
     this.setLayout();
@@ -55,7 +55,7 @@ class PhotosScene extends SceneBuilder {
    * Sets up the layout of the photos scene overrides the setLayout method of SceneBuilder
    */
   @Override
-  void setLayout(){
+  void setLayout() {
     super.setLayout();
     super.setPageTitle("Photos");
     setupImagesInAScrollPane();
@@ -63,7 +63,7 @@ class PhotosScene extends SceneBuilder {
     setupAlbumButtons();
     setupSelectAllHBox();
     setupDeleteButton();
-    super.getGridPane().add(scrollPane,0,1, 3, 1);
+    super.getGridPane().add(scrollPane, 0, 1, 3, 1);
     super.getGridPane().add(searchTextField, 0, 0, 2, 1);
     super.getGridPane().add(feedbackLabel, 2, 0, 1, 1);
     super.getGridPane().setHalignment(feedbackLabel, HPos.LEFT);
@@ -75,7 +75,7 @@ class PhotosScene extends SceneBuilder {
     super.getGridPane().setGridLinesVisible(false);
     super.getGridPane().setMaxWidth(700.0D);
     //Styles layout components
-    Css.setTextField(700,20,17,searchTextField);
+    Css.setTextField(700, 20, 17, searchTextField);
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SearchField.css");
     Css.setAlbumScrollPaneBorder(scrollPane);
   }
@@ -83,7 +83,7 @@ class PhotosScene extends SceneBuilder {
   /**
    * Sets up the scroll pane in the search scene with all the photos of the user
    */
-  private void setupImagesInAScrollPane(){
+  private void setupImagesInAScrollPane() {
     if (!photoList.isEmpty()) {
       photoList.forEach(photo -> {
         PhotoContainer photoContainer = new PhotoContainer(photo);
@@ -93,7 +93,7 @@ class PhotosScene extends SceneBuilder {
       });
     } else {
       Text noPhotosText = new Text("No photos stored. You can upload photos in \"Upload\"");
-      Css.setText(17,noPhotosText);
+      Css.setText(17, noPhotosText);
       scrollPaneVBox.getChildren().add(noPhotosText);
       scrollPaneVBox.setAlignment(Pos.CENTER);
       selectAllHBox.setDisable(true);
@@ -107,7 +107,7 @@ class PhotosScene extends SceneBuilder {
   /**
    * Sets up the search bar and its functionality
    */
-  private void setupSearchBar(){
+  private void setupSearchBar() {
     searchTextField.setId("searchField");
     searchTextField.setPromptText("Search for image...");
     searchTextField.setOnKeyTyped(action -> filter());
@@ -117,7 +117,7 @@ class PhotosScene extends SceneBuilder {
   /**
    * Sets up the select-all button
    */
-  private void setupSelectAllHBox(){
+  private void setupSelectAllHBox() {
     selectAllHBox.getChildren().addAll(new Label("Select all:"), selectAllCheckBox);
     selectAllHBox.setAlignment(Pos.CENTER_RIGHT);
     selectAllCheckBox.getStyleClass().add("check-box");
@@ -126,7 +126,7 @@ class PhotosScene extends SceneBuilder {
   /**
    * Sets up button for deleting photos
    */
-  private void setupDeleteButton(){
+  private void setupDeleteButton() {
     Css.setButton(700, 25, 20, deleteButton);
     deleteButton.setOnAction(action -> deleteSelectedPhotos());
   }
@@ -134,8 +134,8 @@ class PhotosScene extends SceneBuilder {
   /**
    * Sets up the add to album button
    */
-  private void setupAlbumButtons(){
-    Css.setButton(700,25,20,addToAlbumButton);
+  private void setupAlbumButtons() {
+    Css.setButton(700, 25, 20, addToAlbumButton);
     addToAlbumButton.setOnAction(s -> createNewAlbumButtonPressed());
   }
 
@@ -143,7 +143,7 @@ class PhotosScene extends SceneBuilder {
    * Method for the search functionality.
    * Filters the scrollpanes photos, showing a photo if its title contains the searchtext or one if its tags are equal to the searchtext.
    */
-  private void filter(){
+  private void filter() {
     scrollPaneVBox.getChildren().clear();
     if (searchTextField.getText().trim().equals("")) {
       photoContainerList.forEach(child -> scrollPaneVBox.getChildren().add(child.getPhotoContainerHBox()));
@@ -152,7 +152,7 @@ class PhotosScene extends SceneBuilder {
         if (container.getPhoto().getTitle().toLowerCase().contains(searchTextField.getText().trim().toLowerCase())) {
           scrollPaneVBox.getChildren().add(container.getPhotoContainerHBox());
         } else {
-          String textInput = searchTextField.getText().trim().toLowerCase().replaceAll(" ","");
+          String textInput = searchTextField.getText().trim().toLowerCase().replaceAll(" ", "");
           String[] multipleTags = textInput.split(",");
           if (getPhotoTags(container.getPhoto()).containsAll(Arrays.asList(multipleTags))) {
             scrollPaneVBox.getChildren().add(container.getPhotoContainerHBox());
@@ -166,7 +166,7 @@ class PhotosScene extends SceneBuilder {
    * Method that creates the popup that can create albums and creates the action popup
    */
   private void createNewAlbumButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(),500,100);
+    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(), 500, 100);
     popupWindow.getDialogWindow().setTitle("Add to Album");
     popupWindow.getDialogText().setText("Please select the name of the album: ");
 
@@ -174,7 +174,7 @@ class PhotosScene extends SceneBuilder {
     Css.setChoiceBoxAlbums(choiceBox);
 
     Button addAlbum = new Button("Add to album");
-    Css.setButton(500,20,17,addAlbum);
+    Css.setButton(500, 20, 17, addAlbum);
     addAlbum.setOnAction(e -> {
       updateUser(choiceBox.getValue());
       popupWindow.getDialogWindow().close();
@@ -186,7 +186,7 @@ class PhotosScene extends SceneBuilder {
   /**
    * Sets up the checkboxes and adds styling to it
    */
-  private void setupChoiceBox(){
+  private void setupChoiceBox() {
     choiceBox.getItems().clear();
     choiceBox.getStyleClass().add("choice-box");
     choiceBox.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
@@ -195,12 +195,13 @@ class PhotosScene extends SceneBuilder {
 
   /**
    * Helper method to get the checked photos in the search scene
+   *
    * @return a list of checked photos
    */
-  private ArrayList<Photo> getCheckedPhotos(){
+  private ArrayList<Photo> getCheckedPhotos() {
     ArrayList<Photo> checkedPhotos = new ArrayList<>();
-    for (int i = 0; i<checkBoxArrayList.size(); i++) {
-      if(checkBoxArrayList.get(i).isSelected()){
+    for (int i = 0; i < checkBoxArrayList.size(); i++) {
+      if (checkBoxArrayList.get(i).isSelected()) {
         checkedPhotos.add(photoList.get(i));
       }
     }
@@ -209,21 +210,19 @@ class PhotosScene extends SceneBuilder {
 
   /**
    * Method that updates the photos in the selected album
+   *
    * @param albumName name of the selected album
    */
-  private void updateUser(String albumName){
+  private void updateUser(String albumName) {
     Album album = UserInfo.getUser().getAlbums().stream().filter(a -> a.getName().equals(albumName)).findAny().orElse(null);
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
     if (checkedPhoto.isEmpty()) {
-      feedbackLabel.setText("Unsuccessful: No photos were chosen");
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Unsuccessful: No photos were chosen", 13, feedbackLabel, 6);
     } else if (album == null) {
-      feedbackLabel.setText("Unsuccessful: No album were chosen");
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Unsuccessful: No album were chosen", 13, feedbackLabel, 6);
     } else {
       checkedPhoto.forEach(s -> s.addAlbum(album));
-      feedbackLabel.setText("Added to " + albumName);
-      Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, 13, feedbackLabel);
+      Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, "Added to " + albumName, 13, feedbackLabel, 6);
     }
     Hibernate.updateUser(UserInfo.getUser());
   }
@@ -231,15 +230,13 @@ class PhotosScene extends SceneBuilder {
   /**
    * Private method for deleting selected photos.
    */
-  private void deleteSelectedPhotos(){
+  private void deleteSelectedPhotos() {
     ArrayList<Photo> selectedPhotos = getCheckedPhotos();
-    if(selectedPhotos.isEmpty()){
-      feedbackLabel.setText("Unsuccessful: No photos were chosen");
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
-    }
-    else {
+    if (selectedPhotos.isEmpty()) {
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Unsuccessful: No photos were chosen", 13, feedbackLabel, 6);
+    } else {
       boolean successfulDeleteSelectedPhotos = true;
-      for(Photo photo : selectedPhotos){
+      for (Photo photo : selectedPhotos) {
         Optional<PhotoContainer> optionalPhotoContainer = photoContainerList.stream().filter(c -> c.getPhoto().equals(photo)).findAny();
         if (optionalPhotoContainer.isPresent()) {
           photo.getAlbums().forEach(album -> album.getPhotos().remove(photo));
@@ -250,30 +247,29 @@ class PhotosScene extends SceneBuilder {
         } else {
           //If one of the pictures were not successfully deleted, then the operation was not successful
           successfulDeleteSelectedPhotos = false;
-          FileLogger.getLogger().log(Level.FINE, "Photo: {0} is not present in the list containers",photo);
+          FileLogger.getLogger().log(Level.FINE, "Photo: {0} is not present in the list containers", photo);
           FileLogger.closeHandler();
         }
       }
       Hibernate.updateUser(UserInfo.getUser());
       if (successfulDeleteSelectedPhotos) {
-        feedbackLabel.setText("Deleted successfully");
-        Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, 13, feedbackLabel);
-      }else {
-        feedbackLabel.setText("One or more photos could not be deleted");
-        Css.playFeedBackLabelTransition(FeedBackType.ERROR, 13, feedbackLabel);
+        Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, "Deleted successfully", 13, feedbackLabel, 6);
+      } else {
+        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "One or more photos could not be deleted", 13, feedbackLabel, 6);
       }
     }
   }
 
   /**
    * Helping method to retrieve all the tags to a specific photo.
+   *
    * @param photo gets the tags of the photo.
    * @return all the tags to the specific photo.
    */
   private List<String> getPhotoTags(Photo photo) {
     return photo.getTags().stream()
-                          .map(Tags::getTag)
-                          .map(String::toLowerCase)
-                          .collect(Collectors.toList());
+        .map(Tags::getTag)
+        .map(String::toLowerCase)
+        .collect(Collectors.toList());
   }
 }

@@ -3,6 +3,7 @@ package Scenes;
 import Components.Authentication;
 import Components.FileLogger;
 import Css.Css;
+import Css.FeedBackType;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -53,7 +54,7 @@ public class LoginScene extends SceneBuilder {
     //Sets styling for the layout components
     Css.setButton(700, 25, 20, logInButton, signUpButton);
     Css.setTextField(700, 20, 17, usernameField, passwordField);
-    Css.setLabel(13, usernameLabel, passwordLabel, logInLabel);
+    Css.setLabel(13, usernameLabel, passwordLabel);
     Css.setLoadingAnimation(loadingAnimation);
 
     //Sets functionality for the layout components
@@ -78,11 +79,11 @@ public class LoginScene extends SceneBuilder {
         if (Authentication.logIn(usernameField.getText(), passwordField.getText())) {
           StageInitializer.setScene(new MenuScene());
         } else {
-          logInLabel.setText("Log in failed");
+          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Log in failed", 13, logInLabel, 6);
           loadingAnimation.setVisible(false);
         }
       } catch (ExceptionInInitializerError error) {
-        logInLabel.setText("Could not connect to database");
+        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not connect to database", 13, logInLabel, 6);
         loadingAnimation.setVisible(false);
         FileLogger.getLogger().log(Level.FINE, error.getMessage());
         FileLogger.closeHandler();

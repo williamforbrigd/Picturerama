@@ -42,7 +42,7 @@ class AlbumDetailsScene extends SceneBuilder {
   private Set<Photo> albumPhotoList;
   private String albumName;
   private TextField saveLocation = new TextField();
-  private Label dialogFeedBackLabel;
+  private Label dialogFeedBackLabel = new Label();
   private List<PhotoContainer> containers = new ArrayList<>();
 
   /**
@@ -67,7 +67,7 @@ class AlbumDetailsScene extends SceneBuilder {
     super.getGridPane().add(deleteAlbum, 0, 5);
     super.getGridPane().setMaxWidth(700.0D);
     pdfButton.setOnAction(s -> generatePdfPressed());
-    Css.setButton(700,50,18,pdfButton,deletePhoto,deleteAlbum);
+    Css.setButton(700, 50, 18, pdfButton, deletePhoto, deleteAlbum);
     this.setupScrollPane();
   }
 
@@ -87,23 +87,20 @@ class AlbumDetailsScene extends SceneBuilder {
    * Method that is ran when clicking the generate pdf button and sets up the action popup
    */
   private void generatePdfPressed() {
-    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(),500,200);
+    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(), 500, 200);
 
     popupWindow.getDialogWindow().setTitle("Download album");
-
-    dialogFeedBackLabel = new Label();
-    Css.setFeedBackLabel(FeedBackType.ERROR, 13, dialogFeedBackLabel);
 
     popupWindow.getDialogText().setText("File location: ");
 
     saveLocation.setPromptText("File location");
-    Css.setTextField(350,20,17,saveLocation);
+    Css.setTextField(350, 20, 17, saveLocation);
     saveLocation.setDisable(true);
 
     Button fileExplorer = new Button("Browse");
     Button downloadPdf = new Button("Download");
-    Css.setButton(480,20,17, downloadPdf);
-    Css.setButton(150,20,17,fileExplorer);
+    Css.setButton(480, 20, 17, downloadPdf);
+    Css.setButton(150, 20, 17, fileExplorer);
 
 
     fileExplorer.setOnAction(s -> {
@@ -121,7 +118,7 @@ class AlbumDetailsScene extends SceneBuilder {
         saveLocation.clear();
         popupWindow.getDialogWindow().close();
       } else {
-        dialogFeedBackLabel.setText("Choose file location before downloading");
+        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Choose file location before downloading", 13, dialogFeedBackLabel, 6);
       }
     });
 
@@ -209,7 +206,6 @@ class AlbumDetailsScene extends SceneBuilder {
   }
 
   private void setSaveLocation(String startDirectory, Stage stage) {
-    dialogFeedBackLabel.setText("");
     DirectoryChooser chooser = new DirectoryChooser();
     chooser.setTitle("Explore");
     File defaultDirectory = new File(startDirectory);
@@ -236,12 +232,12 @@ class AlbumDetailsScene extends SceneBuilder {
     } catch (DocumentException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      dialogFeedBackLabel.setText("Could not create a PDF");
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not create a PDF", 13, dialogFeedBackLabel, 6);
 
-    }catch (IOException e) {
+    } catch (IOException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      dialogFeedBackLabel.setText("Could not retrieve images");
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not retrieve images", 13, dialogFeedBackLabel, 6);
     }
   }
 }
