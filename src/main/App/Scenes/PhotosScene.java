@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ChoiceBox;
@@ -66,9 +67,9 @@ class PhotosScene extends SceneBuilder {
     super.getGridPane().add(scrollPane, 0, 1, 3, 1);
     super.getGridPane().add(searchTextField, 0, 0, 2, 1);
     super.getGridPane().add(feedbackLabel, 2, 0, 1, 1);
-    super.getGridPane().setHalignment(feedbackLabel, HPos.LEFT);
+    GridPane.setHalignment(feedbackLabel, HPos.LEFT);
     super.getGridPane().add(selectAllHBox, 2, 0, 1, 1);
-    super.getGridPane().setHalignment(selectAllHBox, HPos.RIGHT);
+    GridPane.setHalignment(selectAllHBox, HPos.RIGHT);
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SelectAllCheckBoxStyle.css");
     super.getGridPane().add(addToAlbumButton, 0, 2, 1, 1);
     super.getGridPane().add(deleteButton, 2, 2, 1, 1);
@@ -109,6 +110,7 @@ class PhotosScene extends SceneBuilder {
    */
   private void setupSearchBar() {
     searchTextField.setId("searchField");
+    searchTextField.setTooltip(new Tooltip("To search by multiple tags, use comma as separation"));
     searchTextField.setPromptText("Search for image...");
     searchTextField.setOnKeyTyped(action -> filter());
     selectAllCheckBox.setOnAction(action -> checkBoxArrayList.forEach(checkBox -> checkBox.setSelected(selectAllCheckBox.isSelected())));
