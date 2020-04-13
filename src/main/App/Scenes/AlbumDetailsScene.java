@@ -180,7 +180,7 @@ class AlbumDetailsScene extends SceneBuilder {
           PhotoContainer photoContainer = optionalPhotoContainer.get();
           scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainerHBox());
         } else {
-          FileLogger.getLogger().log(Level.FINE, "Photo: " + photo + " is not present in the list containers");
+          FileLogger.getLogger().log(Level.FINE, "Photo: {0} is not present in the list containers", photo);
           FileLogger.closeHandler();
         }
       });
