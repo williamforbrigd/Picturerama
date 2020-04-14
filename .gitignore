@@ -35,6 +35,7 @@
 **/.idea/dataSources/
 **/.idea/jarRepositories.xml
 *.iml
+log.txt
 
 # File-based project format
 *.iws
