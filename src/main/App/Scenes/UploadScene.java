@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 
@@ -83,6 +84,7 @@ final class UploadScene extends SceneBuilder {
     //Sets PromptText for TextFields
     TITLE_FIELD.setPromptText("Title here...");
     URL_FIELD.setPromptText("URL here...");
+    URL_FIELD.setTooltip(new Tooltip("https://example.com/image.jpg"));
     super.getGridPane().add(TITLE_LABEL, 5, 0);
     super.getGridPane().add(TITLE_FIELD, 5, 1);
     super.getGridPane().add(URL_LABEL, 5, 2);
