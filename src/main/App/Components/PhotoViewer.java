@@ -22,18 +22,18 @@ import javafx.stage.Stage;
 /**
  * Class that is used to display photo metadata
  */
-public class PhotoViewer {
+public final class PhotoViewer {
   //The flowPane containing the tag containers
-  private FlowPane tagContainer = new FlowPane();
-  private Photo photo;
-  private Stage stage;
+  private final FlowPane TAG_CONTAINER = new FlowPane();
+  private final Photo PHOTO;
+  private final Stage STAGE;
 
   public PhotoViewer(Photo photo) {
     if (photo == null) {
       throw new NullPointerException();
     }
-    this.photo = photo;
-    this.stage = setup();
+    this.PHOTO = photo;
+    this.STAGE = setup();
   }
 
   /**
@@ -46,13 +46,13 @@ public class PhotoViewer {
     Stage _stage = new Stage();
     _stage.initModality(Modality.APPLICATION_MODAL);
     _stage.initOwner(StageInitializer.getStage());
-    _stage.setTitle(photo.getTitle());
+    _stage.setTitle(PHOTO.getTitle());
 
     Label photoTitleLabel = new Label();
-    photoTitleLabel.setText(photo.getTitle());
+    photoTitleLabel.setText(PHOTO.getTitle());
     Css.setLabel(30, photoTitleLabel);
     Label metadataLabel = new Label();
-    metadataLabel.setText(photo.toString());
+    metadataLabel.setText(PHOTO.toString());
     Css.setLabel(12, metadataLabel);
     Label tagLabel = new Label("Tags:");
     tagLabel.setPadding(new Insets(10, 0, 0, 0));
@@ -74,7 +74,7 @@ public class PhotoViewer {
     bottomContainer.setSpacing(10);
     bottomContainer.setPadding(new Insets(10, 10, 10, 10));
     bottomContainer.setSpacing(6);
-    bottomContainer.getChildren().addAll(tagLabel, tagContainer, addTagLabel, tagField, feedbackLabel, addTagButton, closeButton);
+    bottomContainer.getChildren().addAll(tagLabel, TAG_CONTAINER, addTagLabel, tagField, feedbackLabel, addTagButton, closeButton);
     AnchorPane.setBottomAnchor(bottomContainer, 5.0);
     layout.getChildren().add(bottomContainer);
 
@@ -82,36 +82,36 @@ public class PhotoViewer {
     imageInfoContainer.getChildren().addAll(photoTitleLabel, metadataLabel);
     imageInfoContainer.maxWidth(275);
 
-    tagContainer.setMaxWidth(580);
-    tagContainer.setPrefWrapLength(580);
-    tagContainer.setPadding(new Insets(0, 10, 10, 0));
-    tagContainer.setHgap(4);
-    tagContainer.setVgap(4);
+    TAG_CONTAINER.setMaxWidth(580);
+    TAG_CONTAINER.setPrefWrapLength(580);
+    TAG_CONTAINER.setPadding(new Insets(0, 10, 10, 0));
+    TAG_CONTAINER.setHgap(4);
+    TAG_CONTAINER.setVgap(4);
 
-    photo.getTags().forEach(t -> {
+    PHOTO.getTags().forEach(t -> {
       //Creates a new tag container object and adds it to the tagContainer flowpane
       TagContainer tagContainerObject = new TagContainer(t.getTag());
-      tagContainer.getChildren().add(tagContainerObject.getContainer());
+      TAG_CONTAINER.getChildren().add(tagContainerObject.getContainer());
       setButtonFunctionality(tagContainerObject);
     });
 
     //Sets the functionality of the add tag button
     addTagButton.setOnAction(e -> {
-      Tags tag = new Tags(tagField.getText(), photo.getId());
+      Tags tag = new Tags(tagField.getText(), PHOTO.getId());
       //Checks if there is an input in the textfield
       if (tagField.getText() == null || tagField.getText().trim().equals("")) {
         feedbackLabel.setText("Error: The tag must have a name");
       }
       //Checks if the photo already has the tag
-      else if (photo.getTags().contains(tag)) {
+      else if (PHOTO.getTags().contains(tag)) {
         feedbackLabel.setText("Error: This tag is already registered");
       } else {
-        tag.setPhotoId(photo.getId());
-        photo.getTags().add(tag);
+        tag.setPhotoId(PHOTO.getId());
+        PHOTO.getTags().add(tag);
 
         //Creates new tag container and gives it functionality
         TagContainer tagContainerObject = new TagContainer(tagField.getText());
-        tagContainer.getChildren().add(tagContainerObject.getContainer());
+        TAG_CONTAINER.getChildren().add(tagContainerObject.getContainer());
         this.setButtonFunctionality(tagContainerObject);
 
         feedbackLabel.setText("");
@@ -132,7 +132,7 @@ public class PhotoViewer {
     });
     closeButton.setOnAction(e -> updateDatabaseAndClose());
 
-    ImageView imageView = new ImageView(new Image(photo.getUrl(), 255, 255, true, true, true));
+    ImageView imageView = new ImageView(new Image(PHOTO.getUrl(), 255, 255, true, true, true));
 
     //Adding child nodes to parent nodes
     AnchorPane.setLeftAnchor(imageInfoContainer, 10.0);
@@ -154,8 +154,8 @@ public class PhotoViewer {
   private void setButtonFunctionality(TagContainer tagContainerObject) {
     //Programs the delete button each tag to remove the tag
     tagContainerObject.getDeleteTagButton().setOnAction(e -> {
-      photo.getTags().removeIf(t -> t.getTag().equals(tagContainerObject.getTagAsString()));
-      tagContainer.getChildren().removeIf(t -> t.equals(tagContainerObject.getContainer()));
+      PHOTO.getTags().removeIf(t -> t.getTag().equals(tagContainerObject.getTagAsString()));
+      TAG_CONTAINER.getChildren().removeIf(t -> t.equals(tagContainerObject.getContainer()));
     });
   }
 
@@ -163,16 +163,16 @@ public class PhotoViewer {
    * Updates the the tags of the photo in the database
    */
   private void updateDatabaseAndClose() {
-    int index = UserInfo.getUser().getPhotos().indexOf(photo);
-    UserInfo.getUser().getPhotos().get(index).setTags(photo.getTags());
+    int index = UserInfo.getUser().getPhotos().indexOf(PHOTO);
+    UserInfo.getUser().getPhotos().get(index).setTags(PHOTO.getTags());
     Hibernate.updateUser(UserInfo.getUser());
-    stage.close();
+    STAGE.close();
   }
 
   /**
    * Displays the the stage created in the object
    */
   public void display() {
-    stage.showAndWait();
+    STAGE.showAndWait();
   }
 }

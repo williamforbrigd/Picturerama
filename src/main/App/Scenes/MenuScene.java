@@ -7,13 +7,13 @@ import javafx.scene.control.Button;
 /**
  * Class for the menu scene
  */
-public class MenuScene extends SceneBuilder {
+public final class MenuScene extends SceneBuilder {
 
-    private Button uploadButton = new Button("Upload");
-    private Button photosButton = new Button("Photos");
-    private Button albumsButton = new Button("Albums");
-    private Button mapButton = new Button("Map");
-    private Button logOutButton = new Button("Log out");
+    private final Button UPLOAD_BUTTON = new Button("Upload");
+    private final Button PHOTOS_BUTTON = new Button("Photos");
+    private final Button ALBUMS_BUTTON = new Button("Albums");
+    private final Button MAP_BUTTON = new Button("Map");
+    private final Button LOG_OUT_BUTTON = new Button("Log out");
 
     public MenuScene() {
         super();
@@ -29,18 +29,18 @@ public class MenuScene extends SceneBuilder {
         super.setLayout();
         super.setPageTitle("Menu");
 
-        Css.setButton(340,100,40, uploadButton, photosButton, albumsButton, mapButton, logOutButton);
+        Css.setButton(340,100,40, UPLOAD_BUTTON, PHOTOS_BUTTON, ALBUMS_BUTTON, MAP_BUTTON, LOG_OUT_BUTTON);
 
-        uploadButton.setOnAction(e -> StageInitializer.setScene(new UploadScene()));
-        photosButton.setOnAction(e -> StageInitializer.setScene(new PhotosScene()));
-	    albumsButton.setOnAction(e -> StageInitializer.setScene(new AlbumsScene()));
-	    mapButton.setOnAction(e -> StageInitializer.setScene(new MapScene()));
-        logOutButton.setOnAction(e -> Authentication.logout());
+        UPLOAD_BUTTON.setOnAction(e -> StageInitializer.setScene(new UploadScene()));
+        PHOTOS_BUTTON.setOnAction(e -> StageInitializer.setScene(new PhotosScene()));
+	    ALBUMS_BUTTON.setOnAction(e -> StageInitializer.setScene(new AlbumsScene()));
+	    MAP_BUTTON.setOnAction(e -> StageInitializer.setScene(new MapScene()));
+        LOG_OUT_BUTTON.setOnAction(e -> Authentication.logout());
 
-        super.getGridPane().add(uploadButton,0,0);
-        super.getGridPane().add(photosButton, 1,0);
-        super.getGridPane().add(albumsButton, 0,1);
-        super.getGridPane().add(mapButton, 1,1);
-        super.getGridPane().add(logOutButton, 0,2);
+        super.getGridPane().add(UPLOAD_BUTTON,0,0);
+        super.getGridPane().add(PHOTOS_BUTTON, 1,0);
+        super.getGridPane().add(ALBUMS_BUTTON, 0,1);
+        super.getGridPane().add(MAP_BUTTON, 1,1);
+        super.getGridPane().add(LOG_OUT_BUTTON, 0,2);
     }
 }

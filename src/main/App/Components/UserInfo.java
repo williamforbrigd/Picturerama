@@ -5,7 +5,7 @@ import Database.HibernateClasses.User;
 /**
  * UserInfo class includes information regarding the user running the program
  */
-public class UserInfo {
+public final class UserInfo {
   // Information about user - gets updated once a user logs in
   private static User user = null;
 

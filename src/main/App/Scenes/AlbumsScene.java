@@ -23,14 +23,14 @@ import java.util.logging.Level;
 /**
  * Class for the albums scene
  */
-class AlbumsScene extends SceneBuilder {
+final class AlbumsScene extends SceneBuilder {
 
-  private List<Button> albumButtons = new ArrayList<>();
-  private ScrollPane scrollPane = new ScrollPane();
-  private VBox scrollPaneVBox = new VBox();
-  private Button newAlbumButton = new Button("New Album");
-  private Button deleteAlbumButton = new Button("Delete Album");
-  private ChoiceBox<String> choiceBox = new ChoiceBox();
+  private final List<Button> ALBUM_BUTTONS = new ArrayList<>();
+  private final ScrollPane SCROLL_PANE = new ScrollPane();
+  private final VBox SCROLL_PANE_VBOX = new VBox();
+  private final Button NEW_ALBUM_BUTTON = new Button("New Album");
+  private final Button DELETE_ALBUM_BUTTON = new Button("Delete Album");
+  private final ChoiceBox<String> CHOICE_BOX = new ChoiceBox();
 
   /**
    * Constructor that initializes the albums scene
@@ -62,9 +62,9 @@ class AlbumsScene extends SceneBuilder {
       UserInfo.getUser().getAlbums().forEach(album -> {
         Button albumButton = new Button(album.getName());
         albumButton.setOnAction(e -> StageInitializer.setScene(new AlbumDetailsScene(album)));
-        albumButtons.add(albumButton);
+        ALBUM_BUTTONS.add(albumButton);
         Css.setButton(650, 50, 18, albumButton);
-        scrollPaneVBox.getChildren().add(albumButton);
+        SCROLL_PANE_VBOX.getChildren().add(albumButton);
       });
     } catch (NullPointerException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
@@ -76,14 +76,14 @@ class AlbumsScene extends SceneBuilder {
    * Creates the scroll pane of the scene and adds it to the application
    */
   private void addScrollPane() {
-    scrollPaneVBox.setPadding(new Insets(10, 10, 10, 10));
-    scrollPaneVBox.setSpacing(10);
-    scrollPane.setContent(scrollPaneVBox);
-    scrollPane.setPrefSize(700, 700);
-    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-    Css.setAlbumScrollPaneBorder(scrollPane);
-    super.getGridPane().add(scrollPane, 0, 0);
+    SCROLL_PANE_VBOX.setPadding(new Insets(10, 10, 10, 10));
+    SCROLL_PANE_VBOX.setSpacing(10);
+    SCROLL_PANE.setContent(SCROLL_PANE_VBOX);
+    SCROLL_PANE.setPrefSize(700, 700);
+    SCROLL_PANE.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+    SCROLL_PANE.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    Css.setAlbumScrollPaneBorder(SCROLL_PANE);
+    super.getGridPane().add(SCROLL_PANE, 0, 0);
   }
 
   /**
@@ -91,16 +91,16 @@ class AlbumsScene extends SceneBuilder {
    */
   private void addButtonsToBorderPane() {
     HBox hBox = new HBox();
-    hBox.getChildren().addAll(newAlbumButton, deleteAlbumButton);
+    hBox.getChildren().addAll(NEW_ALBUM_BUTTON, DELETE_ALBUM_BUTTON);
     hBox.setAlignment(Pos.BASELINE_CENTER);
     hBox.setSpacing(20);
     hBox.setPadding(new Insets(10, 10, 10, 10));
     super.getBorderPane().setBottom(hBox);
     BorderPane.setAlignment(hBox, Pos.CENTER);
 
-    newAlbumButton.setOnAction(e -> createNewAlbumButtonPressed());
-    deleteAlbumButton.setOnAction(e -> deleteButtonPressed());
-    Css.setButton(340, 50, 18, newAlbumButton, deleteAlbumButton);
+    NEW_ALBUM_BUTTON.setOnAction(e -> createNewAlbumButtonPressed());
+    DELETE_ALBUM_BUTTON.setOnAction(e -> deleteButtonPressed());
+    Css.setButton(340, 50, 18, NEW_ALBUM_BUTTON, DELETE_ALBUM_BUTTON);
   }
 
   /**
@@ -151,9 +151,9 @@ class AlbumsScene extends SceneBuilder {
     Hibernate.updateUser(UserInfo.getUser());
     Button albumButton = new Button(albumName);
     albumButton.setOnAction(e -> StageInitializer.setScene(new AlbumDetailsScene(album)));
-    albumButtons.add(albumButton);
+    ALBUM_BUTTONS.add(albumButton);
     Css.setButton(650, 50, 18, albumButton);
-    scrollPaneVBox.getChildren().add(albumButton);
+    SCROLL_PANE_VBOX.getChildren().add(albumButton);
   }
 
   /**
@@ -169,7 +169,7 @@ class AlbumsScene extends SceneBuilder {
     popupWindow.getDialogText().setText("Please select the album to be deleted.");
     Button deleteButton = new Button("Delete Album");
     Css.setButton(500, 20, 17, deleteButton);
-    popupWindow.getDialogHBox().getChildren().addAll(choiceBox, deleteButton);
+    popupWindow.getDialogHBox().getChildren().addAll(CHOICE_BOX, deleteButton);
 
     if (UserInfo.getUser().getAlbums().isEmpty()) {
       popupWindow.getDialogText().setText("You don't have any albums");
@@ -186,7 +186,7 @@ class AlbumsScene extends SceneBuilder {
 
     deleteButton.setOnAction(e -> {
       deleteAlbum();
-      choiceBox.getItems().remove(choiceBox.getSelectionModel().getSelectedItem());
+      CHOICE_BOX.getItems().remove(CHOICE_BOX.getSelectionModel().getSelectedItem());
       popupWindow.getDialogWindow().close();
     });
   }
@@ -195,15 +195,15 @@ class AlbumsScene extends SceneBuilder {
    * Helping method to delete an album and the album button gets removed from the layout.
    */
   private void deleteAlbum() {
-    String albumSelected = choiceBox.getSelectionModel().getSelectedItem();
+    String albumSelected = CHOICE_BOX.getSelectionModel().getSelectedItem();
     Album album = UserInfo.getUser().getAlbums().stream().filter(a -> a.getName().equals(albumSelected)).findAny().orElse(null);
     if (album != null) {
       album.getPhotos().forEach(photo -> photo.getAlbums().remove(album));
       UserInfo.getUser().getAlbums().remove(album);
       Hibernate.updateUser(UserInfo.getUser());
-      albumButtons.removeIf(button -> {
+      ALBUM_BUTTONS.removeIf(button -> {
         if (button.getText().equals(albumSelected)) {
-          scrollPaneVBox.getChildren().remove(button);
+          SCROLL_PANE_VBOX.getChildren().remove(button);
           return true;
         }
         return false;
@@ -215,13 +215,13 @@ class AlbumsScene extends SceneBuilder {
    * Sets up the checkboxes and adds styling to it
    */
   private void setupChoiceBox() {
-    choiceBox.getItems().clear();
-    choiceBox.getStyleClass().add("choice-box");
-    choiceBox.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
-    Css.setChoiceBoxAlbums(choiceBox);
+    CHOICE_BOX.getItems().clear();
+    CHOICE_BOX.getStyleClass().add("choice-box");
+    CHOICE_BOX.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
+    Css.setChoiceBoxAlbums(CHOICE_BOX);
     UserInfo.getUser().getAlbums().forEach(album -> {
-        if (!choiceBox.getItems().contains(album.getName())) {
-            choiceBox.getItems().add(album.getName());
+        if (!CHOICE_BOX.getItems().contains(album.getName())) {
+            CHOICE_BOX.getItems().add(album.getName());
         }
     });
   }

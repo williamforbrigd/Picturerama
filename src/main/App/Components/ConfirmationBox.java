@@ -7,7 +7,7 @@ import Css.Css;
 /**
  * Utility class that is used to create confirmations boxes
  */
-public class ConfirmationBox {
+public final class ConfirmationBox {
     private static boolean answer;
 
     /**

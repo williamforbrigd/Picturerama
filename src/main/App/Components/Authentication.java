@@ -9,7 +9,7 @@ import java.util.logging.Level;
 /**
  * Authentication class for authenticating username and password for each user
  */
-public class Authentication {
+public final class Authentication {
 
   /**
    * Private constructor to hinder creation of utility class

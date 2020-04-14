@@ -7,7 +7,7 @@ import java.util.logging.*;
  * Logger class for logging text and exceptions
  */
 
-public class FileLogger {
+public final class FileLogger {
     private static Handler handler;
     private static Logger logger;
 

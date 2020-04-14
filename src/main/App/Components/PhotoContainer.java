@@ -12,9 +12,8 @@ import javafx.scene.layout.HBox;
 /**
  * Class that is used to display photos in the search scene
  */
-public class PhotoContainer {
-
-    private Photo photo;
+public final class PhotoContainer {
+    private final Photo PHOTO;
     private Image image;
     private ImageView imageView;
     private CheckBox checkBox;
@@ -27,12 +26,12 @@ public class PhotoContainer {
      * @param photo a photo object
      */
     public PhotoContainer(Photo photo) {
-        this.photo = photo;
+        this.PHOTO = photo;
         setupPhotoContainer(photo);
     }
 
     public Photo getPhoto() {
-        return photo;
+        return PHOTO;
     }
 
     public Image getImage() {

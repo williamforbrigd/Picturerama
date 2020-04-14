@@ -14,7 +14,7 @@ import javafx.util.Duration;
 /**
  * Css class used for styling different JavaFX elements
  */
-public class Css {
+public final class Css {
   private static final String BORDER_RADIUS = "15px";
   private static final String BORDER_WIDTH = "1px";
   private static final String BORDER_COLOR_LIGHT = "#DDDDDD";

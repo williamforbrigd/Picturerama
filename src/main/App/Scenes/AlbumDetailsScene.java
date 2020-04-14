@@ -33,17 +33,17 @@ import javafx.stage.Stage;
 /**
  * Class for the album details scene, which shows all the pictures in an album.
  */
-class AlbumDetailsScene extends SceneBuilder {
-  private VBox scrollPaneVBox = new VBox();
-  private ScrollPane scrollPane = new ScrollPane();
-  private Button pdfButton = new Button("Generate PDF Album");
-  private Button deleteAlbum = new Button("Delete album");
-  private Button deletePhoto = new Button("Remove selected photos");
+final class AlbumDetailsScene extends SceneBuilder {
+  private final VBox SCROLL_PANE_VBOX = new VBox();
+  private final ScrollPane SCROLL_PANE = new ScrollPane();
+  private final Button PDF_BUTTON = new Button("Generate PDF Album");
+  private final Button DELETE_ALBUM = new Button("Delete album");
+  private final Button DELETE_PHOTOS = new Button("Remove selected photos");
   private Set<Photo> albumPhotoList;
   private String albumName;
-  private TextField saveLocation = new TextField();
-  private Label dialogFeedBackLabel = new Label();
-  private List<PhotoContainer> containers = new ArrayList<>();
+  private final TextField SAVE_LOCATION = new TextField();
+  private final Label DIALOG_FEEDBACK_LABEL = new Label();
+  private final List<PhotoContainer> CONTAINERS = new ArrayList<>();
 
   /**
    * Album details scene constructor, uses SceneBuilder constructor to create an object of the album details scene class
@@ -61,13 +61,13 @@ class AlbumDetailsScene extends SceneBuilder {
   void setLayout() {
     super.setLayout();
     super.setGridPane();
-    super.getGridPane().add(scrollPane, 0, 2);
-    super.getGridPane().add(pdfButton, 0, 3);
-    super.getGridPane().add(deletePhoto, 0, 4);
-    super.getGridPane().add(deleteAlbum, 0, 5);
+    super.getGridPane().add(SCROLL_PANE, 0, 2);
+    super.getGridPane().add(PDF_BUTTON, 0, 3);
+    super.getGridPane().add(DELETE_PHOTOS, 0, 4);
+    super.getGridPane().add(DELETE_ALBUM, 0, 5);
     super.getGridPane().setMaxWidth(700.0D);
-    pdfButton.setOnAction(s -> generatePdfPressed());
-    Css.setButton(700, 50, 18, pdfButton, deletePhoto, deleteAlbum);
+    PDF_BUTTON.setOnAction(s -> generatePdfPressed());
+    Css.setButton(700, 50, 18, PDF_BUTTON, DELETE_PHOTOS, DELETE_ALBUM);
     this.setupScrollPane();
   }
 
@@ -75,12 +75,12 @@ class AlbumDetailsScene extends SceneBuilder {
    * Sets up the scrollpane which will contain photos. The scrollpane will be the center layout of the scene.
    */
   private void setupScrollPane() {
-    scrollPane.setContent(scrollPaneVBox);
-    scrollPane.setStyle("-fx-background-color:transparent;");
-    scrollPane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
-    scrollPaneVBox.setStyle("-fx-background-color: transparent;");
-    scrollPane.fitToWidthProperty().set(true);
-    scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+    SCROLL_PANE.setContent(SCROLL_PANE_VBOX);
+    SCROLL_PANE.setStyle("-fx-background-color:transparent;");
+    SCROLL_PANE.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
+    SCROLL_PANE_VBOX.setStyle("-fx-background-color: transparent;");
+    SCROLL_PANE.fitToWidthProperty().set(true);
+    SCROLL_PANE.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
   }
 
   /**
@@ -93,9 +93,9 @@ class AlbumDetailsScene extends SceneBuilder {
 
     popupWindow.getDialogText().setText("File location: ");
 
-    saveLocation.setPromptText("File location");
-    Css.setTextField(350, 20, 17, saveLocation);
-    saveLocation.setDisable(true);
+    SAVE_LOCATION.setPromptText("File location");
+    Css.setTextField(350, 20, 17, SAVE_LOCATION);
+    SAVE_LOCATION.setDisable(true);
 
     Button fileExplorer = new Button("Browse");
     Button downloadPdf = new Button("Download");
@@ -107,23 +107,23 @@ class AlbumDetailsScene extends SceneBuilder {
       try {
         this.setSaveLocation(System.getProperty("user.home"), popupWindow.getDialogWindow());
       } catch (Exception e) {
-        saveLocation.clear();
+        SAVE_LOCATION.clear();
       }
     });
 
     downloadPdf.setMaxWidth(450);
     downloadPdf.setOnAction(e -> {
-      if (saveLocation.getText().trim().length() != 0) {
-        generatePDF(saveLocation.getText());
-        saveLocation.clear();
+      if (SAVE_LOCATION.getText().trim().length() != 0) {
+        generatePDF(SAVE_LOCATION.getText());
+        SAVE_LOCATION.clear();
         popupWindow.getDialogWindow().close();
       } else {
-        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Choose file location before downloading", 13, dialogFeedBackLabel, 6);
+        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Choose file location before downloading", 13, DIALOG_FEEDBACK_LABEL, 6);
       }
     });
 
-    popupWindow.getDialogHBox().getChildren().addAll(saveLocation, fileExplorer);
-    popupWindow.getDialogVBox().getChildren().addAll(dialogFeedBackLabel, downloadPdf);
+    popupWindow.getDialogHBox().getChildren().addAll(SAVE_LOCATION, fileExplorer);
+    popupWindow.getDialogVBox().getChildren().addAll(DIALOG_FEEDBACK_LABEL, downloadPdf);
   }
 
   /**
@@ -140,18 +140,18 @@ class AlbumDetailsScene extends SceneBuilder {
     if (!albumPhotoList.isEmpty()) {
       albumPhotoList.forEach(photo -> {
         PhotoContainer p = new PhotoContainer(photo);
-        scrollPaneVBox.getChildren().add(p.getPhotoContainerHBox());
-        containers.add(p);
+        SCROLL_PANE_VBOX.getChildren().add(p.getPhotoContainerHBox());
+        CONTAINERS.add(p);
       });
     } else {
       showAlbumIsEmpty();
     }
-    deleteAlbum.setOnAction(e -> {
+    DELETE_ALBUM.setOnAction(e -> {
       UserInfo.getUser().getAlbums().remove(album);
       Hibernate.updateUser(UserInfo.getUser());
       StageInitializer.setScene(new AlbumsScene());
     });
-    deletePhoto.setOnAction(e -> deleteSelectedPhotos(album));
+    DELETE_PHOTOS.setOnAction(e -> deleteSelectedPhotos(album));
   }
 
   /**
@@ -160,7 +160,7 @@ class AlbumDetailsScene extends SceneBuilder {
   private void showAlbumIsEmpty() {
     Text text = new Text("This album does not contain any photos yet. You can add more photos in \"Photos\"");
     Css.setText(17, text);
-    scrollPane.setContent(text);
+    SCROLL_PANE.setContent(text);
   }
 
   /**
@@ -174,11 +174,11 @@ class AlbumDetailsScene extends SceneBuilder {
     } else {
       ArrayList<Photo> selectedPhotos = getSelectedPhotos();
       selectedPhotos.forEach(photo -> {
-        Optional<PhotoContainer> optionalPhotoContainer = containers.stream().filter(c -> c.getPhoto().equals(photo)).findAny();
+        Optional<PhotoContainer> optionalPhotoContainer = CONTAINERS.stream().filter(c -> c.getPhoto().equals(photo)).findAny();
         if (optionalPhotoContainer.isPresent()) {
           album.getPhotos().remove(photo);
           PhotoContainer photoContainer = optionalPhotoContainer.get();
-          scrollPaneVBox.getChildren().remove(photoContainer.getPhotoContainerHBox());
+          SCROLL_PANE_VBOX.getChildren().remove(photoContainer.getPhotoContainerHBox());
         } else {
           FileLogger.getLogger().log(Level.FINE, "Photo: {0} is not present in the list containers", photo);
           FileLogger.closeHandler();
@@ -197,7 +197,7 @@ class AlbumDetailsScene extends SceneBuilder {
    */
   private ArrayList<Photo> getSelectedPhotos() {
     ArrayList<Photo> photos = new ArrayList<>();
-    containers.forEach(container -> {
+    CONTAINERS.forEach(container -> {
       if (container.getCheckBox().isSelected()) {
         photos.add(container.getPhoto());
       }
@@ -211,7 +211,7 @@ class AlbumDetailsScene extends SceneBuilder {
     File defaultDirectory = new File(startDirectory);
     chooser.setInitialDirectory(defaultDirectory);
     String selectedDirectory = chooser.showDialog(stage).getAbsolutePath();
-    saveLocation.setText(selectedDirectory);
+    SAVE_LOCATION.setText(selectedDirectory);
   }
 
   /**
@@ -232,12 +232,12 @@ class AlbumDetailsScene extends SceneBuilder {
     } catch (DocumentException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not create a PDF", 13, dialogFeedBackLabel, 6);
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not create a PDF", 13, DIALOG_FEEDBACK_LABEL, 6);
 
     } catch (IOException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not retrieve images", 13, dialogFeedBackLabel, 6);
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not retrieve images", 13, DIALOG_FEEDBACK_LABEL, 6);
     }
   }
 }

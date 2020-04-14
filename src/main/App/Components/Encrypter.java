@@ -10,7 +10,7 @@ import java.util.logging.Level;
  * Encrypter class for encrypting password using hash and salt
  */
 
-public class Encrypter {
+public final class Encrypter {
 
   /**
    * Private constructor to hinder creation of utility class

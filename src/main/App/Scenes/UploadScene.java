@@ -30,15 +30,15 @@ import java.util.logging.Level;
 /**
  * Class for the upload scene
  */
-class UploadScene extends SceneBuilder {
-  private Label titleLabel = new Label("Title: ");
-  private TextField titleField = new TextField();
-  private Label urlLabel = new Label("URL: ");
-  private TextField urlField = new TextField();
-  private Button uploadButton = new Button("Upload image");
-  private Label feedbackLabel = new Label();
-  private ProgressIndicator loadingAnimation = new ProgressIndicator();
-  private Button fileExplorer = new Button("Select local image");
+final class UploadScene extends SceneBuilder {
+  private final Label TITLE_LABEL = new Label("Title: ");
+  private final TextField TITLE_FIELD = new TextField();
+  private final Label URL_LABEL = new Label("URL: ");
+  private final TextField URL_FIELD = new TextField();
+  private final Button UPLOAD_BUTTON = new Button("Upload image");
+  private final Label FEEDBACK_LABEL = new Label();
+  private final ProgressIndicator LOADING_ANIMATION = new ProgressIndicator();
+  private final Button FILE_EXPLORER = new Button("Select local image");
   private String selectedDirectory;
 
   /**
@@ -81,35 +81,35 @@ class UploadScene extends SceneBuilder {
     super.setLayout();
     super.setPageTitle("Upload");
     //Sets PromptText for TextFields
-    titleField.setPromptText("Title here...");
-    urlField.setPromptText("URL here...");
-    super.getGridPane().add(titleLabel, 5, 0);
-    super.getGridPane().add(titleField, 5, 1);
-    super.getGridPane().add(urlLabel, 5, 2);
-    super.getGridPane().add(urlField, 5, 3);
-    super.getGridPane().add(fileExplorer, 5, 4);
-    super.getGridPane().add(uploadButton, 5, 5);
-    super.getGridPane().add(loadingAnimation, 6, 5);
-    super.getGridPane().add(feedbackLabel, 5, 6);
+    TITLE_FIELD.setPromptText("Title here...");
+    URL_FIELD.setPromptText("URL here...");
+    super.getGridPane().add(TITLE_LABEL, 5, 0);
+    super.getGridPane().add(TITLE_FIELD, 5, 1);
+    super.getGridPane().add(URL_LABEL, 5, 2);
+    super.getGridPane().add(URL_FIELD, 5, 3);
+    super.getGridPane().add(FILE_EXPLORER, 5, 4);
+    super.getGridPane().add(UPLOAD_BUTTON, 5, 5);
+    super.getGridPane().add(LOADING_ANIMATION, 6, 5);
+    super.getGridPane().add(FEEDBACK_LABEL, 5, 6);
     super.getGridPane().setAlignment(Pos.TOP_CENTER);
 
     //Sets styling on layout components
-    Css.setButton(700, 25, 20, uploadButton, fileExplorer);
-    Css.setLabel(13, titleLabel, urlLabel);
-    Css.setTextField(700, 20, 17, titleField, urlField);
-    Css.setLoadingAnimation(loadingAnimation);
+    Css.setButton(700, 25, 20, UPLOAD_BUTTON, FILE_EXPLORER);
+    Css.setLabel(13, TITLE_LABEL, URL_LABEL);
+    Css.setTextField(700, 20, 17, TITLE_FIELD, URL_FIELD);
+    Css.setLoadingAnimation(LOADING_ANIMATION);
 
-    uploadButton.setOnAction(e -> upLoadComplete());
-    fileExplorer.setOnAction(e -> {
+    UPLOAD_BUTTON.setOnAction(e -> upLoadComplete());
+    FILE_EXPLORER.setOnAction(e -> {
       try {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Upload local image");
         File defaultDirectory = new File(System.getProperty("user.home"));
         chooser.setInitialDirectory(defaultDirectory);
         selectedDirectory = chooser.showOpenDialog(StageInitializer.getStage()).getAbsolutePath();
-        urlField.setText(selectedDirectory);
+        URL_FIELD.setText(selectedDirectory);
       } catch (Exception exp) {
-        urlField.clear();
+        URL_FIELD.clear();
       }
     });
 
@@ -127,8 +127,8 @@ class UploadScene extends SceneBuilder {
    * @return boolean value, true if trimmed TextFields are equal to 0
    */
   private boolean checkField() {
-    if (titleField.getText().trim().length() == 0 || urlField.getText().trim().length() == 0) {
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Title or URL are missing", 13, feedbackLabel, 6);
+    if (TITLE_FIELD.getText().trim().length() == 0 || URL_FIELD.getText().trim().length() == 0) {
+      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Title or URL are missing", 13, FEEDBACK_LABEL, 6);
       return false;
     }
     return true;
@@ -139,39 +139,39 @@ class UploadScene extends SceneBuilder {
    * Sets feedbackLabel to error message if something went wrong
    */
   private void upLoadComplete() {
-    loadingAnimation.setVisible(true);
+    LOADING_ANIMATION.setVisible(true);
     PauseTransition pause = new PauseTransition();
     pause.setOnFinished(e -> {
       if (checkField()) {
         try {
           String photo_url;
-          if (!urlField.getText().contains("https")) {
+          if (!URL_FIELD.getText().contains("https")) {
             Cloudinary cloudinary = new Cloudinary(getProperties());
-            File file = new File(urlField.getText());
+            File file = new File(URL_FIELD.getText());
             Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
             photo_url = uploadResult.get("url").toString();
           } else {
-            photo_url = urlField.getText();
+            photo_url = URL_FIELD.getText();
           }
-          Photo photo = ImageAnalyzer.analyze(titleField.getText(), photo_url);
+          Photo photo = ImageAnalyzer.analyze(TITLE_FIELD.getText(), photo_url);
           UserInfo.getUser().getPhotos().add(photo);
           Hibernate.updateUser(UserInfo.getUser());
-          titleField.clear();
-          urlField.clear();
-          Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, photo.getTitle() + " was stored", 13, feedbackLabel, 6);
+          TITLE_FIELD.clear();
+          URL_FIELD.clear();
+          Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, photo.getTitle() + " was stored", 13, FEEDBACK_LABEL, 6);
         } catch (IOException ex) {
-          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Something went wrong when retrieving the image from the url.", 13, feedbackLabel, 6);
+          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Something went wrong when retrieving the image from the url.", 13, FEEDBACK_LABEL, 6);
           FileLogger.getLogger().log(Level.FINE, ex.getMessage());
           FileLogger.closeHandler();
         } catch (NullPointerException ex) {
-          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Something went wrong when analyzing the image.", 13, feedbackLabel, 6);
+          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Something went wrong when analyzing the image.", 13, FEEDBACK_LABEL, 6);
           FileLogger.getLogger().log(Level.FINE, ex.getMessage());
           FileLogger.closeHandler();
         } finally {
-          loadingAnimation.setVisible(false);
+          LOADING_ANIMATION.setVisible(false);
         }
       } else {
-        loadingAnimation.setVisible(false);
+        LOADING_ANIMATION.setVisible(false);
       }
     });
     pause.play();

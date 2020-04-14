@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Class that is used to create a photo album in the form of a pdf file
  */
-public class PDFcreator {
+public final class PDFcreator {
 
     /**
      * Private constructor to hinder creation of utility class

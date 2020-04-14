@@ -10,7 +10,7 @@ import java.util.logging.Level;
 /**
  * Class that is used to analyze a image and extract all its metadata
  */
-public class ImageAnalyzer {
+public final class ImageAnalyzer {
 
   /**
    * Private constructor to hinder creation of utility class

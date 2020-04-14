@@ -21,19 +21,19 @@ import java.util.logging.Level;
 /**
  * Class for the map scene
  */
-class MapScene extends SceneBuilder {
+final class MapScene extends SceneBuilder {
 
-  private List<Photo> photoList = new ArrayList<>();
-  private WebView webView = new WebView();
-  private StackPane stackPane = new StackPane();
-  private final MapBridge mapBridge = new MapBridge();
+  private final List<Photo> PHOTO_LIST = new ArrayList<>();
+  private final WebView WEB_VIEW = new WebView();
+  private final StackPane STACK_PANE = new StackPane();
+  private final MapBridge MAP_BRIDGE = new MapBridge();
 
   /**
    * Instantiates a new Map scene.
    */
   MapScene() {
     super();
-    photoList.addAll(UserInfo.getUser().getPhotos());
+    PHOTO_LIST.addAll(UserInfo.getUser().getPhotos());
     this.setLayout();
   }
 
@@ -45,7 +45,7 @@ class MapScene extends SceneBuilder {
   void setLayout() {
     super.setLayout();
     super.setPageTitle("Map");
-    super.getGridPane().add(stackPane, 0, 0);
+    super.getGridPane().add(STACK_PANE, 0, 0);
     this.setUpMap();
   }
 
@@ -53,32 +53,32 @@ class MapScene extends SceneBuilder {
    * Sets up the the webview by loading the html and initialising a listener which makes it possible to call methods in MapBridge from the javascript
    */
   private void setUpMap() {
-    webView.getEngine().loadContent(getHtml(), "text/html");
-    webView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
-      JSObject window = (JSObject) webView.getEngine().executeScript("window");
-      window.setMember("java", mapBridge);
+    WEB_VIEW.getEngine().loadContent(getHtml(), "text/html");
+    WEB_VIEW.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+      JSObject window = (JSObject) WEB_VIEW.getEngine().executeScript("window");
+      window.setMember("java", MAP_BRIDGE);
     });
     Rectangle r = new Rectangle();
-    r.widthProperty().bind(webView.widthProperty());
-    r.heightProperty().bind(webView.heightProperty());
+    r.widthProperty().bind(WEB_VIEW.widthProperty());
+    r.heightProperty().bind(WEB_VIEW.heightProperty());
     r.setArcWidth(30);
     r.setArcHeight(30);
-    webView.setClip(r);
-    stackPane.setPrefWidth(700.0);
-    Css.setMapPane(stackPane);
-    stackPane.getChildren().add(webView);
+    WEB_VIEW.setClip(r);
+    STACK_PANE.setPrefWidth(700.0);
+    Css.setMapPane(STACK_PANE);
+    STACK_PANE.getChildren().add(WEB_VIEW);
   }
 
   /**
    * The type Map bridge.
    */
-  public class MapBridge {
+  public final class MapBridge {
     /**
      * Open PhotoViewer with the given photo id
      *
      * @param photo_id the photo id of the photo
      */
-    public void open(int photo_id) {
+    public final void open(int photo_id) {
       Photo photo = findPhotoById(photo_id);
       if (photo != null) {
         PhotoViewer photoViewer = new PhotoViewer(photo);
@@ -93,7 +93,7 @@ class MapScene extends SceneBuilder {
      * @return photo if found, else null
      */
     private Photo findPhotoById(int photo_id) {
-      for (Photo photo : photoList) {
+      for (Photo photo : PHOTO_LIST) {
         if (photo.getId() == photo_id) {
           return photo;
         }
@@ -123,7 +123,7 @@ class MapScene extends SceneBuilder {
     html.append("  var marker;");
     html.append("  var bounds = new google.maps.LatLngBounds();");
 
-    for (Photo photo : photoList) {
+    for (Photo photo : PHOTO_LIST) {
       // Only add photos which has a location stored to the map
       if (photo.getLatitude() != null && photo.getLongitude() != null) {
         String location = "new google.maps.LatLng(" + photo.getLatitude() + "," + photo.getLongitude() + ")";

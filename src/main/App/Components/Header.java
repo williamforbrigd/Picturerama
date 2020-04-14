@@ -17,54 +17,54 @@ import javafx.scene.text.FontWeight;
 /**
  * Class that creates the header of the application
  */
-public class Header {
-    private static final Image logo = new Image("file:src/main/App/Images/Logo.png", 80, 80, true, true);
-    private static final ImageView logoView = new ImageView(logo);
-    private static final Label picturerama = new Label("Picturerama");
-    private Label pageTitle = new Label();
-    private static final Image homeIcon = new Image("file:src/main/App/Images/HomeIcon.png");
-    private static Button homeButton = new Button("",new ImageView(homeIcon));
-    private static HBox hBox = new HBox();
+public final class Header {
+    private static final Image LOGO = new Image("file:src/main/App/Images/Logo.png", 80, 80, true, true);
+    private static final ImageView LOGO_VIEW = new ImageView(LOGO);
+    private static final Label PICTURERAMA = new Label("Picturerama");
+    private final Label PAGE_TITLE = new Label();
+    private static final Image HOME_ICON = new Image("file:src/main/App/Images/HomeIcon.png");
+    private static final Button HOME_BUTTON = new Button("",new ImageView(HOME_ICON));
+    private static final HBox HBOX = new HBox();
 
     /**
      * Constructor that sets up the header of the application
      */
     public Header() {
         if(UserInfo.getUser() != null) {
-            homeButton.setOnAction(e -> Scenes.StageInitializer.setScene(new MenuScene()));
+            HOME_BUTTON.setOnAction(e -> Scenes.StageInitializer.setScene(new MenuScene()));
         }else{
-            homeButton.setOnAction(e -> Scenes.StageInitializer.setScene(new LoginScene()));
+            HOME_BUTTON.setOnAction(e -> Scenes.StageInitializer.setScene(new LoginScene()));
         }
-        hBox.getChildren().clear();
+        HBOX.getChildren().clear();
         this.setHBox();
     }
 
     public static HBox getHBox() {
-        return hBox;
+        return HBOX;
     }
 
     public void setPageTitle(String newTitle) {
-        this.pageTitle.setText("- " + newTitle);
+        this.PAGE_TITLE.setText("- " + newTitle);
     }
 
     /**
      * SetGridPane void, sets padding and alignment for the grid pane
      */
     private void setHBox() {
-        hBox.setSpacing(10.0D);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().add(0, logoView);
-        picturerama.setFont(Font.font("Montserrat", FontWeight.BOLD, 40.0D));
-        this.pageTitle.setFont(Font.font("Montserrat", FontWeight.NORMAL, 40.0D));
-        hBox.getChildren().add(picturerama);
-        hBox.getChildren().add(this.pageTitle);
+        HBOX.setSpacing(10.0D);
+        HBOX.setAlignment(Pos.CENTER);
+        HBOX.getChildren().add(0, LOGO_VIEW);
+        PICTURERAMA.setFont(Font.font("Montserrat", FontWeight.BOLD, 40.0D));
+        this.PAGE_TITLE.setFont(Font.font("Montserrat", FontWeight.NORMAL, 40.0D));
+        HBOX.getChildren().add(PICTURERAMA);
+        HBOX.getChildren().add(this.PAGE_TITLE);
         Region spacing = new Region();
         HBox.setHgrow(spacing, Priority.ALWAYS);
-        hBox.getChildren().add(spacing);
-        Css.setHomeButton(homeButton);
-        hBox.getChildren().add(homeButton);
-        hBox.setMaxWidth(700.0D);
-        hBox.setPrefHeight(100.0D);
-        Css.setPane(hBox);
+        HBOX.getChildren().add(spacing);
+        Css.setHomeButton(HOME_BUTTON);
+        HBOX.getChildren().add(HOME_BUTTON);
+        HBOX.setMaxWidth(700.0D);
+        HBOX.setPrefHeight(100.0D);
+        Css.setPane(HBOX);
     }
 }

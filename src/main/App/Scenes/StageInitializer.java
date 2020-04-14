@@ -2,15 +2,13 @@ package Scenes;
 
 import Components.ConfirmationBox;
 import Database.Hibernate;
-import Database.HibernateClasses.Album;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
  * Class that initializes all the scenes in the application
  */
-public class StageInitializer {
+public final class StageInitializer {
   private static Stage stage;
 
   /**

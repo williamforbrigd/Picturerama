@@ -14,11 +14,11 @@ import javafx.stage.Stage;
 /**
  * Class that creates an universal popup window
  */
-public class PopupWindow {
-    private Stage dialogWindow;
-    private VBox dialogVBox;
-    private HBox dialogHBox;
-    private Text dialogText;
+public final class PopupWindow {
+    private final Stage DIALOG_WINDOW;
+    private final VBox DIALOG_VBOX;
+    private final HBox DIALOG_HBOX;
+    private final Text DIALOG_TEXT;
 
     /**
      * Constructor that takes in the width and height of the popup window
@@ -27,43 +27,43 @@ public class PopupWindow {
      */
     public PopupWindow(Stage owner, double width, double height){
 
-        dialogWindow = new Stage();
-        dialogWindow.initOwner(owner);
-        dialogWindow.initModality(Modality.APPLICATION_MODAL);
-        dialogWindow.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
-        dialogWindow.setResizable(false);
+        DIALOG_WINDOW = new Stage();
+        DIALOG_WINDOW.initOwner(owner);
+        DIALOG_WINDOW.initModality(Modality.APPLICATION_MODAL);
+        DIALOG_WINDOW.getIcons().add(new Image("file:src/main/App/Images/Logo.png"));
+        DIALOG_WINDOW.setResizable(false);
 
-        dialogVBox = new VBox();
-        dialogVBox.setAlignment(Pos.CENTER);
-        dialogVBox.setSpacing(10);
+        DIALOG_VBOX = new VBox();
+        DIALOG_VBOX.setAlignment(Pos.CENTER);
+        DIALOG_VBOX.setSpacing(10);
 
-        dialogText = new Text();
-        Css.setText(17,dialogText);
+        DIALOG_TEXT = new Text();
+        Css.setText(17, DIALOG_TEXT);
 
-        dialogHBox = new HBox();
-        dialogHBox.setPadding(new Insets(10,10,10,10));
-        dialogHBox.setSpacing(10);
+        DIALOG_HBOX = new HBox();
+        DIALOG_HBOX.setPadding(new Insets(10,10,10,10));
+        DIALOG_HBOX.setSpacing(10);
 
-        dialogVBox.getChildren().addAll(dialogText, dialogHBox);
-        Scene dialogScene = new Scene(dialogVBox, width, height);
-        dialogWindow.setScene(dialogScene);
-        dialogWindow.show();
+        DIALOG_VBOX.getChildren().addAll(DIALOG_TEXT, DIALOG_HBOX);
+        Scene dialogScene = new Scene(DIALOG_VBOX, width, height);
+        DIALOG_WINDOW.setScene(dialogScene);
+        DIALOG_WINDOW.show();
     }
 
     public Stage getDialogWindow() {
-        return dialogWindow;
+        return DIALOG_WINDOW;
     }
 
     public VBox getDialogVBox() {
-        return dialogVBox;
+        return DIALOG_VBOX;
     }
 
     public HBox getDialogHBox() {
-        return dialogHBox;
+        return DIALOG_HBOX;
     }
 
     public Text getDialogText() {
-        return dialogText;
+        return DIALOG_TEXT;
     }
 
 }
