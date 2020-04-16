@@ -62,6 +62,7 @@ public final class LoginRoot extends SceneRoot {
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
     //Sets functionality for the layout components
+    LOG_IN_BUTTON.setDefaultButton(true);
     LOG_IN_BUTTON.setOnAction(e -> login());
     SIGN_UP_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new SignUpRoot()));
   }
@@ -78,11 +79,11 @@ public final class LoginRoot extends SceneRoot {
         if (Authentication.logIn(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
           ApplicationManager.setRoot(new MenuRoot());
         } else {
-          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Log in failed", 13, LOG_IN_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Log in failed", 13, LOG_IN_LABEL);
           LOADING_ANIMATION.setVisible(false);
         }
       } catch (ExceptionInInitializerError error) {
-        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not connect to database", 13, LOG_IN_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not connect to database", 13, LOG_IN_LABEL);
         LOADING_ANIMATION.setVisible(false);
         FileLogger.getLogger().log(Level.FINE, error.getMessage());
         FileLogger.closeHandler();

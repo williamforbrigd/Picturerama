@@ -123,7 +123,7 @@ final class AlbumDetailsRoot extends SceneRoot {
         SAVE_LOCATION.clear();
         popupWindow.getDialogWindow().close();
       } else {
-        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Choose file location before downloading", 13, DIALOG_FEEDBACK_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Choose file location before downloading", 13, DIALOG_FEEDBACK_LABEL);
       }
     });
 
@@ -250,12 +250,12 @@ final class AlbumDetailsRoot extends SceneRoot {
     } catch (DocumentException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not create a PDF", 13, DIALOG_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not create a PDF", 13, DIALOG_FEEDBACK_LABEL);
 
     } catch (IOException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not retrieve images", 13, DIALOG_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not retrieve images", 13, DIALOG_FEEDBACK_LABEL);
     }
   }
 }

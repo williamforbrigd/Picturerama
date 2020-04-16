@@ -181,7 +181,6 @@ final class PhotosRoot extends SceneRoot {
     popupWindow.getDialogText().setText("Please select the name of the album: ");
 
     setupChoiceBox();
-    Css.setChoiceBoxAlbums(CHOICE_BOX);
 
     Button addAlbum = new Button("Add to album");
     Css.setButton(500, 20, 17, addAlbum);
@@ -231,12 +230,12 @@ final class PhotosRoot extends SceneRoot {
     Album album = UserInfo.getUser().getAlbums().stream().filter(a -> a.getName().equals(albumName)).findAny().orElse(null);
     ArrayList<Photo> checkedPhoto = getCheckedPhotos();
     if (checkedPhoto.isEmpty()) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Unsuccessful: No photos were chosen", 13, FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Unsuccessful: No photos were chosen", 13, FEEDBACK_LABEL);
     } else if (album == null) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Unsuccessful: No album were chosen", 13, FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Unsuccessful: No album were chosen", 13, FEEDBACK_LABEL);
     } else {
       checkedPhoto.forEach(s -> s.addAlbum(album));
-      Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "Added to " + albumName, 13, FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "Added to " + albumName, 13, FEEDBACK_LABEL);
     }
     Hibernate.updateUser(UserInfo.getUser());
   }
@@ -248,7 +247,7 @@ final class PhotosRoot extends SceneRoot {
   private void deleteSelectedPhotos() {
     ArrayList<Photo> selectedPhotos = getCheckedPhotos();
     if (selectedPhotos.isEmpty()) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Unsuccessful: No photos were chosen", 13, FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Unsuccessful: No photos were chosen", 13, FEEDBACK_LABEL);
     } else {
       boolean successfulDeleteSelectedPhotos = true;
       for (Photo photo : selectedPhotos) {
@@ -268,9 +267,9 @@ final class PhotosRoot extends SceneRoot {
       }
       Hibernate.updateUser(UserInfo.getUser());
       if (successfulDeleteSelectedPhotos) {
-        Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "Deleted successfully", 13, FEEDBACK_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "Deleted successfully", 13, FEEDBACK_LABEL);
       } else {
-        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "One or more photos could not be deleted", 13, FEEDBACK_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "One or more photos could not be deleted", 13, FEEDBACK_LABEL);
       }
     }
   }

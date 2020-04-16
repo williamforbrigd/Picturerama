@@ -60,7 +60,7 @@ public final class PhotoViewer {
 
     TextField tagField = new TextField();
     tagField.setPromptText("Tag name");
-    Css.setTextField(150, 10, 14, tagField);
+    Css.setTextField(150, 20, 14, tagField);
 
     Button addTagButton = new Button("Add tag");
     Button closeButton = new Button("Close");

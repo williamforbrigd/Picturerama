@@ -230,7 +230,6 @@ final class AlbumsRoot extends SceneRoot {
     CHOICE_BOX.getItems().clear();
     CHOICE_BOX.getStyleClass().add("choice-box");
     CHOICE_BOX.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
-    Css.setChoiceBoxAlbums(CHOICE_BOX);
     UserInfo.getUser().getAlbums().forEach(album -> {
       if (!CHOICE_BOX.getItems().contains(album.getName())) {
         CHOICE_BOX.getItems().add(album.getName());

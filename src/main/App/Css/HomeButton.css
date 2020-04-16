@@ -1,0 +1,7 @@
+.button {
+    -fx-background-color: none;
+    -fx-background-radius: 5px;
+}
+.button:focused, .button:hover {
+    -fx-background-color: #f1f1f1;
+}

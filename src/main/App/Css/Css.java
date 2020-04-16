@@ -18,15 +18,9 @@ public final class Css {
   private static final String BORDER_RADIUS = "15px";
   private static final String BORDER_WIDTH = "1px";
   private static final String BORDER_COLOR_LIGHT = "#DDDDDD";
-  private static final String BORDER_COLOR_DARK = "#656565";
   private static final String BOX_BACKGROUND_COLOR = "WHITE";
-  private static final String BOX_BACKGROUND_COLOR_HOVER = "#00000022";
   private static final String FONT = "Montserrat";
   private static final String PANE_STYLE = "-fx-padding: 4;-fx-border-style: solid inside;-fx-border-width: " + BORDER_WIDTH + ";-fx-border-radius: " + BORDER_RADIUS + ";-fx-border-color: " + BORDER_COLOR_LIGHT + ";-fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-background-radius: " + BORDER_RADIUS + ";";
-  private static final String BUTTON_STYLE = "-fx-border-style:solid inside;-fx-border-width: " + BORDER_WIDTH + ";-fx-border-radius: " + BORDER_RADIUS + "; -fx-border-color: " + BORDER_COLOR_LIGHT + "; -fx-background-radius: " + BORDER_RADIUS + ";-fx-background-insets: 0;";
-  private static final String UN_HOVERED_BUTTON_STYLE = "-fx-background-color: " + BOX_BACKGROUND_COLOR + ";";
-  private static final String HOVERED_BUTTON_STYLE = "-fx-background-color: " + BOX_BACKGROUND_COLOR_HOVER + ";-fx-cursor: hand;";
-  private static final String TEXTFIELD_STYLE = "-fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-border-color: " + BORDER_COLOR_DARK + ";-fx-border-radius: " + BORDER_RADIUS + ";-fx-background-radius: " + BORDER_RADIUS + ";";
 
   /**
    * Private constructor to hinder creation of utility class
@@ -65,12 +59,10 @@ public final class Css {
    */
   public static void setButton(int width, int height, int fontSize, Button... buttons) {
     for (Button button : buttons) {
-      button.setStyle(BUTTON_STYLE + UN_HOVERED_BUTTON_STYLE);
       button.setFont(Font.font(FONT, fontSize));
       button.setPrefWidth(width);
       button.setPrefHeight(height);
-      button.setOnMouseEntered(e -> button.setStyle(BUTTON_STYLE + HOVERED_BUTTON_STYLE));
-      button.setOnMouseExited(e -> button.setStyle(BUTTON_STYLE + UN_HOVERED_BUTTON_STYLE));
+      button.getStylesheets().add("file:src/main/App/Css/Button.css");
     }
   }
 
@@ -82,7 +74,7 @@ public final class Css {
   public static void setTagContainerButton(Button... buttons) {
     for (Button button : buttons) {
       button.setMaxSize(10, 10);
-      button.setStyle("-fx-background-color: none");
+      button.getStylesheets().add("file:src/main/App/Css/TagContainer.css");
     }
   }
 
@@ -92,9 +84,7 @@ public final class Css {
    * @param button An button
    */
   public static void setHomeButton(Button button) {
-    button.setStyle("-fx-background-color: none;");
-    button.setOnMouseEntered(e -> button.setStyle(HOVERED_BUTTON_STYLE));
-    button.setOnMouseExited(e -> button.setStyle("-fx-background-color: none"));
+    button.getStylesheets().add("file:src/main/App/Css/HomeButton.css");
   }
 
   /**
@@ -104,15 +94,12 @@ public final class Css {
    * @param container a HBox
    */
   public static void setImageContainer(Button button, HBox container) {
-    String imageButtonStyle = "-fx-background-radius: " + BORDER_RADIUS + " 0px 0px " + BORDER_RADIUS + ";";
-    button.setStyle(imageButtonStyle + UN_HOVERED_BUTTON_STYLE);
     container.setStyle(PANE_STYLE + "-fx-padding: 0; -fx-border-insets: 1; -fx-background-insets: 1");
-    button.setOnMouseExited(action -> button.setStyle(imageButtonStyle + UN_HOVERED_BUTTON_STYLE));
-    button.setOnMouseEntered(action -> button.setStyle(imageButtonStyle + HOVERED_BUTTON_STYLE));
     button.setAlignment(Pos.CENTER_LEFT);
     button.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
     button.setMinHeight(160);
     button.setMaxHeight(160);
+    button.getStylesheets().add("file:src/main/App/Css/ImageContainer.css");
   }
 
   /**
@@ -125,7 +112,7 @@ public final class Css {
    */
   public static void setTextField(int width, int height, int fontSize, TextField... textFields) {
     for (TextField textField : textFields) {
-      textField.setStyle(TEXTFIELD_STYLE);
+      textField.getStylesheets().add("file:src/main/App/Css/TextField.css");
       textField.setPrefWidth(width);
       textField.setPrefHeight(height);
       textField.setFont(Font.font(FONT, fontSize));
@@ -139,18 +126,6 @@ public final class Css {
    */
   public static void setAlbumScrollPaneBorder(ScrollPane scrollPane) {
     scrollPane.setStyle("-fx-background-color:transparent;");
-  }
-
-  /**
-   * Sets styling for choice box in add to album in search scene
-   *
-   * @param choiceBox A choice box
-   */
-  public static void setChoiceBoxAlbums(ChoiceBox choiceBox) {
-    choiceBox.setPrefHeight(20);
-    choiceBox.setPrefWidth(700);
-    choiceBox.setStyle("-fx-background-color: " + BOX_BACKGROUND_COLOR + ";-fx-border-color: " + BORDER_COLOR_DARK + ";" +
-        "-fx-border-radius: " + BORDER_RADIUS + ";-fx-background-radius: " + BORDER_RADIUS + ";");
   }
 
   /**
@@ -187,10 +162,10 @@ public final class Css {
    * @param fontSize     the size of the font
    * @param label        label to play the transition on
    */
-  public static void playFeedBackLabelTransition(FeedbackType feedBackType, String labelMessage, int fontSize, Label label, int transitionDurationSeconds) {
+  public static void playFeedBackLabelTransition(FeedbackType feedBackType, String labelMessage, int fontSize, Label label) {
     setFeedBackLabel(feedBackType, fontSize, label);
     label.setText(labelMessage);
-    FadeTransition ft = new FadeTransition(Duration.seconds(transitionDurationSeconds), label);
+    FadeTransition ft = new FadeTransition(Duration.seconds(8), label);
     ft.setFromValue(1);
     ft.setToValue(0);
     ft.play();

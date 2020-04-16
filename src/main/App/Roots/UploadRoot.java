@@ -126,7 +126,7 @@ final class UploadRoot extends SceneRoot {
    */
   private boolean checkField() {
     if (TITLE_FIELD.getText().trim().length() == 0 || URL_FIELD.getText().trim().length() == 0) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Title or URL are missing", 13, FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Title or URL are missing", 13, FEEDBACK_LABEL);
       return false;
     }
     return true;
@@ -156,13 +156,13 @@ final class UploadRoot extends SceneRoot {
           Hibernate.updateUser(UserInfo.getUser());
           TITLE_FIELD.clear();
           URL_FIELD.clear();
-          Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, photo.getTitle() + " was stored", 13, FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, photo.getTitle() + " was stored", 13, FEEDBACK_LABEL);
         } catch (IOException ex) {
-          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Something went wrong when retrieving the image from the url.", 13, FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Something went wrong when retrieving the image from the url.", 13, FEEDBACK_LABEL);
           FileLogger.getLogger().log(Level.FINE, ex.getMessage());
           FileLogger.closeHandler();
         } catch (NullPointerException ex) {
-          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Something went wrong when analyzing the image.", 13, FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Something went wrong when analyzing the image.", 13, FEEDBACK_LABEL);
           FileLogger.getLogger().log(Level.FINE, ex.getMessage());
           FileLogger.closeHandler();
         } finally {

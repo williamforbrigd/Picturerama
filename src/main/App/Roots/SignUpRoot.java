@@ -72,6 +72,7 @@ final class SignUpRoot extends SceneRoot {
     Css.setLabel(13, USERNAME_LABEL, PASSWORD_LABEL, CONFIRM_PASSWORD_LABEL);
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
+    SIGN_UP_BUTTON.setDefaultButton(true);
     SIGN_UP_BUTTON.setOnAction(e -> signUp());
     PASSWORD_FIELD.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
@@ -91,14 +92,14 @@ final class SignUpRoot extends SceneRoot {
           if (Authentication.register(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
             ApplicationManager.setRoot(new LoginRoot());
           } else {
-            Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: This username is already taken", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+            Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: This username is already taken", 13, SIGN_UP_FEEDBACK_LABEL);
             LOADING_ANIMATION.setVisible(false);
           }
         } else {
           LOADING_ANIMATION.setVisible(false);
         }
       } catch (ExceptionInInitializerError error) {
-        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Could not connect to database", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Could not connect to database", 13, SIGN_UP_FEEDBACK_LABEL);
         LOADING_ANIMATION.setVisible(false);
         FileLogger.getLogger().log(Level.FINE, error.getMessage());
         FileLogger.closeHandler();
@@ -185,12 +186,12 @@ final class SignUpRoot extends SceneRoot {
   private boolean feedback() {
     //Checks if password or username trimmed is equal to 0
     if (PASSWORD_FIELD.getText().trim().length() == 0 || USERNAME_FIELD.getText().trim().length() == 0) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password or username is missing", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password or username is missing", 13, SIGN_UP_FEEDBACK_LABEL);
       return false;
     }
     //Checks if password is shorter than 8 characters
     if (PASSWORD_FIELD.getText().length() < 8) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password needs to contain 8 characters", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password needs to contain 8 characters", 13, SIGN_UP_FEEDBACK_LABEL);
       return false;
     }
     //Checks username for illegal characters
@@ -198,7 +199,7 @@ final class SignUpRoot extends SceneRoot {
       for (int i = 0; i < USERNAME_FIELD.getText().length(); i++) {
         if (!Character.isLetter(USERNAME_FIELD.getText().charAt(i)) &&
             !Character.isDigit(USERNAME_FIELD.getText().charAt(i))) {
-          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Username contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Username contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL);
           return false;
         }
       }
@@ -208,18 +209,18 @@ final class SignUpRoot extends SceneRoot {
       for (int i = 0; i < PASSWORD_FIELD.getText().length(); i++) {
         if (!Character.isLetter(PASSWORD_FIELD.getText().charAt(i)) &&
             !Character.isDigit(PASSWORD_FIELD.getText().charAt(i))) {
-          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL);
           return false;
         }
       }
     }
     //Checks confirmpassword and password match
     if (!PASSWORD_FIELD.getText().equals(CONFIRM_PASSWORD_FIELD.getText())) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Your passwords don't match", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Your passwords don't match", 13, SIGN_UP_FEEDBACK_LABEL);
       return false;
     }
 
-    Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "You have been signed up!", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+    Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "You have been signed up!", 13, SIGN_UP_FEEDBACK_LABEL);
     return true;
   }
 
