@@ -64,6 +64,7 @@ public final class PhotoViewer {
 
     Button addTagButton = new Button("Add tag");
     Button closeButton = new Button("Close");
+    closeButton.setCancelButton(true);
     Css.setButton(582, 25, 20, addTagButton, closeButton);
 
     AnchorPane layout = new AnchorPane();
