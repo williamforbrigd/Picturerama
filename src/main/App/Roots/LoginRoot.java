@@ -62,7 +62,6 @@ public final class LoginRoot extends SceneRoot {
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
     //Sets functionality for the layout components
-    LOG_IN_BUTTON.setDefaultButton(true);
     LOG_IN_BUTTON.setOnAction(e -> login());
     SIGN_UP_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new SignUpRoot()));
   }

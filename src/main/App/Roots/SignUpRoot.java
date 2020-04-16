@@ -72,7 +72,6 @@ final class SignUpRoot extends SceneRoot {
     Css.setLabel(13, USERNAME_LABEL, PASSWORD_LABEL, CONFIRM_PASSWORD_LABEL);
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
-    SIGN_UP_BUTTON.setDefaultButton(true);
     SIGN_UP_BUTTON.setOnAction(e -> signUp());
     PASSWORD_FIELD.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
