@@ -1,12 +1,13 @@
-package Scenes;
+package Roots;
 
 import Components.FileLogger;
 import Components.ImageAnalyzer;
 import Components.UserInfo;
 import Css.Css;
-import Css.FeedBackType;
+import Css.FeedbackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
+import Main.ApplicationManager;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import javafx.animation.PauseTransition;
@@ -16,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -29,9 +29,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 /**
- * Class for the upload scene
+ * Class for the upload root
  */
-final class UploadScene extends SceneBuilder {
+final class UploadRoot extends SceneRoot {
   private final Label TITLE_LABEL = new Label("Title: ");
   private final TextField TITLE_FIELD = new TextField();
   private final Label URL_LABEL = new Label("URL: ");
@@ -43,15 +43,16 @@ final class UploadScene extends SceneBuilder {
   private String selectedDirectory;
 
   /**
-   * Constructor that sets up the layout of the upload scene
+   * Constructor that sets up the layout of the upload root
    */
-  UploadScene() {
+  UploadRoot() {
     super();
     this.setLayout();
   }
 
   /**
    * Method that gets cloudinary properties
+   * Used in uploadComplete
    *
    * @return returns a map with the properties
    */
@@ -72,10 +73,11 @@ final class UploadScene extends SceneBuilder {
 
 
   /**
-   * Overrides SceneBuilder method.
-   * Assigns layout components to SceneBuilders GridPane
+   * Overrides SceneRoot method.
+   * Assigns layout components to RootBuilders GridPane
    * Sets styling to layout components
    * Sets functionality to button nodes
+   * Used in constructor
    */
   @Override
   void setLayout() {
@@ -101,36 +103,30 @@ final class UploadScene extends SceneBuilder {
     Css.setTextField(700, 20, 17, TITLE_FIELD, URL_FIELD);
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
-    UPLOAD_BUTTON.setOnAction(e -> upLoadComplete());
+    UPLOAD_BUTTON.setOnAction(e -> uploadComplete());
     FILE_EXPLORER.setOnAction(e -> {
       try {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Upload local image");
         File defaultDirectory = new File(System.getProperty("user.home"));
         chooser.setInitialDirectory(defaultDirectory);
-        selectedDirectory = chooser.showOpenDialog(StageInitializer.getStage()).getAbsolutePath();
+        selectedDirectory = chooser.showOpenDialog(ApplicationManager.getStage()).getAbsolutePath();
         URL_FIELD.setText(selectedDirectory);
       } catch (Exception exp) {
         URL_FIELD.clear();
       }
     });
-
-    super.getScene().setOnKeyPressed(e -> {
-      if (e.getCode() == KeyCode.ENTER) {
-        upLoadComplete();
-      }
-
-    });
   }
 
   /**
    * Checks if title or url are missing
+   * Used in uploadComplete
    *
    * @return boolean value, true if trimmed TextFields are equal to 0
    */
   private boolean checkField() {
     if (TITLE_FIELD.getText().trim().length() == 0 || URL_FIELD.getText().trim().length() == 0) {
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Title or URL are missing", 13, FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Title or URL are missing", 13, FEEDBACK_LABEL, 6);
       return false;
     }
     return true;
@@ -140,7 +136,7 @@ final class UploadScene extends SceneBuilder {
    * Upload the image path to the database
    * Sets feedbackLabel to error message if something went wrong
    */
-  private void upLoadComplete() {
+  private void uploadComplete() {
     LOADING_ANIMATION.setVisible(true);
     PauseTransition pause = new PauseTransition();
     pause.setOnFinished(e -> {
@@ -160,13 +156,13 @@ final class UploadScene extends SceneBuilder {
           Hibernate.updateUser(UserInfo.getUser());
           TITLE_FIELD.clear();
           URL_FIELD.clear();
-          Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, photo.getTitle() + " was stored", 13, FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, photo.getTitle() + " was stored", 13, FEEDBACK_LABEL, 6);
         } catch (IOException ex) {
-          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Something went wrong when retrieving the image from the url.", 13, FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Something went wrong when retrieving the image from the url.", 13, FEEDBACK_LABEL, 6);
           FileLogger.getLogger().log(Level.FINE, ex.getMessage());
           FileLogger.closeHandler();
         } catch (NullPointerException ex) {
-          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Something went wrong when analyzing the image.", 13, FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Something went wrong when analyzing the image.", 13, FEEDBACK_LABEL, 6);
           FileLogger.getLogger().log(Level.FINE, ex.getMessage());
           FileLogger.closeHandler();
         } finally {

@@ -1,11 +1,11 @@
 package Components;
 
 import Css.Css;
-import Css.FeedBackType;
+import Css.FeedbackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Photo;
 import Database.HibernateClasses.Tags;
-import Scenes.StageInitializer;
+import Main.ApplicationManager;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,9 +29,6 @@ public final class PhotoViewer {
   private final Stage STAGE;
 
   public PhotoViewer(Photo photo) {
-    if (photo == null) {
-      throw new NullPointerException();
-    }
     this.PHOTO = photo;
     this.STAGE = setup();
   }
@@ -45,7 +42,7 @@ public final class PhotoViewer {
     // Making new stage here to make unit testing easier, since the method will return a result
     Stage _stage = new Stage();
     _stage.initModality(Modality.APPLICATION_MODAL);
-    _stage.initOwner(StageInitializer.getStage());
+    _stage.initOwner(ApplicationManager.getStage());
     _stage.setTitle(PHOTO.getTitle());
 
     Label photoTitleLabel = new Label();
@@ -59,7 +56,7 @@ public final class PhotoViewer {
     Label addTagLabel = new Label("Add a tag to picture:");
     Css.setLabel(15, tagLabel, addTagLabel);
     Label feedbackLabel = new Label();
-    Css.setFeedBackLabel(FeedBackType.ERROR, 13, feedbackLabel);
+    Css.setFeedBackLabel(FeedbackType.ERROR, 13, feedbackLabel);
 
     TextField tagField = new TextField();
     tagField.setPromptText("Tag name");
@@ -142,6 +139,9 @@ public final class PhotoViewer {
     layout.setStyle("-fx-padding: 10 0 0 0;");
 
     Scene scene = new Scene(layout, 600, 560);
+
+    _stage.setMinHeight(560);
+    _stage.setMinWidth(600);
     _stage.setScene(scene);
     return _stage;
   }

@@ -168,11 +168,11 @@ public final class Css {
   /**
    * Sets styling for feedback labels
    *
-   * @param feedBackType FeedBackType Enum, the type of feedback (success or error)
+   * @param feedBackType FeedbackType Enum, the type of feedback (success or error)
    * @param fontSize     the size of the font
    * @param labels,      an amount of labels.
    */
-  public static void setFeedBackLabel(FeedBackType feedBackType, int fontSize, Label... labels) {
+  public static void setFeedBackLabel(FeedbackType feedBackType, int fontSize, Label... labels) {
     for (Label label : labels) {
       label.setStyle("-fx-text-fill:" + feedBackType.getColor());
       label.setFont(Font.font(FONT, fontSize));
@@ -182,12 +182,12 @@ public final class Css {
   /**
    * Plays a fading transition on a feedback label
    *
-   * @param feedBackType FeedBackType Enum, the type of feedback (success or error)
+   * @param feedBackType FeedbackType Enum, the type of feedback (success or error)
    * @param labelMessage feedback message the label will show
    * @param fontSize     the size of the font
    * @param label        label to play the transition on
    */
-  public static void playFeedBackLabelTransition(FeedBackType feedBackType, String labelMessage, int fontSize, Label label, int transitionDurationSeconds) {
+  public static void playFeedBackLabelTransition(FeedbackType feedBackType, String labelMessage, int fontSize, Label label, int transitionDurationSeconds) {
     setFeedBackLabel(feedBackType, fontSize, label);
     label.setText(labelMessage);
     FadeTransition ft = new FadeTransition(Duration.seconds(transitionDurationSeconds), label);

@@ -1,19 +1,19 @@
-package Scenes;
+package Roots;
 
 import Components.Authentication;
 import Components.FileLogger;
 import Css.Css;
-import Css.FeedBackType;
+import Css.FeedbackType;
+import Main.ApplicationManager;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 import java.util.logging.Level;
 
 /**
- * Class for the signup scene
+ * Class for the SignUpRoot
  */
-final class SignupScene extends SceneBuilder {
+final class SignUpRoot extends SceneRoot {
   private final Label USERNAME_LABEL = new Label("Username: ");
   private final Label EMAIL_LABEL = new Label("Email: ");
   private final Label PASSWORD_LABEL = new Label("Password: ");
@@ -29,18 +29,19 @@ final class SignupScene extends SceneBuilder {
   private final ProgressIndicator LOADING_ANIMATION = new ProgressIndicator();
 
   /**
-   * Creates a object of the class Signup
+   * Creates an object of the class SignUpRoot
    */
-  SignupScene() {
+  SignUpRoot() {
     super();
     this.setLayout();
   }
 
   /**
-   * Overrides SceneBuilder method.
-   * Assigns layout components to SceneBuilders GridPane
+   * Overrides SceneRoot method.
+   * Assigns layout components to RootBuilders GridPane
    * Sets styling to layout components
    * Sets functionality to button nodes
+   * Used in the constructor
    */
   @Override
   void setLayout() {
@@ -76,35 +77,33 @@ final class SignupScene extends SceneBuilder {
     Css.setLabel(13, USERNAME_LABEL, EMAIL_LABEL, PASSWORD_LABEL, CONFIRM_PASSWORD_LABEL);
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
-    SIGN_UP_BUTTON.setOnAction(e -> signup());
+    SIGN_UP_BUTTON.setOnAction(e -> signUp());
     PASSWORD_FIELD.setOnKeyTyped(e -> passwordStrengthBarEventHandling());
 
-    LOG_IN_BUTTON.setOnAction(e -> StageInitializer.setScene(new LoginScene()));
-
-    super.getScene().setOnKeyPressed(e -> {
-      if (e.getCode() == KeyCode.ENTER) {
-        signup();
-      }
-    });
+    LOG_IN_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new LoginRoot()));
   }
 
-  private void signup() {
+  /**
+   * Registers a new user if all the terms are met
+   * Used in setLayout
+   */
+  private void signUp() {
     LOADING_ANIMATION.setVisible(true);
     PauseTransition pause = new PauseTransition(Duration.seconds(1));
     pause.setOnFinished(e -> {
       try {
         if (feedback()) {
           if (Authentication.register(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText(), EMAIL_FIELD.getText())) {
-            StageInitializer.setScene(new LoginScene());
+            ApplicationManager.setRoot(new LoginRoot());
           } else {
-            Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: This username is already taken", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+            Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: This username is already taken", 13, SIGN_UP_FEEDBACK_LABEL, 6);
             LOADING_ANIMATION.setVisible(false);
           }
         } else {
           LOADING_ANIMATION.setVisible(false);
         }
       } catch (ExceptionInInitializerError error) {
-        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: Could not connect to database", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Could not connect to database", 13, SIGN_UP_FEEDBACK_LABEL, 6);
         LOADING_ANIMATION.setVisible(false);
         FileLogger.getLogger().log(Level.FINE, error.getMessage());
         FileLogger.closeHandler();
@@ -117,6 +116,7 @@ final class SignupScene extends SceneBuilder {
   /**
    * A method that returns a percent for the password strength.
    * Password strength is defined by length, and if it contains a capital letter and digit.
+   * Used in passwordStrengthBarEventHandling
    *
    * @return double that contains the percent of how strong the written password is
    */
@@ -154,6 +154,7 @@ final class SignupScene extends SceneBuilder {
   /**
    * A method that controls the password strength bar. Uses CSS for changing color of the bar.
    * Changes from red to yellow to green, which define the strength.
+   * Used in setLayout
    */
   private void passwordStrengthBarEventHandling() {
     if (PASSWORD_FIELD.getText().length() == 0) {
@@ -182,18 +183,19 @@ final class SignupScene extends SceneBuilder {
    * Gives feedback on password and username and different error messages.
    * Password requirements: 8 characters or more, only digits and letters
    * Username requirements: Only digits and letters
+   * Used in signUp
    *
    * @return a boolean value, true for no errors, boolean for error
    */
   private boolean feedback() {
     //Checks if password, username or email trimmed is equal to 0
     if (PASSWORD_FIELD.getText().trim().length() == 0 || USERNAME_FIELD.getText().trim().length() == 0 || EMAIL_FIELD.getText().trim().length() == 0) {
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: Password, username or email are missing", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password, username or email are missing", 13, SIGN_UP_FEEDBACK_LABEL, 6);
       return false;
     }
     //Checks if password is shorter than 8 characters
     if (PASSWORD_FIELD.getText().length() < 8) {
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: Password needs to contain 8 characters", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password needs to contain 8 characters", 13, SIGN_UP_FEEDBACK_LABEL, 6);
       return false;
     }
     //Checks username for illegal characters
@@ -201,7 +203,7 @@ final class SignupScene extends SceneBuilder {
       for (int i = 0; i < USERNAME_FIELD.getText().length(); i++) {
         if (!Character.isLetter(USERNAME_FIELD.getText().charAt(i)) &&
             !Character.isDigit(USERNAME_FIELD.getText().charAt(i))) {
-          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: Username contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Username contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL, 6);
           return false;
         }
       }
@@ -211,23 +213,23 @@ final class SignupScene extends SceneBuilder {
       for (int i = 0; i < PASSWORD_FIELD.getText().length(); i++) {
         if (!Character.isLetter(PASSWORD_FIELD.getText().charAt(i)) &&
             !Character.isDigit(PASSWORD_FIELD.getText().charAt(i))) {
-          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: Password contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password contains illegal character", 13, SIGN_UP_FEEDBACK_LABEL, 6);
           return false;
         }
       }
     }
     //Checks confirmpassword and password match
     if (!PASSWORD_FIELD.getText().equals(CONFIRM_PASSWORD_FIELD.getText())) {
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: Your passwords don't match", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Your passwords don't match", 13, SIGN_UP_FEEDBACK_LABEL, 6);
       return false;
     }
     //Checks if email contains "@" and "."
     if (!EMAIL_FIELD.getText().contains("@") || !EMAIL_FIELD.getText().contains(".")) {
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Error: This email is not valid", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: This email is not valid", 13, SIGN_UP_FEEDBACK_LABEL, 6);
       return false;
     }
 
-    Css.playFeedBackLabelTransition(FeedBackType.SUCCESSFUL, "You have been signed up!", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+    Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "You have been signed up!", 13, SIGN_UP_FEEDBACK_LABEL, 6);
     return true;
   }
 

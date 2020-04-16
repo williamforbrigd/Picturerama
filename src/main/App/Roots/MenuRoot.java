@@ -1,13 +1,14 @@
-package Scenes;
+package Roots;
 
 import Components.Authentication;
 import Css.Css;
+import Main.ApplicationManager;
 import javafx.scene.control.Button;
 
 /**
- * Class for the menu scene
+ * Class for the menu root
  */
-public final class MenuScene extends SceneBuilder {
+public final class MenuRoot extends SceneRoot {
 
     private final Button UPLOAD_BUTTON = new Button("Upload");
     private final Button PHOTOS_BUTTON = new Button("Photos");
@@ -15,14 +16,15 @@ public final class MenuScene extends SceneBuilder {
     private final Button MAP_BUTTON = new Button("Map");
     private final Button LOG_OUT_BUTTON = new Button("Log out");
 
-    public MenuScene() {
+    public MenuRoot() {
         super();
         this.setLayout();
     }
 
     /**
-     * Sets the layout of the menu. The setLayout()-method from SceneBuilder is overridden, but also
+     * Sets the layout of the menu. The setLayout()-method from SceneRoot is overridden, but also
      * called in the method in order to modify the method.
+     * Used in the constructor
      */
     @Override
     void setLayout() {
@@ -31,10 +33,10 @@ public final class MenuScene extends SceneBuilder {
 
         Css.setButton(340,100,40, UPLOAD_BUTTON, PHOTOS_BUTTON, ALBUMS_BUTTON, MAP_BUTTON, LOG_OUT_BUTTON);
 
-        UPLOAD_BUTTON.setOnAction(e -> StageInitializer.setScene(new UploadScene()));
-        PHOTOS_BUTTON.setOnAction(e -> StageInitializer.setScene(new PhotosScene()));
-	    ALBUMS_BUTTON.setOnAction(e -> StageInitializer.setScene(new AlbumsScene()));
-	    MAP_BUTTON.setOnAction(e -> StageInitializer.setScene(new MapScene()));
+        UPLOAD_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new UploadRoot()));
+        PHOTOS_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new PhotosRoot()));
+	    ALBUMS_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new AlbumsRoot()));
+	    MAP_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new MapRoot()));
         LOG_OUT_BUTTON.setOnAction(e -> Authentication.logout());
 
         super.getGridPane().add(UPLOAD_BUTTON,0,0);

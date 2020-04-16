@@ -1,8 +1,9 @@
 package Components;
 
 import Css.Css;
-import Scenes.LoginScene;
-import Scenes.MenuScene;
+import Main.ApplicationManager;
+import Roots.LoginRoot;
+import Roots.MenuRoot;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,9 +32,9 @@ public final class Header {
      */
     public Header() {
         if(UserInfo.getUser() != null) {
-            HOME_BUTTON.setOnAction(e -> Scenes.StageInitializer.setScene(new MenuScene()));
+            HOME_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new MenuRoot()));
         }else{
-            HOME_BUTTON.setOnAction(e -> Scenes.StageInitializer.setScene(new LoginScene()));
+            HOME_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new LoginRoot()));
         }
         HBOX.getChildren().clear();
         this.setHBox();

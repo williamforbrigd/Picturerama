@@ -1,41 +1,35 @@
-package Scenes;
+package Roots;
 
 import Components.Header;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 /**
- * Class that has the basic structure of the application and that all other scenes extends
+ * Class that has the basic structure of each root used in the application
+ * All other root classes extends this class
  */
-abstract class SceneBuilder {
+public abstract class SceneRoot {
     //Making height and class constants to keep every scene the same size
     private Header header;
 
     //Creating class scene and grid pane
     private BorderPane borderPane = new BorderPane();
     private GridPane gridPane = new GridPane();
-    private Scene scene;
 
     /**
-     * SceneBuilder constructor, used by it's subclasses
+     * SceneRoot constructor, used by it's subclasses
      */
-    SceneBuilder() {
+    SceneRoot() {
         this.setGridPane();
-        this.scene = new Scene(borderPane);
-    }
-
-    Scene getScene() {
-        return scene;
     }
 
     void setPageTitle(String title) {
         header.setPageTitle(title);
     }
 
-    BorderPane getBorderPane() {
+    public BorderPane getBorderPane() {
         return borderPane;
     }
 

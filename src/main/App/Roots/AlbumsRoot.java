@@ -1,4 +1,4 @@
-package Scenes;
+package Roots;
 
 import Components.PopupWindow;
 import Components.FileLogger;
@@ -6,6 +6,7 @@ import Components.UserInfo;
 import Css.Css;
 import Database.Hibernate;
 import Database.HibernateClasses.Album;
+import Main.ApplicationManager;
 import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,14 +17,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import java.util.ArrayList;
 import java.util.logging.Level;
 
 /**
- * Class for the albums scene
+ * Class for the albums root
  */
-final class AlbumsScene extends SceneBuilder {
+final class AlbumsRoot extends SceneRoot {
 
   private final List<Button> ALBUM_BUTTONS = new ArrayList<>();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
@@ -33,15 +33,19 @@ final class AlbumsScene extends SceneBuilder {
   private final ChoiceBox<String> CHOICE_BOX = new ChoiceBox();
 
   /**
-   * Constructor that initializes the albums scene
+   * Constructor that initializes the albums root
+   * Calls the set layout method
    */
-  AlbumsScene() {
+  AlbumsRoot() {
     super();
     this.setLayout();
   }
 
   /**
-   * Overrides the setLayout in SceneBuilder and adds the structure of the albums scene
+   * Overrides the setLayout in SceneRoot and adds the structure of the albums root
+   * Uses addAlbumsScrollPane
+   * Uses addScrollPane
+   * Uses addButtonsToBorderPane
    */
   @Override
   void setLayout() {
@@ -55,13 +59,14 @@ final class AlbumsScene extends SceneBuilder {
   }
 
   /**
-   * Adds all the albums of the user in to the scrollpane of the scene
+   * Adds all the albums of the user in to the scroll pane of the root
+   * Used in constructor
    */
   private void addAlbumsScrollPane() {
     try {
       UserInfo.getUser().getAlbums().forEach(album -> {
         Button albumButton = new Button(album.getName());
-        albumButton.setOnAction(e -> StageInitializer.setScene(new AlbumDetailsScene(album)));
+        albumButton.setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
         ALBUM_BUTTONS.add(albumButton);
         Css.setButton(650, 50, 18, albumButton);
         SCROLL_PANE_VBOX.getChildren().add(albumButton);
@@ -74,6 +79,7 @@ final class AlbumsScene extends SceneBuilder {
 
   /**
    * Creates the scroll pane of the scene and adds it to the application
+   * Used in constructor
    */
   private void addScrollPane() {
     SCROLL_PANE_VBOX.setPadding(new Insets(10, 10, 10, 10));
@@ -87,7 +93,8 @@ final class AlbumsScene extends SceneBuilder {
   }
 
   /**
-   * Adds the buttons to the scene
+   * Adds the buttons to the root
+   * Used in constructor
    */
   private void addButtonsToBorderPane() {
     HBox hBox = new HBox();
@@ -104,10 +111,11 @@ final class AlbumsScene extends SceneBuilder {
   }
 
   /**
-   * Opens up a new scene where you can create a new album
+   * Opens up a new stage where you can create a new album
+   * Used in addButtonsToBorderPan
    */
   private void createNewAlbumButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(), 500, 100);
+    PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 100);
 
     popupWindow.getDialogWindow().setTitle("Add Album");
     popupWindow.getDialogText().setText("Please enter the name of the album to be added:");
@@ -142,6 +150,7 @@ final class AlbumsScene extends SceneBuilder {
 
   /**
    * Uploads the new album that is created to the database
+   * Used in createNewAlbumButtonPressed
    */
   private void addAlbumButtonPressed(String albumName) {
     Album album = new Album();
@@ -150,19 +159,20 @@ final class AlbumsScene extends SceneBuilder {
     UserInfo.getUser().getAlbums().add(album);
     Hibernate.updateUser(UserInfo.getUser());
     Button albumButton = new Button(albumName);
-    albumButton.setOnAction(e -> StageInitializer.setScene(new AlbumDetailsScene(album)));
+    albumButton.setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
     ALBUM_BUTTONS.add(albumButton);
     Css.setButton(650, 50, 18, albumButton);
     SCROLL_PANE_VBOX.getChildren().add(albumButton);
   }
 
   /**
-   * Creates a new scene for the user to delete an album, and the user can select the album to be deleted.
+   * Creates a new pop up window for the user to delete an album, and the user can select the album to be deleted.
    * Calls the deleteAlbum()-method that deletes the specific album selected. If the user has no albums, a text will be
    * printed out to the screen containing this information.
+   * Used in addButtonsToBorderPane
    */
   private void deleteButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(), 500, 100);
+    PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 100);
     this.setupChoiceBox();
 
     popupWindow.getDialogWindow().setTitle("Delete Album");
@@ -193,6 +203,7 @@ final class AlbumsScene extends SceneBuilder {
 
   /**
    * Helping method to delete an album and the album button gets removed from the layout.
+   * Used in deleteButtonPressed
    */
   private void deleteAlbum() {
     String albumSelected = CHOICE_BOX.getSelectionModel().getSelectedItem();
@@ -213,6 +224,7 @@ final class AlbumsScene extends SceneBuilder {
 
   /**
    * Sets up the checkboxes and adds styling to it
+   * Used in deleteButtonPressed
    */
   private void setupChoiceBox() {
     CHOICE_BOX.getItems().clear();
@@ -220,9 +232,9 @@ final class AlbumsScene extends SceneBuilder {
     CHOICE_BOX.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
     Css.setChoiceBoxAlbums(CHOICE_BOX);
     UserInfo.getUser().getAlbums().forEach(album -> {
-        if (!CHOICE_BOX.getItems().contains(album.getName())) {
-            CHOICE_BOX.getItems().add(album.getName());
-        }
+      if (!CHOICE_BOX.getItems().contains(album.getName())) {
+        CHOICE_BOX.getItems().add(album.getName());
+      }
     });
   }
 }

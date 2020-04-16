@@ -1,4 +1,4 @@
-package Scenes;
+package Roots;
 
 import Components.FileLogger;
 import Components.PopupWindow;
@@ -6,10 +6,11 @@ import Components.PDFcreator;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
-import Css.FeedBackType;
+import Css.FeedbackType;
 import Database.Hibernate;
 import Database.HibernateClasses.Album;
 import Database.HibernateClasses.Photo;
+import Main.ApplicationManager;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
-
 import com.itextpdf.text.DocumentException;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,9 +31,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- * Class for the album details scene, which shows all the pictures in an album.
+ * Class for the album details root, which shows all the pictures in an album.
  */
-final class AlbumDetailsScene extends SceneBuilder {
+final class AlbumDetailsRoot extends SceneRoot {
   private final VBox SCROLL_PANE_VBOX = new VBox();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
   private final Button PDF_BUTTON = new Button("Generate PDF Album");
@@ -46,16 +46,18 @@ final class AlbumDetailsScene extends SceneBuilder {
   private final List<PhotoContainer> CONTAINERS = new ArrayList<>();
 
   /**
-   * Album details scene constructor, uses SceneBuilder constructor to create an object of the album details scene class
+   * Album details root constructor, uses SceneRoot constructor to create an object of the album details root class
+   * Calls the setLayout method
    */
-  AlbumDetailsScene(Album album) {
+  AlbumDetailsRoot(Album album) {
     super();
     this.setLayout();
     this.setup(album);
   }
 
   /**
-   * Sets up the layout of the album details scene, overrides the setlayout method of scenebuilder
+   * Sets up the layout of the album details scene, overrides the setlayout method of SceneRoot
+   * Used in constructor
    */
   @Override
   void setLayout() {
@@ -72,7 +74,8 @@ final class AlbumDetailsScene extends SceneBuilder {
   }
 
   /**
-   * Sets up the scrollpane which will contain photos. The scrollpane will be the center layout of the scene.
+   * Sets up the scroll pane which will contain photos. The scroll pane will be the center layout of the scene.
+   * Used in setLayout
    */
   private void setupScrollPane() {
     SCROLL_PANE.setContent(SCROLL_PANE_VBOX);
@@ -84,10 +87,12 @@ final class AlbumDetailsScene extends SceneBuilder {
   }
 
   /**
-   * Method that is ran when clicking the generate pdf button and sets up the action popup
+   * Method that is ran when clicking the generate pdf button
+   * Sets up the action popup
+   * Used in setLayout
    */
   private void generatePdfPressed() {
-    PopupWindow popupWindow = new PopupWindow(StageInitializer.getStage(), 500, 200);
+    PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 200);
 
     popupWindow.getDialogWindow().setTitle("Download album");
 
@@ -118,7 +123,7 @@ final class AlbumDetailsScene extends SceneBuilder {
         SAVE_LOCATION.clear();
         popupWindow.getDialogWindow().close();
       } else {
-        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Choose file location before downloading", 13, DIALOG_FEEDBACK_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Choose file location before downloading", 13, DIALOG_FEEDBACK_LABEL, 6);
       }
     });
 
@@ -127,7 +132,8 @@ final class AlbumDetailsScene extends SceneBuilder {
   }
 
   /**
-   * Sets up the album scene with pagetitle and the album's photos in the scrollpane
+   * Sets up the album scene with a page title and the album's photos in the scroll pane
+   * Used in constructor
    *
    * @param album the album which will be shown with all the pictures in the album. If the album contains no pictures,
    *              a text will be shown in the scene to inform the user.
@@ -149,13 +155,15 @@ final class AlbumDetailsScene extends SceneBuilder {
     DELETE_ALBUM.setOnAction(e -> {
       UserInfo.getUser().getAlbums().remove(album);
       Hibernate.updateUser(UserInfo.getUser());
-      StageInitializer.setScene(new AlbumsScene());
+      ApplicationManager.setRoot(new AlbumsRoot());
     });
     DELETE_PHOTOS.setOnAction(e -> deleteSelectedPhotos(album));
   }
 
   /**
-   * Tell user that this album does not contain any photos
+   * Tells user that the selected album does not contain any photos
+   * Used in deleteSelectedPhotos
+   * Used in setup
    */
   private void showAlbumIsEmpty() {
     Text text = new Text("This album does not contain any photos yet. You can add more photos in \"Photos\"");
@@ -164,7 +172,8 @@ final class AlbumDetailsScene extends SceneBuilder {
   }
 
   /**
-   * Method which deletes the selected photos from the album and updates the scene
+   * Method which deletes the selected photos from the album and updates the root
+   * Used in setup
    *
    * @param album the album that the selected photos will be removed from
    */
@@ -192,6 +201,7 @@ final class AlbumDetailsScene extends SceneBuilder {
 
   /**
    * Helping method to retrieve the photos that are selected by the user. These photos are collected in a list.
+   * Used in deleteSelectedPhotos
    *
    * @return photos which is a list of the photos that are selected.
    */
@@ -205,6 +215,13 @@ final class AlbumDetailsScene extends SceneBuilder {
     return photos;
   }
 
+  /**
+   * Sets the save location of generated pdf
+   * Used in generatePdfPressed
+   *
+   * @param startDirectory where the user starts in the directory chooser
+   * @param stage the stage that owns the directory chooser used in the method
+   */
   private void setSaveLocation(String startDirectory, Stage stage) {
     DirectoryChooser chooser = new DirectoryChooser();
     chooser.setTitle("Explore");
@@ -216,6 +233,7 @@ final class AlbumDetailsScene extends SceneBuilder {
 
   /**
    * Method to generate pdf and is ran when clicking download in generatepdf window
+   * Used in generatePdfPressed
    *
    * @param saveLocation is the location that the user wanted the pdf saved to
    */
@@ -232,12 +250,12 @@ final class AlbumDetailsScene extends SceneBuilder {
     } catch (DocumentException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not create a PDF", 13, DIALOG_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not create a PDF", 13, DIALOG_FEEDBACK_LABEL, 6);
 
     } catch (IOException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not retrieve images", 13, DIALOG_FEEDBACK_LABEL, 6);
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not retrieve images", 13, DIALOG_FEEDBACK_LABEL, 6);
     }
   }
 }

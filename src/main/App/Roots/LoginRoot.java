@@ -1,20 +1,19 @@
-package Scenes;
+package Roots;
 
 import Components.Authentication;
 import Components.FileLogger;
 import Css.Css;
-import Css.FeedBackType;
+import Css.FeedbackType;
+import Main.ApplicationManager;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
-
 import java.util.logging.Level;
 
 /**
- * Class for the login scene
+ * Class for the login root
  */
-public final class LoginScene extends SceneBuilder {
+public final class LoginRoot extends SceneRoot {
   private final Label USERNAME_LABEL = new Label("Username:");
   private final TextField USERNAME_FIELD = new TextField();
   private final Label PASSWORD_LABEL = new Label("Password:");
@@ -25,15 +24,20 @@ public final class LoginScene extends SceneBuilder {
   private final ProgressIndicator LOADING_ANIMATION = new ProgressIndicator();
 
   /**
-   * Login constructor, uses SceneBuilder constructor. To create an object of the Login class
+   * Login constructor
+   * Uses SceneRoot constructor to create an object of the Login class
    */
-  public LoginScene() {
+  public LoginRoot() {
     super();
     this.setLayout();
   }
 
   /**
-   * SetLayout method used for setting the layout for the login page
+   * Overrides SceneRoot method.
+   * Assigns layout components to RootBuilders GridPane
+   * Sets styling to layout components
+   * Sets functionality to button nodes
+   * Used in constructor
    */
   @Override
   void setLayout() {
@@ -59,17 +63,12 @@ public final class LoginScene extends SceneBuilder {
 
     //Sets functionality for the layout components
     LOG_IN_BUTTON.setOnAction(e -> login());
-    SIGN_UP_BUTTON.setOnAction(e -> StageInitializer.setScene(new SignupScene()));
-
-    super.getScene().setOnKeyPressed(e -> {
-      if (e.getCode() == KeyCode.ENTER) {
-        login();
-      }
-    });
+    SIGN_UP_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new SignUpRoot()));
   }
 
   /**
    * Method that is ran when logging in to the application
+   * Used in setLayout
    */
   private void login() {
     LOADING_ANIMATION.setVisible(true);
@@ -77,13 +76,13 @@ public final class LoginScene extends SceneBuilder {
     pause.setOnFinished(e -> {
       try {
         if (Authentication.logIn(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
-          StageInitializer.setScene(new MenuScene());
+          ApplicationManager.setRoot(new MenuRoot());
         } else {
-          Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Log in failed", 13, LOG_IN_LABEL, 6);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Log in failed", 13, LOG_IN_LABEL, 6);
           LOADING_ANIMATION.setVisible(false);
         }
       } catch (ExceptionInInitializerError error) {
-        Css.playFeedBackLabelTransition(FeedBackType.ERROR, "Could not connect to database", 13, LOG_IN_LABEL, 6);
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not connect to database", 13, LOG_IN_LABEL, 6);
         LOADING_ANIMATION.setVisible(false);
         FileLogger.getLogger().log(Level.FINE, error.getMessage());
         FileLogger.closeHandler();

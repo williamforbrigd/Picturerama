@@ -1,4 +1,4 @@
-package Scenes;
+package Roots;
 
 import Components.FileLogger;
 import Components.PhotoViewer;
@@ -10,7 +10,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +18,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 /**
- * Class for the map scene
+ * Class for the map root, where the photomap is displayed
  */
-final class MapScene extends SceneBuilder {
+final class MapRoot extends SceneRoot {
 
   private final List<Photo> PHOTO_LIST = new ArrayList<>();
   private final WebView WEB_VIEW = new WebView();
@@ -29,16 +28,16 @@ final class MapScene extends SceneBuilder {
   private final MapBridge MAP_BRIDGE = new MapBridge();
 
   /**
-   * Instantiates a new Map scene.
+   * Instantiates a new Map root.
    */
-  MapScene() {
+  MapRoot() {
     super();
     PHOTO_LIST.addAll(UserInfo.getUser().getPhotos());
     this.setLayout();
   }
 
   /**
-   * Sets the layout of the Map scene. The setLayout()-method from SceneBuilder is overridden, but also
+   * Sets the layout of the Map root. The setLayout()-method from SceneRoot is overridden, but also
    * called in the method in order to modify the method.
    */
   @Override
@@ -51,6 +50,7 @@ final class MapScene extends SceneBuilder {
 
   /**
    * Sets up the the webview by loading the html and initialising a listener which makes it possible to call methods in MapBridge from the javascript
+   * Used in setLayout
    */
   private void setUpMap() {
     WEB_VIEW.getEngine().loadContent(getHtml(), "text/html");
@@ -104,6 +104,7 @@ final class MapScene extends SceneBuilder {
 
   /**
    * Get a html string which creates a map with markers where the uploaded photos was photographed
+   * Used in setUpMap
    *
    * @return string with html
    */
@@ -152,6 +153,7 @@ final class MapScene extends SceneBuilder {
 
   /**
    * Calculates size of the map marker based on the photo's width and height to avoid stretching the photo.
+   * Used in getHtml
    *
    * @param photo the photo
    * @return string with width and height separated by a comma
@@ -169,7 +171,8 @@ final class MapScene extends SceneBuilder {
   }
 
   /**
-   * Method that gets Gooogle Maps Javascript API key
+   * Method that gets Google Maps Javascript API key
+   * Used in getHtml
    *
    * @return returns a string with the API key
    */
