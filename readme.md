@@ -19,6 +19,7 @@ In order to be able to connect to our database, and be able to upload local imag
 ```
 username=your_username
 password=your_password
+database_url=jdbc:mysql://your_database_url
 cloudinary_cloud_name=your_cloud_name
 cloudinary_api_key=your_api_key
 cloudinary_api_secret=your_api_secret
@@ -27,6 +28,8 @@ google_maps_api_key=your_google_maps_api_key
 
 
 Contact one of the developers to get the username and password.
+
+If you want to setup your own database for the application. Run the SetupDatabase file in the Main folder in the project, and use your own info in the config.properties file.
 
 You should now have the files you need. In order to be able to run, you have to compile JavaFX
 **Steps to compile JavaFX in IntelliJ IDEA:**

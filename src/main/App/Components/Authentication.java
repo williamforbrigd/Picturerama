@@ -26,7 +26,7 @@ public final class Authentication {
    * @param password the password
    * @return if method was successful
    */
-  public static boolean register(String username, String password, String email) {
+  public static boolean register(String username, String password) {
     try {
       //Encrypt password
       String encrypter = Encrypter.encrypt(password, null);
@@ -34,7 +34,7 @@ public final class Authentication {
       String hash = Encrypter.getHash(encrypter);
       String salt = Encrypter.getSalt(encrypter);
 
-      return Hibernate.registerUser(username, email, hash, salt);
+      return Hibernate.registerUser(username, hash, salt);
     } catch (ExceptionInInitializerError | NoClassDefFoundError e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();

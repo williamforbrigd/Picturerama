@@ -9,17 +9,17 @@ class AuthenticationTest {
 
     @Test
     void registerNewUser_UsernameNull_False() {
-        assertFalse(Authentication.register(null, null, null));
+        assertFalse(Authentication.register(null, null));
     }
 
     @Test
     void registerNewUser_UsernameIsNotTaken_True() {
-        assertTrue(Authentication.register("jUnitTest", "test", "test"));
+        assertTrue(Authentication.register("jUnitTest", "test"));
     }
 
     @Test
     void registerNewUser_UsernameIsTaken_False() {
-        assertFalse(Authentication.register("jUnitTest", "test2", "test2"));
+        assertFalse(Authentication.register("jUnitTest", "test2"));
     }
 
     @Test

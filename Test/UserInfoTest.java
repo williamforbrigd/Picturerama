@@ -15,7 +15,6 @@ class UserInfoTest {
     String encrypted = Encrypter.encrypt("password", null);
     user = new User();
     user.setUsername("test");
-    user.setEmail("test@email.com");
     user.setHash(Encrypter.getHash(encrypted));
     user.setSalt(Encrypter.getSalt(encrypted));
   }

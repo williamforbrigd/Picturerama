@@ -13,9 +13,8 @@ import java.util.logging.Level;
  * Class that is used to connect to the database
  */
 public class Hibernate {
-  private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
-      Persistence.createEntityManagerFactory("Database", getProperties());
-  private static EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+  private static EntityManagerFactory entityManagerFactory;
+  private static EntityManager em;
 
   /**
    * Private constructor to hinder creation of utility class
@@ -30,9 +29,12 @@ public class Hibernate {
    * @return the entity manager
    */
   public static EntityManager getEm() {
+    if( em == null){
+      em = getEntityManagerFactory().createEntityManager();
+    }
     if (!em.isOpen()) {
       em.close();
-      em = ENTITY_MANAGER_FACTORY.createEntityManager();
+      em = getEntityManagerFactory().createEntityManager();
     }
     return em;
 
@@ -44,7 +46,14 @@ public class Hibernate {
    * @return the entity manager factory
    */
   public static EntityManagerFactory getEntityManagerFactory() {
-    return ENTITY_MANAGER_FACTORY;
+    if(entityManagerFactory == null) {
+      entityManagerFactory = Persistence.createEntityManagerFactory("Database", getProperties());
+    }
+    if(!entityManagerFactory.isOpen()){
+      entityManagerFactory.close();
+      entityManagerFactory = Persistence.createEntityManagerFactory("Database", getProperties());
+    }
+    return entityManagerFactory;
   }
 
   /**
@@ -59,6 +68,7 @@ public class Hibernate {
       prop.load(input);
       result.put("hibernate.connection.username", prop.getProperty("username"));
       result.put("hibernate.connection.password", prop.getProperty("password"));
+      result.put("hibernate.connection.url", prop.getProperty("database_url"));
     } catch (IOException ex) {
       FileLogger.getLogger().log(Level.FINE, ex.getMessage());
       FileLogger.closeHandler();
@@ -71,26 +81,24 @@ public class Hibernate {
    * Register a new user in the database
    *
    * @param username the username
-   * @param email    the email
    * @param hash     the hash
    * @param salt     the salt
    * @return if the registration was successful
    */
-  public static boolean registerUser(String username, String email, String hash, String salt) {
-    if (username == null || email == null || hash == null || salt == null) {
+  public static boolean registerUser(String username, String hash, String salt) {
+    if (username == null || hash == null || salt == null) {
       throw new IllegalArgumentException();
     }
     EntityTransaction et = null;
     boolean isSuccess = false;
     try {
-      et = em.getTransaction();
+      et = getEm().getTransaction();
       et.begin();
       User user = new User();
       user.setUsername(username);
-      user.setEmail(email);
       user.setHash(hash);
       user.setSalt(salt);
-      em.persist(user);
+      getEm().persist(user);
       et.commit();
       isSuccess = true;
     } catch (Exception e) {
@@ -111,10 +119,10 @@ public class Hibernate {
   public static void updateUser(User user) {
     EntityTransaction et = null;
     try {
-      et = em.getTransaction();
+      et = getEm().getTransaction();
       et.begin();
-      em.merge(user);
-      em.flush();
+      getEm().merge(user);
+      getEm().flush();
       et.commit();
     } catch (Exception e) {
       if (et != null) {
@@ -135,7 +143,7 @@ public class Hibernate {
   public static String getSalt(String username) throws NoResultException {
     EntityTransaction et = null;
     try {
-      et = em.getTransaction();
+      et = getEm().getTransaction();
       et.begin();
       User user = em.createQuery(
           "select e from User e where e.username =:username",
@@ -167,9 +175,9 @@ public class Hibernate {
   public static User getUser(String username) {
     EntityTransaction et = null;
     try {
-      et = em.getTransaction();
+      et = getEm().getTransaction();
       et.begin();
-      User user = em.createQuery(
+      User user = getEm().createQuery(
           "select e from User e where e.username =:username",
           User.class)
           .setParameter("username", username)
@@ -196,9 +204,9 @@ public class Hibernate {
   public static boolean login(String username, String hash) {
     EntityTransaction et = null;
     try {
-      et = em.getTransaction();
+      et = getEm().getTransaction();
       et.begin();
-      User user = em.createQuery(
+      User user = getEm().createQuery(
           "select e from User e where e.username =:username and e.hash =:hash",
           User.class)
           .setParameter("username", username)
@@ -225,9 +233,9 @@ public class Hibernate {
   public static int getUserID(String username) {
     EntityTransaction et = null;
     try {
-      et = em.getTransaction();
+      et = getEm().getTransaction();
       et.begin();
-      User user = em.createQuery(
+      User user = getEm().createQuery(
           "select e from User e where e.username =:username",
           User.class)
           .setParameter("username", username)
@@ -253,9 +261,9 @@ public class Hibernate {
     EntityTransaction et = null;
     try {
       User user = getUser(username);
-      et = em.getTransaction();
+      et = getEm().getTransaction();
       et.begin();
-      em.remove(user);
+      getEm().remove(user);
       et.commit();
     } catch (Exception e) {
       if (et != null) {
@@ -264,5 +272,10 @@ public class Hibernate {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
     }
+  }
+
+  public static void setupDatabase(){
+    entityManagerFactory = Persistence.createEntityManagerFactory("Database-setup", getProperties());
+    entityManagerFactory.close();
   }
 }

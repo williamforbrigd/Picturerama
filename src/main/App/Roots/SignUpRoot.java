@@ -15,13 +15,11 @@ import java.util.logging.Level;
  */
 final class SignUpRoot extends SceneRoot {
   private final Label USERNAME_LABEL = new Label("Username: ");
-  private final Label EMAIL_LABEL = new Label("Email: ");
   private final Label PASSWORD_LABEL = new Label("Password: ");
   private final Label CONFIRM_PASSWORD_LABEL = new Label("Confirm Password: ");
   private final PasswordField PASSWORD_FIELD = new PasswordField();
   private final PasswordField CONFIRM_PASSWORD_FIELD = new PasswordField();
   private final TextField USERNAME_FIELD = new TextField();
-  private final TextField EMAIL_FIELD = new TextField();
   private final Label SIGN_UP_FEEDBACK_LABEL = new Label();
   private final Button SIGN_UP_BUTTON = new Button("Sign up");
   private final Button LOG_IN_BUTTON = new Button("Log in");
@@ -49,32 +47,29 @@ final class SignUpRoot extends SceneRoot {
     super.setPageTitle("Sign up");
     //Sets PromptText to TextFields
     USERNAME_FIELD.setPromptText("Username here...");
-    EMAIL_FIELD.setPromptText("Email here...");
     PASSWORD_FIELD.setPromptText("Password here...");
     PASSWORD_FIELD.setTooltip(new Tooltip("Password has to be at least 8 characters long"));
     CONFIRM_PASSWORD_FIELD.setPromptText("Password here...");
     super.getGridPane().add(USERNAME_LABEL, 10, 0);
-    super.getGridPane().add(EMAIL_LABEL, 10, 2);
-    super.getGridPane().add(PASSWORD_LABEL, 10, 4);
-    super.getGridPane().add(CONFIRM_PASSWORD_LABEL, 10, 6);
+    super.getGridPane().add(PASSWORD_LABEL, 10, 2);
+    super.getGridPane().add(CONFIRM_PASSWORD_LABEL, 10, 4);
     super.getGridPane().add(USERNAME_FIELD, 10, 1);
-    super.getGridPane().add(EMAIL_FIELD, 10, 3);
-    super.getGridPane().add(PASSWORD_FIELD, 10, 5);
-    super.getGridPane().add(CONFIRM_PASSWORD_FIELD, 10, 7);
-    super.getGridPane().add(SIGN_UP_BUTTON, 10, 8);
-    super.getGridPane().add(PASSWORD_STRENGTH_BAR, 11, 5);
-    super.getGridPane().add(SIGN_UP_FEEDBACK_LABEL, 10, 11);
-    super.getGridPane().add(LOG_IN_BUTTON, 10, 9);
-    super.getGridPane().add(LOADING_ANIMATION, 11, 8);
+    super.getGridPane().add(PASSWORD_FIELD, 10, 3);
+    super.getGridPane().add(CONFIRM_PASSWORD_FIELD, 10, 5);
+    super.getGridPane().add(SIGN_UP_BUTTON, 10, 6);
+    super.getGridPane().add(PASSWORD_STRENGTH_BAR, 11, 3);
+    super.getGridPane().add(SIGN_UP_FEEDBACK_LABEL, 10, 10);
+    super.getGridPane().add(LOG_IN_BUTTON, 10, 7);
+    super.getGridPane().add(LOADING_ANIMATION, 11, 6);
     //Sets ToolTip to passwordStrengthBar, used when its being hovered
-    PASSWORD_STRENGTH_BAR.setTooltip(new Tooltip("Password Stength: \n " +
-        "Use 10 or more characters \n Use numbers \n Use capital letters"));
+    PASSWORD_STRENGTH_BAR.setTooltip(new Tooltip("Password Strength: \n " +
+        "Use 8 or more characters \n Use numbers \n Use capital letters"));
     PASSWORD_STRENGTH_BAR.setVisible(false);
 
     //Set styling on the layout components
     Css.setButton(700, 25, 20, SIGN_UP_BUTTON, LOG_IN_BUTTON);
-    Css.setTextField(700, 20, 17, USERNAME_FIELD, EMAIL_FIELD, PASSWORD_FIELD, CONFIRM_PASSWORD_FIELD);
-    Css.setLabel(13, USERNAME_LABEL, EMAIL_LABEL, PASSWORD_LABEL, CONFIRM_PASSWORD_LABEL);
+    Css.setTextField(700, 20, 17, USERNAME_FIELD, PASSWORD_FIELD, CONFIRM_PASSWORD_FIELD);
+    Css.setLabel(13, USERNAME_LABEL, PASSWORD_LABEL, CONFIRM_PASSWORD_LABEL);
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
     SIGN_UP_BUTTON.setOnAction(e -> signUp());
@@ -93,7 +88,7 @@ final class SignUpRoot extends SceneRoot {
     pause.setOnFinished(e -> {
       try {
         if (feedback()) {
-          if (Authentication.register(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText(), EMAIL_FIELD.getText())) {
+          if (Authentication.register(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
             ApplicationManager.setRoot(new LoginRoot());
           } else {
             Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: This username is already taken", 13, SIGN_UP_FEEDBACK_LABEL, 6);
@@ -188,9 +183,9 @@ final class SignUpRoot extends SceneRoot {
    * @return a boolean value, true for no errors, boolean for error
    */
   private boolean feedback() {
-    //Checks if password, username or email trimmed is equal to 0
-    if (PASSWORD_FIELD.getText().trim().length() == 0 || USERNAME_FIELD.getText().trim().length() == 0 || EMAIL_FIELD.getText().trim().length() == 0) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password, username or email are missing", 13, SIGN_UP_FEEDBACK_LABEL, 6);
+    //Checks if password or username trimmed is equal to 0
+    if (PASSWORD_FIELD.getText().trim().length() == 0 || USERNAME_FIELD.getText().trim().length() == 0) {
+      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Password or username is missing", 13, SIGN_UP_FEEDBACK_LABEL, 6);
       return false;
     }
     //Checks if password is shorter than 8 characters
@@ -221,11 +216,6 @@ final class SignUpRoot extends SceneRoot {
     //Checks confirmpassword and password match
     if (!PASSWORD_FIELD.getText().equals(CONFIRM_PASSWORD_FIELD.getText())) {
       Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Your passwords don't match", 13, SIGN_UP_FEEDBACK_LABEL, 6);
-      return false;
-    }
-    //Checks if email contains "@" and "."
-    if (!EMAIL_FIELD.getText().contains("@") || !EMAIL_FIELD.getText().contains(".")) {
-      Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: This email is not valid", 13, SIGN_UP_FEEDBACK_LABEL, 6);
       return false;
     }
 

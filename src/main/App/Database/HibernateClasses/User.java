@@ -18,11 +18,8 @@ public class User implements Serializable {
   @Column(name = "id", unique = true)
   private int id;
 
-  @Column(name = "username", nullable = false)
+  @Column(name = "username", nullable = false, unique = true)
   private String username;
-
-  @Column(name = "email", nullable = false)
-  private String email;
 
   @Column(name = "hash", nullable = false)
   private String hash;
@@ -41,9 +38,8 @@ public class User implements Serializable {
   public User() {
   }
 
-  public User(String username, String email, String hash, String salt) {
+  public User(String username, String hash, String salt) {
     this.username = username;
-    this.email = email;
     this.hash = hash;
     this.salt = salt;
   }
@@ -71,14 +67,6 @@ public class User implements Serializable {
 
   public void setUsername(String username) {
     this.username = username;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   public String getHash() {
