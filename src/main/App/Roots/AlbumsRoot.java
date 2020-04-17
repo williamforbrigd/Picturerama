@@ -28,8 +28,8 @@ final class AlbumsRoot extends SceneRoot {
   private final List<Button> ALBUM_BUTTONS = new ArrayList<>();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
   private final VBox SCROLL_PANE_VBOX = new VBox();
-  private final Button NEW_ALBUM_BUTTON = new Button("New Album");
-  private final Button DELETE_ALBUM_BUTTON = new Button("Delete Album");
+  private final Button NEW_ALBUM_BUTTON = new Button("New album");
+  private final Button DELETE_ALBUM_BUTTON = new Button("Delete album");
   private final ChoiceBox<String> CHOICE_BOX = new ChoiceBox();
 
   /**
@@ -117,7 +117,7 @@ final class AlbumsRoot extends SceneRoot {
   private void createNewAlbumButtonPressed() {
     PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 100);
 
-    popupWindow.getDialogWindow().setTitle("Add Album");
+    popupWindow.getDialogWindow().setTitle("Add album");
     popupWindow.getDialogText().setText("Please enter the name of the album to be added:");
 
     TextField nameAlbumInput = new TextField();

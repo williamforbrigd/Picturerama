@@ -16,7 +16,7 @@ import java.util.logging.Level;
 final class SignUpRoot extends SceneRoot {
   private final Label USERNAME_LABEL = new Label("Username: ");
   private final Label PASSWORD_LABEL = new Label("Password: ");
-  private final Label CONFIRM_PASSWORD_LABEL = new Label("Confirm Password: ");
+  private final Label CONFIRM_PASSWORD_LABEL = new Label("Confirm password: ");
   private final PasswordField PASSWORD_FIELD = new PasswordField();
   private final PasswordField CONFIRM_PASSWORD_FIELD = new PasswordField();
   private final TextField USERNAME_FIELD = new TextField();

@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 final class AlbumDetailsRoot extends SceneRoot {
   private final VBox SCROLL_PANE_VBOX = new VBox();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
-  private final Button PDF_BUTTON = new Button("Generate PDF Album");
+  private final Button PDF_BUTTON = new Button("Generate PDF from album");
   private final Button DELETE_ALBUM = new Button("Delete album");
   private final Button DELETE_PHOTOS = new Button("Remove selected photos");
   private Set<Photo> albumPhotoList;
@@ -170,7 +170,7 @@ final class AlbumDetailsRoot extends SceneRoot {
    * Used in setup
    */
   private void showAlbumIsEmpty() {
-    Text text = new Text("This album does not contain any photos yet. You can add more photos in \"Photos\"");
+    Text text = new Text("This album does not contain any photos yet. You can add photos from the \"Photos\" screen");
     Css.setText(17, text);
     SCROLL_PANE.setContent(text);
   }

@@ -177,7 +177,7 @@ final class PhotosRoot extends SceneRoot {
    */
   private void createNewAlbumButtonPressed() {
     PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 100);
-    popupWindow.getDialogWindow().setTitle("Add to Album");
+    popupWindow.getDialogWindow().setTitle("Add to album");
     popupWindow.getDialogText().setText("Please select the name of the album: ");
 
     setupChoiceBox();
