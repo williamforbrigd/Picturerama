@@ -6,6 +6,7 @@ import Roots.LoginRoot;
 import Roots.SceneRoot;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 /**
@@ -50,6 +51,14 @@ public final class ApplicationManager {
 
       SceneRoot root = new LoginRoot();
       scene = new Scene(root.getBorderPane(), WIDTH, HEIGHT);
+
+      //Sets the escape key to run the closeProgram method
+      scene.setOnKeyPressed(e -> {
+        if(e.getCode() == KeyCode.ESCAPE){
+          closeProgram();
+        }
+      });
+
       stage.setScene(scene);
       stage.show();
     }
