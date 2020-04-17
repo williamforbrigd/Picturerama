@@ -151,7 +151,11 @@ final class AlbumDetailsRoot extends SceneRoot {
       });
     } else {
       showAlbumIsEmpty();
+      PDF_BUTTON.setDisable(true);
     }
+
+
+
     DELETE_ALBUM.setOnAction(e -> {
       UserInfo.getUser().getAlbums().remove(album);
       Hibernate.updateUser(UserInfo.getUser());
@@ -194,8 +198,10 @@ final class AlbumDetailsRoot extends SceneRoot {
         }
       });
       Hibernate.updateUser(UserInfo.getUser());
-
-
+    }
+    if (albumPhotoList.isEmpty()) {
+      PDF_BUTTON.setDisable(true);
+      showAlbumIsEmpty();
     }
   }
 
