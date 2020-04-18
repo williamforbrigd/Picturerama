@@ -32,6 +32,7 @@ Contact one of the developers to get our config.properties file.
 If you want to setup your own database for the application. Run the SetupDatabase file in the Main folder in the project, and use your own info in the config.properties file.
 
 You should now have the files you need. In order to be able to run, you have to compile JavaFX
+
 **Steps to compile JavaFX in IntelliJ IDEA:**
 1. MAVEN
 2. JavaFxApplication
