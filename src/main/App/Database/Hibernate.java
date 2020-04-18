@@ -114,7 +114,7 @@ public class Hibernate {
   /**
    * Update user.
    *
-   * @param user the user
+   * @param user the user.
    */
   public static void updateUser(User user) {
     EntityTransaction et = null;
@@ -136,9 +136,9 @@ public class Hibernate {
   /**
    * Gets salt of user.
    *
-   * @param username username of user
-   * @return the salt
-   * @throws NoResultException if the user was not found
+   * @param username username of user.
+   * @return the salt.
+   * @throws NoResultException if the user was not found.
    */
   public static String getSalt(String username) throws NoResultException {
     EntityTransaction et = null;
@@ -146,10 +146,10 @@ public class Hibernate {
       et = getEm().getTransaction();
       et.begin();
       User user = em.createQuery(
-          "select e from User e where e.username =:username",
-          User.class)
-          .setParameter("username", username)
-          .getSingleResult();
+    "select e from User e where e.username =:username",
+              User.class)
+              .setParameter("username", username)
+              .getSingleResult();
       et.commit();
       return user.getSalt();
     } catch (NoResultException e) {
@@ -169,8 +169,8 @@ public class Hibernate {
   /**
    * Gets user.
    *
-   * @param username username of user
-   * @return the user
+   * @param username username of user.
+   * @return the user.
    */
   public static User getUser(String username) {
     EntityTransaction et = null;
@@ -190,16 +190,16 @@ public class Hibernate {
       }
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
+      throw e;
     }
-    return null;
   }
 
   /**
    * Login user
    *
-   * @param username the username
-   * @param hash     the hash
-   * @return if login was successful
+   * @param username the username.
+   * @param hash     the hash.
+   * @return if login was successful.
    */
   public static boolean login(String username, String hash) {
     EntityTransaction et = null;
@@ -225,10 +225,10 @@ public class Hibernate {
   }
 
   /**
-   * Get user id
+   * Get user id.
    *
-   * @param username the username
-   * @return the user id
+   * @param username the username.
+   * @return the user id.
    */
   public static int getUserID(String username) {
     EntityTransaction et = null;
@@ -255,7 +255,7 @@ public class Hibernate {
   /**
    * Delete user.
    *
-   * @param username the username
+   * @param username the username.
    */
   public static void deleteUser(String username) {
     EntityTransaction et = null;
@@ -274,6 +274,9 @@ public class Hibernate {
     }
   }
 
+  /**
+   * Method that sets up the database for the application.
+   */
   public static void setupDatabase(){
     entityManagerFactory = Persistence.createEntityManagerFactory("Database-setup", getProperties());
     entityManagerFactory.close();

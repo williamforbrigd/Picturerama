@@ -5,6 +5,5 @@
     -fx-background-radius: 15px;
 }
 .text-field:focused, .text-field:hover {
-    -fx-background-color: #f1f1f1;
-    -fx-cursor: hand;
+    -fx-cursor: text;
 }

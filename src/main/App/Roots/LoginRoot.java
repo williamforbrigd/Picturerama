@@ -76,7 +76,10 @@ public final class LoginRoot extends SceneRoot {
     PauseTransition pause = new PauseTransition(Duration.seconds(1));
     pause.setOnFinished(e -> {
       try {
-        if (Authentication.logIn(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
+        if (USERNAME_FIELD.getText().trim().length() == 0 || PASSWORD_FIELD.getText().trim().length() == 0) {
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Username or Password is missing", 13, LOG_IN_LABEL);
+          LOADING_ANIMATION.setVisible(false);
+        } else if (Authentication.logIn(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
           ApplicationManager.setRoot(new MenuRoot());
         } else {
           Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Log in failed", 13, LOG_IN_LABEL);

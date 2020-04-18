@@ -6,6 +6,7 @@ import Roots.LoginRoot;
 import Roots.SceneRoot;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 /**
@@ -36,7 +37,7 @@ public final class ApplicationManager {
     if(stage == null && scene == null) {
       stage = primaryStage;
       stage.setOnCloseRequest(s -> {
-        //Makes is so that the program doesnt automatically close, gives the developer control of the exit mechanic
+        //Hinders the program closing
         s.consume();
         //Runs our close program instead
         closeProgram();
@@ -50,6 +51,14 @@ public final class ApplicationManager {
 
       SceneRoot root = new LoginRoot();
       scene = new Scene(root.getBorderPane(), WIDTH, HEIGHT);
+
+      //Sets the escape key to run the closeProgram method
+      scene.setOnKeyPressed(e -> {
+        if(e.getCode() == KeyCode.ESCAPE){
+          closeProgram();
+        }
+      });
+
       stage.setScene(scene);
       stage.show();
     }

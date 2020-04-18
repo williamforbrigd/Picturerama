@@ -4,6 +4,5 @@
     -fx-background-position: right center;
 }
 #searchField:hover, #searchField:focused {
-    -fx-background-color: #f1f1f1;
-    -fx-cursor: hand;
+    -fx-cursor: text;
 }
