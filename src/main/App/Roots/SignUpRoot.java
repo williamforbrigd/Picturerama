@@ -4,6 +4,8 @@ import Components.Authentication;
 import Components.FileLogger;
 import Css.Css;
 import Css.FeedbackType;
+import Database.Hibernate;
+import Database.HibernateClasses.User;
 import Main.ApplicationManager;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
@@ -92,7 +94,7 @@ final class SignUpRoot extends SceneRoot {
           if (Authentication.register(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
             ApplicationManager.setRoot(new LoginRoot());
           } else {
-            Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: This username is already taken", 13, SIGN_UP_FEEDBACK_LABEL);
+            Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Could not connect to database", 13, SIGN_UP_FEEDBACK_LABEL);
             LOADING_ANIMATION.setVisible(false);
           }
         } else {
@@ -220,7 +222,18 @@ final class SignUpRoot extends SceneRoot {
       return false;
     }
 
-    Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "You have been signed up!", 13, SIGN_UP_FEEDBACK_LABEL);
+    try {
+      User testUser = Hibernate.getUser(USERNAME_FIELD.getText());
+      if (USERNAME_FIELD.getText().equals(testUser.getUsername()) && testUser != null) {
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Username is already taken", 13, SIGN_UP_FEEDBACK_LABEL);
+        return false;
+      }
+    } catch(javax.persistence.PersistenceException e) {
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Could not connect to database", 13, SIGN_UP_FEEDBACK_LABEL);
+        FileLogger.getLogger().log(Level.FINE, e.getMessage());
+        FileLogger.closeHandler();
+    }
+
     return true;
   }
 
