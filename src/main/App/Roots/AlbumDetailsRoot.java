@@ -2,7 +2,7 @@ package Roots;
 
 import Components.FileLogger;
 import Components.PopupWindow;
-import Components.PDFcreator;
+import Components.PdfCreator;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
@@ -248,7 +248,7 @@ final class AlbumDetailsRoot extends SceneRoot {
     photos.addAll(this.albumPhotoList);
     String saveLink = saveLocation + "/" + albumName + ".pdf";
     try {
-      PDFcreator.createPDF(photos, saveLink);
+      PdfCreator.createPdf(photos, saveLink, albumName);
       File pdfFile = new File(saveLink);
       if (pdfFile.exists() && Desktop.isDesktopSupported()) {
         Desktop.getDesktop().open(pdfFile);
