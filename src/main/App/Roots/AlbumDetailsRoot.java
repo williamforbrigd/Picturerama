@@ -37,8 +37,8 @@ final class AlbumDetailsRoot extends SceneRoot {
   private final VBox SCROLL_PANE_VBOX = new VBox();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
   private final Button PDF_BUTTON = new Button("Generate PDF from album");
-  private final Button DELETE_ALBUM = new Button("Delete album");
-  private final Button DELETE_PHOTOS = new Button("Remove selected photos");
+  private final Button DELETE_ALBUM_BUTTON = new Button("Delete album");
+  private final Button DELETE_PHOTOS_BUTTON = new Button("Remove selected photos");
   private Set<Photo> albumPhotoList;
   private String albumName;
   private final TextField SAVE_LOCATION = new TextField();
@@ -65,11 +65,11 @@ final class AlbumDetailsRoot extends SceneRoot {
     super.setGridPane();
     super.getGridPane().add(SCROLL_PANE, 0, 2);
     super.getGridPane().add(PDF_BUTTON, 0, 3);
-    super.getGridPane().add(DELETE_PHOTOS, 0, 4);
-    super.getGridPane().add(DELETE_ALBUM, 0, 5);
+    super.getGridPane().add(DELETE_PHOTOS_BUTTON, 0, 4);
+    super.getGridPane().add(DELETE_ALBUM_BUTTON, 0, 5);
     super.getGridPane().setMaxWidth(700.0D);
     PDF_BUTTON.setOnAction(s -> generatePdfPressed());
-    Css.setButton(700, 50, 18, PDF_BUTTON, DELETE_PHOTOS, DELETE_ALBUM);
+    Css.setButton(700, 50, 18, PDF_BUTTON, DELETE_PHOTOS_BUTTON, DELETE_ALBUM_BUTTON);
     this.setupScrollPane();
   }
 
@@ -106,7 +106,6 @@ final class AlbumDetailsRoot extends SceneRoot {
     Button downloadPdf = new Button("Download");
     Css.setButton(480, 20, 17, downloadPdf);
     Css.setButton(150, 20, 17, fileExplorer);
-
 
     fileExplorer.setOnAction(s -> {
       try {
@@ -152,16 +151,15 @@ final class AlbumDetailsRoot extends SceneRoot {
     } else {
       showAlbumIsEmpty();
       PDF_BUTTON.setDisable(true);
+      DELETE_PHOTOS_BUTTON.setDisable(true);
     }
 
-
-
-    DELETE_ALBUM.setOnAction(e -> {
+    DELETE_ALBUM_BUTTON.setOnAction(e -> {
       UserInfo.getUser().getAlbums().remove(album);
       Hibernate.updateUser(UserInfo.getUser());
       ApplicationManager.setRoot(new AlbumsRoot());
     });
-    DELETE_PHOTOS.setOnAction(e -> deleteSelectedPhotos(album));
+    DELETE_PHOTOS_BUTTON.setOnAction(e -> deleteSelectedPhotos(album));
   }
 
   /**
@@ -201,6 +199,7 @@ final class AlbumDetailsRoot extends SceneRoot {
     }
     if (albumPhotoList.isEmpty()) {
       PDF_BUTTON.setDisable(true);
+      DELETE_PHOTOS_BUTTON.setDisable(true);
       showAlbumIsEmpty();
     }
   }

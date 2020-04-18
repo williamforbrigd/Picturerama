@@ -95,16 +95,25 @@ final class PhotosRoot extends SceneRoot {
         CHECKBOX_ARRAY_LIST.add(photoContainer.getCheckBox());
       });
     } else {
-      Text noPhotosText = new Text("No photos stored. You can upload photos in \"Upload\"");
-      Css.setText(17, noPhotosText);
-      SCROLL_PANE_VBOX.getChildren().add(noPhotosText);
-      SCROLL_PANE_VBOX.setAlignment(Pos.CENTER);
-      SELECT_ALL_HBOX.setDisable(true);
+      showNoPhotos();
     }
     SCROLL_PANE.setContent(SCROLL_PANE_VBOX);
     SCROLL_PANE.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
     SCROLL_PANE.fitToWidthProperty().set(true);
     SCROLL_PANE.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+  }
+
+  /**
+   * Shows a massage that tells the user that it has no photos
+   */
+  private void showNoPhotos(){
+    Text noPhotosText = new Text("No photos stored. You can upload photos in \"Upload\"");
+    Css.setText(17, noPhotosText);
+    SCROLL_PANE_VBOX.getChildren().add(noPhotosText);
+    SCROLL_PANE_VBOX.setAlignment(Pos.CENTER);
+    SELECT_ALL_HBOX.setDisable(true);
+    DELETE_BUTTON.setDisable(true);
+    ADD_TO_ALBUM_BUTTON.setDisable(true);
   }
 
   /**
@@ -145,6 +154,9 @@ final class PhotosRoot extends SceneRoot {
   private void setupAlbumButtons() {
     Css.setButton(700, 25, 20, ADD_TO_ALBUM_BUTTON);
     ADD_TO_ALBUM_BUTTON.setOnAction(s -> createNewAlbumButtonPressed());
+    if (UserInfo.getUser().getAlbums().isEmpty()) {
+      ADD_TO_ALBUM_BUTTON.setDisable(true);
+    }
   }
 
   /**
@@ -271,6 +283,9 @@ final class PhotosRoot extends SceneRoot {
       } else {
         Css.playFeedBackLabelTransition(FeedbackType.ERROR, "One or more photos could not be deleted", 13, FEEDBACK_LABEL);
       }
+    }
+    if (UserInfo.getUser().getPhotos().isEmpty()) {
+        showNoPhotos();
     }
   }
 

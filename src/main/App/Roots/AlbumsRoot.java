@@ -17,8 +17,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Class for the albums root
@@ -31,6 +34,7 @@ final class AlbumsRoot extends SceneRoot {
   private final Button NEW_ALBUM_BUTTON = new Button("New album");
   private final Button DELETE_ALBUM_BUTTON = new Button("Delete album");
   private final ChoiceBox<String> CHOICE_BOX = new ChoiceBox();
+  private final Text feedbackText = new Text();
 
   /**
    * Constructor that initializes the albums root
@@ -64,17 +68,34 @@ final class AlbumsRoot extends SceneRoot {
    */
   private void addAlbumsScrollPane() {
     try {
-      UserInfo.getUser().getAlbums().forEach(album -> {
-        Button albumButton = new Button(album.getName());
-        albumButton.setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
-        ALBUM_BUTTONS.add(albumButton);
-        Css.setButton(650, 50, 18, albumButton);
-        SCROLL_PANE_VBOX.getChildren().add(albumButton);
-      });
+      if (UserInfo.getUser().getAlbums().isEmpty()) {
+        showNoAlbum();
+      } else {
+        UserInfo.getUser().getAlbums().forEach(album -> {
+          Button albumButton = new Button(album.getName());
+          albumButton.setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
+          ALBUM_BUTTONS.add(albumButton);
+          Css.setButton(650, 50, 18, albumButton);
+          feedbackText.setDisable(true);
+          SCROLL_PANE_VBOX.getChildren().add(albumButton);
+        });
+      }
     } catch (NullPointerException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
     }
+  }
+
+  /**
+   * Shows a message that tells the user that there no albums are created
+   */
+  private void showNoAlbum() {
+    Css.setText(17, feedbackText);
+    SCROLL_PANE_VBOX.getChildren().add(feedbackText);
+    SCROLL_PANE_VBOX.setAlignment(Pos.CENTER);
+    feedbackText.setText("No albums registered: Add an album by pressing the add album button");
+    feedbackText.setTextAlignment(TextAlignment.RIGHT);
+    DELETE_ALBUM_BUTTON.setDisable(true);
   }
 
   /**
@@ -139,11 +160,15 @@ final class AlbumsRoot extends SceneRoot {
           popupWindow.getDialogVBox().getChildren().clear();
           popupWindow.getDialogText().setText("Please enter the name of the album to be added:");
           popupWindow.getDialogVBox().getChildren().addAll(popupWindow.getDialogText(), popupWindow.getDialogHBox());
+          DELETE_ALBUM_BUTTON.setDisable(false);
         });
       } else {
         addAlbumButtonPressed(nameAlbumInput.getText().trim());
         nameAlbumInput.clear();
         popupWindow.getDialogWindow().close();
+        if (!ALBUM_BUTTONS.isEmpty()) {
+          DELETE_ALBUM_BUTTON.setDisable(false);
+        }
       }
     });
   }
@@ -153,6 +178,7 @@ final class AlbumsRoot extends SceneRoot {
    * Used in createNewAlbumButtonPressed
    */
   private void addAlbumButtonPressed(String albumName) {
+    SCROLL_PANE_VBOX.getChildren().remove(feedbackText);
     Album album = new Album();
     album.setUserId(UserInfo.getUser().getId());
     album.setName(albumName);
@@ -181,19 +207,6 @@ final class AlbumsRoot extends SceneRoot {
     Css.setButton(500, 20, 17, deleteButton);
     popupWindow.getDialogHBox().getChildren().addAll(CHOICE_BOX, deleteButton);
 
-    if (UserInfo.getUser().getAlbums().isEmpty()) {
-      popupWindow.getDialogText().setText("You don't have any albums");
-      popupWindow.getDialogVBox().getChildren().remove(popupWindow.getDialogHBox());
-      Button button = new Button("Ok");
-      popupWindow.getDialogVBox().getChildren().addAll(button);
-      Css.setButton(500, 20, 17, button);
-      button.setOnAction(event -> {
-        popupWindow.getDialogVBox().getChildren().remove(button);
-        popupWindow.getDialogVBox().getChildren().add(popupWindow.getDialogHBox());
-        popupWindow.getDialogWindow().close();
-      });
-    }
-
     deleteButton.setOnAction(e -> {
       deleteAlbum();
       CHOICE_BOX.getItems().remove(CHOICE_BOX.getSelectionModel().getSelectedItem());
@@ -219,6 +232,9 @@ final class AlbumsRoot extends SceneRoot {
         }
         return false;
       });
+    }
+    if (UserInfo.getUser().getAlbums().isEmpty()) {
+      showNoAlbum();
     }
   }
 

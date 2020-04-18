@@ -37,7 +37,7 @@ public final class ApplicationManager {
     if(stage == null && scene == null) {
       stage = primaryStage;
       stage.setOnCloseRequest(s -> {
-        //Makes is so that the program doesnt automatically close, gives the developer control of the exit mechanic
+        //Hinders the program closing
         s.consume();
         //Runs our close program instead
         closeProgram();
