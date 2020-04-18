@@ -81,7 +81,7 @@ public final class Css {
   /**
    * Sets home button styling in the header
    *
-   * @param button An button
+   * @param button a button
    */
   public static void setHomeButton(Button button) {
     button.getStylesheets().add("file:src/main/App/Css/HomeButton.css");
@@ -90,16 +90,19 @@ public final class Css {
   /**
    * Sets style in image container class for a button and container
    *
-   * @param button    a button
-   * @param container a HBox
+   * @param button a button
+   * @param container a Hbox
+   * @param containerHeight height of button
+   * @param containerWidth width of button
    */
-  public static void setImageContainer(Button button, HBox container) {
+
+  public static void setContainer(Button button, HBox container,int containerHeight, int containerWidth) {
     container.setStyle(PANE_STYLE + "-fx-padding: 0; -fx-border-insets: 1; -fx-background-insets: 1");
     button.setAlignment(Pos.CENTER_LEFT);
     button.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
-    button.setMinHeight(160);
-    button.setMaxHeight(160);
-    button.getStylesheets().add("file:src/main/App/Css/ImageContainer.css");
+    button.setMinHeight(containerHeight);
+    button.setMaxHeight(containerWidth);
+    button.getStylesheets().add("file:src/main/App/Css/Container.css");
   }
 
   /**

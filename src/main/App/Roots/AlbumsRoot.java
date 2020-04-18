@@ -1,5 +1,6 @@
 package Roots;
 
+import Components.AlbumContainer;
 import Components.PopupWindow;
 import Components.FileLogger;
 import Components.UserInfo;
@@ -20,21 +21,23 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.logging.Level;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Screen;
 
 /**
  * Class for the albums root
  */
 final class AlbumsRoot extends SceneRoot {
 
-  private final List<Button> ALBUM_BUTTONS = new ArrayList<>();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
   private final VBox SCROLL_PANE_VBOX = new VBox();
   private final Button NEW_ALBUM_BUTTON = new Button("New album");
   private final Button DELETE_ALBUM_BUTTON = new Button("Delete album");
   private final ChoiceBox<String> CHOICE_BOX = new ChoiceBox();
   private final Text feedbackText = new Text();
+  private final List<AlbumContainer> ALBUM_CONTAINER_LIST = new ArrayList<>();
 
   /**
    * Constructor that initializes the albums root
@@ -67,17 +70,18 @@ final class AlbumsRoot extends SceneRoot {
    * Used in constructor
    */
   private void addAlbumsScrollPane() {
+    SCROLL_PANE_VBOX.getChildren().clear();
+    ALBUM_CONTAINER_LIST.clear();
     try {
       if (UserInfo.getUser().getAlbums().isEmpty()) {
         showNoAlbum();
       } else {
         UserInfo.getUser().getAlbums().forEach(album -> {
-          Button albumButton = new Button(album.getName());
-          albumButton.setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
-          ALBUM_BUTTONS.add(albumButton);
-          Css.setButton(650, 50, 18, albumButton);
-          feedbackText.setDisable(true);
-          SCROLL_PANE_VBOX.getChildren().add(albumButton);
+          AlbumContainer albumContainer = new AlbumContainer(album);
+          albumContainer.getAlbumButton().setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
+          ALBUM_CONTAINER_LIST.add(albumContainer);
+          SCROLL_PANE_VBOX.getChildren().add(albumContainer.getAlbumContainerHBox());
+
         });
       }
     } catch (NullPointerException e) {
@@ -107,8 +111,9 @@ final class AlbumsRoot extends SceneRoot {
     SCROLL_PANE_VBOX.setSpacing(10);
     SCROLL_PANE.setContent(SCROLL_PANE_VBOX);
     SCROLL_PANE.setPrefSize(700, 700);
-    SCROLL_PANE.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-    SCROLL_PANE.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    SCROLL_PANE.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
+    SCROLL_PANE.fitToWidthProperty().set(true);
+    SCROLL_PANE.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
     Css.setAlbumScrollPaneBorder(SCROLL_PANE);
     super.getGridPane().add(SCROLL_PANE, 0, 0);
   }
@@ -127,7 +132,7 @@ final class AlbumsRoot extends SceneRoot {
     BorderPane.setAlignment(hBox, Pos.CENTER);
 
     NEW_ALBUM_BUTTON.setOnAction(e -> createNewAlbumButtonPressed());
-    DELETE_ALBUM_BUTTON.setOnAction(e -> deleteButtonPressed());
+    DELETE_ALBUM_BUTTON.setOnAction(e -> deleteSelectedAlbums());
     Css.setButton(340, 50, 18, NEW_ALBUM_BUTTON, DELETE_ALBUM_BUTTON);
   }
 
@@ -166,7 +171,7 @@ final class AlbumsRoot extends SceneRoot {
         addAlbumButtonPressed(nameAlbumInput.getText().trim());
         nameAlbumInput.clear();
         popupWindow.getDialogWindow().close();
-        if (!ALBUM_BUTTONS.isEmpty()) {
+        if (ALBUM_CONTAINER_LIST.isEmpty()) {
           DELETE_ALBUM_BUTTON.setDisable(false);
         }
       }
@@ -184,72 +189,50 @@ final class AlbumsRoot extends SceneRoot {
     album.setName(albumName);
     UserInfo.getUser().getAlbums().add(album);
     Hibernate.updateUser(UserInfo.getUser());
-    Button albumButton = new Button(albumName);
-    albumButton.setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
-    ALBUM_BUTTONS.add(albumButton);
-    Css.setButton(650, 50, 18, albumButton);
-    SCROLL_PANE_VBOX.getChildren().add(albumButton);
+    AlbumContainer albumContainer = new AlbumContainer(album);
+    albumContainer.getAlbumButton().setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
+    addAlbumsScrollPane();
+    DELETE_ALBUM_BUTTON.setDisable(false);
   }
 
-  /**
-   * Creates a new pop up window for the user to delete an album, and the user can select the album to be deleted.
-   * Calls the deleteAlbum()-method that deletes the specific album selected. If the user has no albums, a text will be
-   * printed out to the screen containing this information.
-   * Used in addButtonsToBorderPane
-   */
-  private void deleteButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 100);
-    this.setupChoiceBox();
-
-    popupWindow.getDialogWindow().setTitle("Delete Album");
-    popupWindow.getDialogText().setText("Please select the album to be deleted.");
-    Button deleteButton = new Button("Delete Album");
-    Css.setButton(500, 20, 17, deleteButton);
-    popupWindow.getDialogHBox().getChildren().addAll(CHOICE_BOX, deleteButton);
-
-    deleteButton.setOnAction(e -> {
-      deleteAlbum();
-      CHOICE_BOX.getItems().remove(CHOICE_BOX.getSelectionModel().getSelectedItem());
-      popupWindow.getDialogWindow().close();
-    });
-  }
 
   /**
-   * Helping method to delete an album and the album button gets removed from the layout.
-   * Used in deleteButtonPressed
+   * Method to delete an album and the album button gets removed from the layout.
+   *
    */
-  private void deleteAlbum() {
-    String albumSelected = CHOICE_BOX.getSelectionModel().getSelectedItem();
-    Album album = UserInfo.getUser().getAlbums().stream().filter(a -> a.getName().equals(albumSelected)).findAny().orElse(null);
-    if (album != null) {
-      album.getPhotos().forEach(photo -> photo.getAlbums().remove(album));
-      UserInfo.getUser().getAlbums().remove(album);
+  private void deleteSelectedAlbums () {
+    ArrayList<Album> selectedAlbums = getCheckedAlbums();
+    for (Album album : selectedAlbums) {
+      Optional<AlbumContainer> optionalAlbumContainer = ALBUM_CONTAINER_LIST.stream().filter(c -> c.getALBUM().equals(album)).findAny();
+      if (optionalAlbumContainer.isPresent()) {
+        UserInfo.getUser().getAlbums().remove(album);
+        AlbumContainer albumContainer = optionalAlbumContainer.get();
+        albumContainer.getCheckBox().setSelected(false);
+        SCROLL_PANE_VBOX.getChildren().remove(albumContainer.getAlbumContainerHBox());
+      } else {
+        FileLogger.getLogger().log(Level.FINE, "Album: {0} is not present in the list containers", album);
+        FileLogger.closeHandler();
+      }
       Hibernate.updateUser(UserInfo.getUser());
-      ALBUM_BUTTONS.removeIf(button -> {
-        if (button.getText().equals(albumSelected)) {
-          SCROLL_PANE_VBOX.getChildren().remove(button);
-          return true;
-        }
-        return false;
-      });
     }
     if (UserInfo.getUser().getAlbums().isEmpty()) {
       showNoAlbum();
     }
   }
-
   /**
-   * Sets up the checkboxes and adds styling to it
-   * Used in deleteButtonPressed
+   * Helper method to get the checked album in the album root
+   * Used in updateUser
+   * Used in deleteSelectedPhotos
+   *
+   * @return a list of checked photos
    */
-  private void setupChoiceBox() {
-    CHOICE_BOX.getItems().clear();
-    CHOICE_BOX.getStyleClass().add("choice-box");
-    CHOICE_BOX.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
-    UserInfo.getUser().getAlbums().forEach(album -> {
-      if (!CHOICE_BOX.getItems().contains(album.getName())) {
-        CHOICE_BOX.getItems().add(album.getName());
+  private ArrayList<Album> getCheckedAlbums(){
+    ArrayList<Album> checkedPhotos = new ArrayList<>();
+    for (AlbumContainer albumContainer : ALBUM_CONTAINER_LIST) {
+      if (albumContainer.getCheckBox().isSelected()) {
+        checkedPhotos.add(albumContainer.getALBUM());
       }
-    });
+    }
+    return checkedPhotos;
   }
 }

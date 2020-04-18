@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
- * Class that is used to display photos in the search scene
+ * Class that is used to display photos in the search root
  */
 public final class PhotoContainer {
     private final Photo PHOTO;
@@ -73,7 +73,7 @@ public final class PhotoContainer {
         photoContainerHBox.getStylesheets().add("file:src/main/App/Css/CheckBoxStyle.css");
         photoContainerHBox.setSpacing(10);
         photoContainerHBox.setAlignment(Pos.CENTER_LEFT);
-        Css.setImageContainer(photoButton, photoContainerHBox);
+        Css.setContainer(photoButton, photoContainerHBox, 160,160);
     }
 
     /**

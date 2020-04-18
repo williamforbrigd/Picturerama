@@ -1,5 +1,5 @@
 .check-box {
-    -fx-padding: 37px;
+    -fx-padding: 10px 37px;
 }
 
 .check-box > .box {
