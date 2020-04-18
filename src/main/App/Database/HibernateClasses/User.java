@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -43,7 +44,6 @@ public class User implements Serializable {
     this.hash = hash;
     this.salt = salt;
   }
-
 
   public List<Album> getAlbums() {
     return albums;
@@ -92,6 +92,4 @@ public class User implements Serializable {
   public void setPhotos(List<Photo> photos) {
     this.photos = photos;
   }
-
-
 }

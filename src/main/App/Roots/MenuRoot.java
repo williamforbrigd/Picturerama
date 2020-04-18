@@ -16,13 +16,16 @@ public final class MenuRoot extends SceneRoot {
     private final Button MAP_BUTTON = new Button("Map");
     private final Button LOG_OUT_BUTTON = new Button("Log out");
 
+    /**
+     * Instantiates a new Menu root.
+     */
     public MenuRoot() {
         super();
         this.setLayout();
     }
 
     /**
-     * Sets the layout of the menu. The setLayout()-method from SceneRoot is overridden, but also
+     * Sets the layout of the menu. The setLayout() method from SceneRoot is overridden, but also
      * called in the method in order to modify the method.
      * Used in the constructor
      */

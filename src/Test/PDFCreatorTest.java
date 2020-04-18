@@ -1,4 +1,4 @@
-import Components.PdfCreator;
+import Components.PDFCreator;
 import Components.UserInfo;
 import Database.HibernateClasses.Photo;
 import Database.HibernateClasses.User;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PdfCreatorTest {
+class PDFCreatorTest {
 
 	private static final String PATH_TO_PDF = "src/Test/Assets/generatedAlbumPdf.pdf";
 	private static List<Photo> photoList = new ArrayList<>();
@@ -33,7 +33,7 @@ class PdfCreatorTest {
 	}
 
 	/**
-	 * Delete the generated pdf after all tests have been executed.
+	 * Delete the generated PDF after all tests have been executed.
 	 */
 	@AfterAll
 	static void tearDown() {
@@ -42,8 +42,8 @@ class PdfCreatorTest {
 	}
 
 	@Test
-	void createPdf_ShouldWork_GeneratedFileNotNull() throws DocumentException, IOException {
-		PdfCreator.createPdf(photoList, PATH_TO_PDF, "Test");
+	void createPDF_ShouldWork_GeneratedFileNotNull() throws DocumentException, IOException {
+		PDFCreator.createPDF(photoList, PATH_TO_PDF, "Test");
 		File pdfFile = new File(PATH_TO_PDF);
 
 		assertNotNull(pdfFile);

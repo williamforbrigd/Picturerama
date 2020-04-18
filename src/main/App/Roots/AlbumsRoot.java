@@ -1,7 +1,7 @@
 package Roots;
 
 import Components.AlbumContainer;
-import Components.PopupWindow;
+import Components.PopUpWindow;
 import Components.FileLogger;
 import Components.UserInfo;
 import Css.Css;
@@ -12,14 +12,12 @@ import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -35,7 +33,6 @@ final class AlbumsRoot extends SceneRoot {
   private final VBox SCROLL_PANE_VBOX = new VBox();
   private final Button NEW_ALBUM_BUTTON = new Button("New album");
   private final Button DELETE_ALBUM_BUTTON = new Button("Delete album");
-  private final ChoiceBox<String> CHOICE_BOX = new ChoiceBox();
   private final Text feedbackText = new Text();
   private final List<AlbumContainer> ALBUM_CONTAINER_LIST = new ArrayList<>();
 
@@ -81,7 +78,6 @@ final class AlbumsRoot extends SceneRoot {
           albumContainer.getAlbumButton().setOnAction(e -> ApplicationManager.setRoot(new AlbumDetailsRoot(album)));
           ALBUM_CONTAINER_LIST.add(albumContainer);
           SCROLL_PANE_VBOX.getChildren().add(albumContainer.getAlbumContainerHBox());
-
         });
       }
     } catch (NullPointerException e) {
@@ -91,10 +87,10 @@ final class AlbumsRoot extends SceneRoot {
   }
 
   /**
-   * Shows a message that tells the user that there no albums are created
+   * Shows a message that tells the user that there are no albums created
    */
   private void showNoAlbum() {
-    Css.setText(17, feedbackText);
+    Css.setTextFont(17, feedbackText);
     SCROLL_PANE_VBOX.getChildren().add(feedbackText);
     SCROLL_PANE_VBOX.setAlignment(Pos.CENTER);
     feedbackText.setText("No albums registered: Add an album by pressing the add album button");
@@ -114,7 +110,7 @@ final class AlbumsRoot extends SceneRoot {
     SCROLL_PANE.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
     SCROLL_PANE.fitToWidthProperty().set(true);
     SCROLL_PANE.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-    Css.setAlbumScrollPaneBorder(SCROLL_PANE);
+    Css.setScrollPane(SCROLL_PANE);
     super.getGridPane().add(SCROLL_PANE, 0, 0);
   }
 
@@ -128,8 +124,8 @@ final class AlbumsRoot extends SceneRoot {
     hBox.setAlignment(Pos.BASELINE_CENTER);
     hBox.setSpacing(20);
     hBox.setPadding(new Insets(10, 10, 10, 10));
-    super.getBorderPane().setBottom(hBox);
     BorderPane.setAlignment(hBox, Pos.CENTER);
+    super.getBorderPane().setBottom(hBox);
 
     NEW_ALBUM_BUTTON.setOnAction(e -> createNewAlbumButtonPressed());
     DELETE_ALBUM_BUTTON.setOnAction(e -> deleteSelectedAlbums());
@@ -141,7 +137,7 @@ final class AlbumsRoot extends SceneRoot {
    * Used in addButtonsToBorderPan
    */
   private void createNewAlbumButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 100);
+    PopUpWindow popupWindow = new PopUpWindow(ApplicationManager.getStage(), 500, 100);
 
     popupWindow.getDialogWindow().setTitle("Add album");
     popupWindow.getDialogText().setText("Please enter the name of the album to be added:");
@@ -154,35 +150,39 @@ final class AlbumsRoot extends SceneRoot {
     Css.setButton(500, 20, 17, addAlbum);
     popupWindow.getDialogHBox().getChildren().addAll(nameAlbumInput, addAlbum);
 
-    addAlbum.setOnAction(e -> {
-      if (nameAlbumInput.getText().trim().equals("") || nameAlbumInput.getText() == null) {
-        popupWindow.getDialogText().setText("Please enter a valid name");
-        Button tryAgain = new Button("Try again");
-        Css.setButton(500, 20, 17, tryAgain);
+    addAlbum.setOnAction(e -> addAlbum(nameAlbumInput, popupWindow));
+  }
+
+  /**
+   * Creates a new album
+   *
+   * @param nameAlbumInput textfield with name of new album
+   */
+  private void addAlbum(TextField nameAlbumInput, PopUpWindow popupWindow) {
+    if (nameAlbumInput.getText().trim().equals("") || nameAlbumInput.getText() == null) {
+      popupWindow.getDialogText().setText("Please enter a valid name");
+      Button tryAgain = new Button("Try again");
+      Css.setButton(500, 20, 17, tryAgain);
+      popupWindow.getDialogVBox().getChildren().clear();
+      popupWindow.getDialogVBox().getChildren().addAll(popupWindow.getDialogText(), tryAgain);
+      tryAgain.setOnAction(event -> {
         popupWindow.getDialogVBox().getChildren().clear();
-        popupWindow.getDialogVBox().getChildren().addAll(popupWindow.getDialogText(), tryAgain);
-        tryAgain.setOnAction(event -> {
-          popupWindow.getDialogVBox().getChildren().clear();
-          popupWindow.getDialogText().setText("Please enter the name of the album to be added:");
-          popupWindow.getDialogVBox().getChildren().addAll(popupWindow.getDialogText(), popupWindow.getDialogHBox());
-          DELETE_ALBUM_BUTTON.setDisable(false);
-        });
-      } else {
-        addAlbumButtonPressed(nameAlbumInput.getText().trim());
-        nameAlbumInput.clear();
-        popupWindow.getDialogWindow().close();
-        if (ALBUM_CONTAINER_LIST.isEmpty()) {
-          DELETE_ALBUM_BUTTON.setDisable(false);
-        }
-      }
-    });
+        popupWindow.getDialogText().setText("Please enter the name of the album to be added:");
+        popupWindow.getDialogVBox().getChildren().addAll(popupWindow.getDialogText(), popupWindow.getDialogHBox());
+        DELETE_ALBUM_BUTTON.setDisable(false);
+      });
+    } else {
+      createAlbum(nameAlbumInput.getText().trim());
+      nameAlbumInput.clear();
+      popupWindow.getDialogWindow().close();
+    }
   }
 
   /**
    * Uploads the new album that is created to the database
    * Used in createNewAlbumButtonPressed
    */
-  private void addAlbumButtonPressed(String albumName) {
+  private void createAlbum(String albumName) {
     SCROLL_PANE_VBOX.getChildren().remove(feedbackText);
     Album album = new Album();
     album.setUserId(UserInfo.getUser().getId());
@@ -195,12 +195,10 @@ final class AlbumsRoot extends SceneRoot {
     DELETE_ALBUM_BUTTON.setDisable(false);
   }
 
-
   /**
    * Method to delete an album and the album button gets removed from the layout.
-   *
    */
-  private void deleteSelectedAlbums () {
+  private void deleteSelectedAlbums() {
     ArrayList<Album> selectedAlbums = getCheckedAlbums();
     for (Album album : selectedAlbums) {
       Optional<AlbumContainer> optionalAlbumContainer = ALBUM_CONTAINER_LIST.stream().filter(c -> c.getALBUM().equals(album)).findAny();
@@ -219,12 +217,12 @@ final class AlbumsRoot extends SceneRoot {
       showNoAlbum();
     }
   }
+
   /**
    * Helper method to get the checked album in the album root
-   * Used in updateUser
-   * Used in deleteSelectedPhotos
+   * Used in deleteSelectedAlbums
    *
-   * @return a list of checked photos
+   * @return a list of checked albums
    */
   private ArrayList<Album> getCheckedAlbums(){
     ArrayList<Album> checkedPhotos = new ArrayList<>();

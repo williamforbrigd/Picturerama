@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
  * Utility class that is used to create confirmations boxes
  */
 public final class ConfirmationBox {
+
     private static boolean answer;
 
     /**
@@ -22,10 +23,10 @@ public final class ConfirmationBox {
 	 *
 	 * @param title   the title of the conformation box
 	 * @param message the massage that the confirmation box is going to display
-	 * @return the answer of the confirmation box
+	 * @return boolean answer of the confirmation box
 	 */
 	public static boolean display(String title, String message) {
-		PopupWindow dialogWindow = new PopupWindow(ApplicationManager.getStage(), 250, 150);
+		PopUpWindow dialogWindow = new PopUpWindow(ApplicationManager.getStage(), 250, 150);
 		dialogWindow.getDialogWindow().close();
 
 		Button yesButton = new Button("Yes");

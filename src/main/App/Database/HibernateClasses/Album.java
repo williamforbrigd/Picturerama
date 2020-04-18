@@ -1,6 +1,5 @@
 package Database.HibernateClasses;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -12,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "ALBUMS")
 public class Album implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     public Album() {
@@ -32,7 +32,6 @@ public class Album implements Serializable {
 
     @Column(name = "user_id")
     private int userId;
-
 
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     @JoinTable(

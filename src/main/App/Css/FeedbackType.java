@@ -7,6 +7,7 @@ package Css;
  * SUCCESSFUL gives a green color
  */
 public enum FeedbackType {
+
   ERROR("red"), SUCCESSFUL("green");
 
   private String color;

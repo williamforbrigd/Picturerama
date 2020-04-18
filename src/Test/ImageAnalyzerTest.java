@@ -5,7 +5,6 @@ import Database.HibernateClasses.Photo;
 import Database.HibernateClasses.User;
 import java.io.IOException;
 import java.util.logging.Level;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,8 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * ImageAnalyzer class
  */
 class ImageAnalyzerTest {
-  static User user;
-  static Photo photo;
+
+  private static User user;
+  private static Photo photo;
 
   @BeforeAll
   static void setup() {

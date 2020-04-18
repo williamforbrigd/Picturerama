@@ -4,18 +4,14 @@ import Database.HibernateClasses.Photo;
 import Database.HibernateClasses.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 import java.io.IOException;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class to upload and delete a photo.
  */
 class PhotoTest {
+
     private static Photo photo;
     private static User user;
 
@@ -58,18 +54,5 @@ class PhotoTest {
     @Test
     void getUserId_CorrectPhotoUserID_isEqual() {
         assertEquals(photo.getUserId(), user.getId());
-    }
-
-    /**
-     * Test to check whether the user has multiple photos with the same id.
-     * The id is unique and the user should not be able to register
-     * multiple photos with the same id.
-     */
-    @Test
-    void getId_MaxOnePhotoSameId_OneWithSame() {
-        List<Photo> findPhotoId = user.getPhotos().stream()
-                .filter(p -> p.getId() == photo.getId())
-                .collect(Collectors.toList());
-        assert findPhotoId.size() <= 1 : "Only one photo can have the same id";
     }
 }

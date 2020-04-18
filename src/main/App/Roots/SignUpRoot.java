@@ -64,8 +64,7 @@ final class SignUpRoot extends SceneRoot {
     super.getGridPane().add(LOG_IN_BUTTON, 10, 7);
     super.getGridPane().add(LOADING_ANIMATION, 11, 6);
     //Sets ToolTip to passwordStrengthBar, used when its being hovered
-    PASSWORD_STRENGTH_BAR.setTooltip(new Tooltip("Password Strength: \n " +
-        "Use 8 or more characters \n Use numbers \n Use capital letters"));
+    PASSWORD_STRENGTH_BAR.setTooltip(new Tooltip("Password Strength: \n Use 8 or more characters \n Use numbers \n Use capital letters"));
     PASSWORD_STRENGTH_BAR.setVisible(false);
 
     //Set styling on the layout components
@@ -110,7 +109,6 @@ final class SignUpRoot extends SceneRoot {
     pause.play();
   }
 
-
   /**
    * A method that returns a percent for the password strength.
    * Password strength is defined by length, and if it contains a capital letter and digit.
@@ -126,7 +124,7 @@ final class SignUpRoot extends SceneRoot {
     if (PASSWORD_FIELD.getText().length() >= 10) {
       passwordStrength += 0.25;
     }
-    //Checks if password length is greater than or equal to 10
+    //Checks if password length is greater than or equal to 12
     if (PASSWORD_FIELD.getText().length() >= 12) {
       passwordStrength += 0.25;
     }
@@ -176,7 +174,6 @@ final class SignUpRoot extends SceneRoot {
     }
   }
 
-
   /**
    * Gives feedback on password and username and different error messages.
    * Password requirements: 8 characters or more, only digits and letters
@@ -206,7 +203,7 @@ final class SignUpRoot extends SceneRoot {
         }
       }
     }
-    //Checks password for illegal
+    //Checks password for illegal characters
     if (PASSWORD_FIELD.getText().length() != 0) {
       for (int i = 0; i < PASSWORD_FIELD.getText().length(); i++) {
         if (!Character.isLetter(PASSWORD_FIELD.getText().charAt(i)) &&
@@ -216,7 +213,7 @@ final class SignUpRoot extends SceneRoot {
         }
       }
     }
-    //Checks confirmpassword and password match
+    //Checks if passwords are equal
     if (!PASSWORD_FIELD.getText().equals(CONFIRM_PASSWORD_FIELD.getText())) {
       Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Your passwords don't match", 13, SIGN_UP_FEEDBACK_LABEL);
       return false;
@@ -224,7 +221,8 @@ final class SignUpRoot extends SceneRoot {
 
     try {
       User testUser = Hibernate.getUser(USERNAME_FIELD.getText());
-      if (USERNAME_FIELD.getText().equals(testUser.getUsername()) && testUser != null) {
+      //Checks if username is available
+      if (USERNAME_FIELD.getText().equals(testUser.getUsername())) {
         Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Error: Username is already taken", 13, SIGN_UP_FEEDBACK_LABEL);
         return false;
       }
@@ -236,5 +234,4 @@ final class SignUpRoot extends SceneRoot {
 
     return true;
   }
-
 }

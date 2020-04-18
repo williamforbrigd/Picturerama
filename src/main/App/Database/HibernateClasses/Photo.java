@@ -13,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name="PHOTOS")
 public class Photo implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     public Photo() {
@@ -214,11 +215,11 @@ public class Photo implements Serializable {
     }
 
     /**
-     * fileSizeToKileBytes, converts the file size from bytes to kilo bytes
+     * Convert the file size from bytes to kilo bytes
      * @return the file size converted to kilo bytes, null if there is no fileSize registered
      */
-    private Double fileSizeToKiloBytes(){
-        if(fileSize != null){
+    private Double fileSizeAsKiloBytes(){
+        if (fileSize != null) {
             return Math.round(100 * ((double) fileSize / 1024)) / 100.00;
         }
         return null;
@@ -228,7 +229,7 @@ public class Photo implements Serializable {
     public String toString() {
         return "File type: " + getFileType() + "\n" +
                 "Dimensions: " + getWidth() + " x " + getHeight() + "\n" +
-                "Size: " + fileSizeToKiloBytes() + " kB\n" +
+                "Size: " + fileSizeAsKiloBytes() + " kB\n" +
                 "Latitude: " + getLatitude() + "\n" +
                 "Longitude: " + getLongitude() + "\n" +
                 "Date: " + getTime() + "\n" +

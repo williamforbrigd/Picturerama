@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
  * Class that is used to display photos in the search root
  */
 public final class PhotoContainer {
+
     private final Photo PHOTO;
     private Image image;
     private ImageView imageView;
@@ -55,7 +56,7 @@ public final class PhotoContainer {
     }
 
     /**
-     * Makes a photo container that is a button that contains a photo and a checkbox
+     * Makes a photo container that is a button that contains a photo, a photo title and a checkbox
      *
      * @param photo a photo object
      */
@@ -68,19 +69,12 @@ public final class PhotoContainer {
             PhotoViewer photoViewer = new PhotoViewer(photo);
             photoViewer.display();
         });
-        setupContainerCheckBox();
+        checkBox = new CheckBox();
+        checkBox.getStyleClass().add("check-box");
         photoContainerHBox = new HBox(photoButton, checkBox);
         photoContainerHBox.getStylesheets().add("file:src/main/App/Css/CheckBoxStyle.css");
         photoContainerHBox.setSpacing(10);
         photoContainerHBox.setAlignment(Pos.CENTER_LEFT);
         Css.setContainer(photoButton, photoContainerHBox, 160,160);
-    }
-
-    /**
-     * Creates a checkbox and adds the correct styling to it
-     */
-    private void setupContainerCheckBox() {
-        checkBox = new CheckBox();
-        checkBox.getStyleClass().add("check-box");
     }
 }

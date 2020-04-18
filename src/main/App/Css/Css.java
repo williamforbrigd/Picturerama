@@ -15,6 +15,7 @@ import javafx.util.Duration;
  * Css class used for styling different JavaFX elements
  */
 public final class Css {
+
   private static final String BORDER_RADIUS = "15px";
   private static final String BORDER_WIDTH = "1px";
   private static final String BORDER_COLOR_LIGHT = "#DDDDDD";
@@ -30,7 +31,7 @@ public final class Css {
   }
 
   /**
-   * setPane takes in an amount of panes or its subclasses (border pane, grid pane)
+   * Styles panes
    *
    * @param panes an amount of panes
    */
@@ -50,7 +51,7 @@ public final class Css {
   }
 
   /**
-   * setButton style takes in width, height, fontSize and an amount of buttons and sets their styling
+   * Styles buttons and sets height, width and font size by given params
    *
    * @param width    the preferred width of buttons
    * @param height   the preferred height of the buttons
@@ -67,9 +68,9 @@ public final class Css {
   }
 
   /**
-   * Method to style buttons from the tag container class
+   * Style buttons in the tag container class
    *
-   * @param buttons Is multiple buttons
+   * @param buttons an amount of buttons
    */
   public static void setTagContainerButton(Button... buttons) {
     for (Button button : buttons) {
@@ -95,7 +96,6 @@ public final class Css {
    * @param containerHeight height of button
    * @param containerWidth width of button
    */
-
   public static void setContainer(Button button, HBox container,int containerHeight, int containerWidth) {
     container.setStyle(PANE_STYLE + "-fx-padding: 0; -fx-border-insets: 1; -fx-background-insets: 1");
     button.setAlignment(Pos.CENTER_LEFT);
@@ -106,7 +106,7 @@ public final class Css {
   }
 
   /**
-   * sets Textfield styling for an amount of text fields
+   * Styles textFields and sets height, width and font size by given params
    *
    * @param width      the preferred width of text fields
    * @param height     the preferred height of text fields
@@ -123,11 +123,11 @@ public final class Css {
   }
 
   /**
-   * Sets styling for the scroll pain in albums
+   * Sets styling for the scroll pane
    *
-   * @param scrollPane A scroll pane
+   * @param scrollPane a scroll pane
    */
-  public static void setAlbumScrollPaneBorder(ScrollPane scrollPane) {
+  public static void setScrollPane(ScrollPane scrollPane) {
     scrollPane.setStyle("-fx-background-color:transparent;");
   }
 
@@ -175,19 +175,19 @@ public final class Css {
   }
 
   /**
-   * Styles font of a text in the Action popup class
+   * Styles font of a text
    *
    * @param fontSize the size of the font
-   * @param texts    A number of texts
+   * @param texts    a number of texts
    */
-  public static void setText(int fontSize, Text... texts) {
+  public static void setTextFont(int fontSize, Text... texts) {
     for (Text text : texts) {
       text.setFont(Font.font(FONT, fontSize));
     }
   }
 
   /**
-   * setLoadingAnimation styles all ProgressIndicator put as parameter
+   * Styles ProgressIndicators
    *
    * @param progressIndicators an amount of progressIndicators
    */
@@ -198,5 +198,4 @@ public final class Css {
       progressIndicator.setVisible(false);
     }
   }
-
 }

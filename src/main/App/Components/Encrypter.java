@@ -67,7 +67,7 @@ public final class Encrypter {
   private static String buildHexString(byte[] bytes) {
     StringBuilder sb = new StringBuilder();
     for (byte b : bytes) {
-      //Convert from byte to hex
+      // Convert from byte to hex
       sb.append(String.format("%02x", b));
     }
     return sb.toString();
@@ -94,7 +94,7 @@ public final class Encrypter {
    * @param s the output from encrypt
    * @return String hash
    */
-  //Split string from the encryption to Hash using the splitter
+  // Split string from the encryption to Hash using the splitter
   public static String getHash(String s) {
     int index = s.indexOf('|');
     if (index < 0) {
@@ -109,7 +109,7 @@ public final class Encrypter {
    * @param s the output from encrypt
    * @return String salt
    */
-  //Split string from the encryption to Salt using the splitter
+  // Split string from the encryption to Salt using the splitter
   public static String getSalt(String s) {
     int index = s.indexOf('|');
     if (index < 0) {

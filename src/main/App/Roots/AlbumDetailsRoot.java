@@ -1,8 +1,8 @@
 package Roots;
 
 import Components.FileLogger;
-import Components.PopupWindow;
-import Components.PdfCreator;
+import Components.PopUpWindow;
+import Components.PDFCreator;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
@@ -34,6 +34,7 @@ import javafx.stage.Stage;
  * Class for the album details root, which shows all the pictures in an album.
  */
 final class AlbumDetailsRoot extends SceneRoot {
+
   private final VBox SCROLL_PANE_VBOX = new VBox();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
   private final Button PDF_BUTTON = new Button("Generate PDF from album");
@@ -56,7 +57,7 @@ final class AlbumDetailsRoot extends SceneRoot {
   }
 
   /**
-   * Sets up the layout of the album details scene, overrides the setlayout method of SceneRoot
+   * Sets up the layout of the album details scene, overrides the setLayout() method of SceneRoot
    * Used in constructor
    */
   @Override
@@ -68,7 +69,8 @@ final class AlbumDetailsRoot extends SceneRoot {
     super.getGridPane().add(DELETE_PHOTOS_BUTTON, 0, 4);
     super.getGridPane().add(DELETE_ALBUM_BUTTON, 0, 5);
     super.getGridPane().setMaxWidth(700.0D);
-    PDF_BUTTON.setOnAction(s -> generatePdfPressed());
+
+    PDF_BUTTON.setOnAction(s -> generatePDFPressed());
     Css.setButton(700, 50, 18, PDF_BUTTON, DELETE_PHOTOS_BUTTON, DELETE_ALBUM_BUTTON);
     this.setupScrollPane();
   }
@@ -84,50 +86,6 @@ final class AlbumDetailsRoot extends SceneRoot {
     SCROLL_PANE_VBOX.setStyle("-fx-background-color: transparent;");
     SCROLL_PANE.fitToWidthProperty().set(true);
     SCROLL_PANE.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-  }
-
-  /**
-   * Method that is ran when clicking the generate pdf button
-   * Sets up the action popup
-   * Used in setLayout
-   */
-  private void generatePdfPressed() {
-    PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 200);
-
-    popupWindow.getDialogWindow().setTitle("Download album");
-
-    popupWindow.getDialogText().setText("File location: ");
-
-    SAVE_LOCATION.setPromptText("File location");
-    Css.setTextField(350, 20, 17, SAVE_LOCATION);
-    SAVE_LOCATION.setDisable(true);
-
-    Button fileExplorer = new Button("Browse");
-    Button downloadPdf = new Button("Download");
-    Css.setButton(480, 20, 17, downloadPdf);
-    Css.setButton(150, 20, 17, fileExplorer);
-
-    fileExplorer.setOnAction(s -> {
-      try {
-        this.setSaveLocation(System.getProperty("user.home"), popupWindow.getDialogWindow());
-      } catch (Exception e) {
-        SAVE_LOCATION.clear();
-      }
-    });
-
-    downloadPdf.setMaxWidth(450);
-    downloadPdf.setOnAction(e -> {
-      if (SAVE_LOCATION.getText().trim().length() != 0) {
-        generatePDF(SAVE_LOCATION.getText());
-        SAVE_LOCATION.clear();
-        popupWindow.getDialogWindow().close();
-      } else {
-        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Choose file location before downloading", 13, DIALOG_FEEDBACK_LABEL);
-      }
-    });
-
-    popupWindow.getDialogHBox().getChildren().addAll(SAVE_LOCATION, fileExplorer);
-    popupWindow.getDialogVBox().getChildren().addAll(DIALOG_FEEDBACK_LABEL, downloadPdf);
   }
 
   /**
@@ -163,13 +121,55 @@ final class AlbumDetailsRoot extends SceneRoot {
   }
 
   /**
+   * Method that is ran when clicking the generate pdf button
+   * Sets up the action popup
+   * Used in setLayout
+   */
+  private void generatePDFPressed() {
+    PopUpWindow popupWindow = new PopUpWindow(ApplicationManager.getStage(), 500, 200);
+    popupWindow.getDialogWindow().setTitle("Download album");
+    popupWindow.getDialogText().setText("File location:");
+
+    SAVE_LOCATION.setPromptText("File location");
+    SAVE_LOCATION.setDisable(true);
+    Css.setTextField(350, 20, 17, SAVE_LOCATION);
+
+    Button fileExplorer = new Button("Browse");
+    Button downloadPdf = new Button("Download");
+    Css.setButton(480, 20, 17, downloadPdf);
+    Css.setButton(150, 20, 17, fileExplorer);
+
+    fileExplorer.setOnAction(s -> {
+      try {
+        this.setSaveLocation(System.getProperty("user.home"), popupWindow.getDialogWindow());
+      } catch (Exception e) {
+        SAVE_LOCATION.clear();
+      }
+    });
+
+    downloadPdf.setMaxWidth(450);
+    downloadPdf.setOnAction(e -> {
+      if (SAVE_LOCATION.getText().trim().length() != 0) {
+        generatePDF(SAVE_LOCATION.getText());
+        SAVE_LOCATION.clear();
+        popupWindow.getDialogWindow().close();
+      } else {
+        Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Choose file location before downloading", 13, DIALOG_FEEDBACK_LABEL);
+      }
+    });
+
+    popupWindow.getDialogHBox().getChildren().addAll(SAVE_LOCATION, fileExplorer);
+    popupWindow.getDialogVBox().getChildren().addAll(DIALOG_FEEDBACK_LABEL, downloadPdf);
+  }
+
+  /**
    * Tells user that the selected album does not contain any photos
    * Used in deleteSelectedPhotos
    * Used in setup
    */
   private void showAlbumIsEmpty() {
     Text text = new Text("This album does not contain any photos yet. You can add photos from the \"Photos\" screen");
-    Css.setText(17, text);
+    Css.setTextFont(17, text);
     SCROLL_PANE.setContent(text);
   }
 
@@ -237,17 +237,17 @@ final class AlbumDetailsRoot extends SceneRoot {
   }
 
   /**
-   * Method to generate pdf and is ran when clicking download in generatepdf window
-   * Used in generatePdfPressed
+   * Method to generate PDF and is ran when clicking download in generatePDF window
+   * Used in generatePDFPressed
    *
-   * @param saveLocation is the location that the user wanted the pdf saved to
+   * @param saveLocation is the location that the user wanted the PDF saved to
    */
   private void generatePDF(String saveLocation) {
     List<Photo> photos = new ArrayList<>();
     photos.addAll(this.albumPhotoList);
     String saveLink = saveLocation + "/" + albumName + ".pdf";
     try {
-      PdfCreator.createPdf(photos, saveLink, albumName);
+      PDFCreator.createPDF(photos, saveLink, albumName);
       File pdfFile = new File(saveLink);
       if (pdfFile.exists() && Desktop.isDesktopSupported()) {
         Desktop.getDesktop().open(pdfFile);

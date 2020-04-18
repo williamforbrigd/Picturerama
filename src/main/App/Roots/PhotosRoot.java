@@ -1,7 +1,7 @@
 package Roots;
 
 import Components.FileLogger;
-import Components.PopupWindow;
+import Components.PopUpWindow;
 import Components.PhotoContainer;
 import Components.UserInfo;
 import Css.Css;
@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
  * Class for the Photos root
  */
 final class PhotosRoot extends SceneRoot {
+
   private final List<Photo> PHOTO_LIST = new ArrayList<>();
   private final ScrollPane SCROLL_PANE = new ScrollPane();
   private final VBox SCROLL_PANE_VBOX = new VBox();
@@ -61,29 +62,32 @@ final class PhotosRoot extends SceneRoot {
   void setLayout() {
     super.setLayout();
     super.setPageTitle("Photos");
+
     setupImagesInAScrollPane();
     setupSearchBar();
     setupAlbumButtons();
     setupSelectAllHBox();
     setupDeleteButton();
+
     super.getGridPane().add(SCROLL_PANE, 0, 1, 3, 1);
     super.getGridPane().add(SEARCH_TEXT_FIELD, 0, 0, 2, 1);
     super.getGridPane().add(FEEDBACK_LABEL, 2, 0, 1, 1);
-    GridPane.setHalignment(FEEDBACK_LABEL, HPos.LEFT);
     super.getGridPane().add(SELECT_ALL_HBOX, 2, 0, 1, 1);
-    GridPane.setHalignment(SELECT_ALL_HBOX, HPos.RIGHT);
-    super.getGridPane().getStylesheets().add("file:src/main/App/Css/SelectAllCheckBoxStyle.css");
     super.getGridPane().add(ADD_TO_ALBUM_BUTTON, 0, 2, 1, 1);
     super.getGridPane().add(DELETE_BUTTON, 2, 2, 1, 1);
     super.getGridPane().setMaxWidth(700.0D);
-    //Styles layout components
-    Css.setTextField(700, 20, 17, SEARCH_TEXT_FIELD);
+    super.getGridPane().getStylesheets().add("file:src/main/App/Css/SelectAllCheckBoxStyle.css");
     super.getGridPane().getStylesheets().add("file:src/main/App/Css/SearchField.css");
-    Css.setAlbumScrollPaneBorder(SCROLL_PANE);
+
+    GridPane.setHalignment(FEEDBACK_LABEL, HPos.LEFT);
+    GridPane.setHalignment(SELECT_ALL_HBOX, HPos.RIGHT);
+
+    Css.setTextField(700, 20, 17, SEARCH_TEXT_FIELD);
+    Css.setScrollPane(SCROLL_PANE);
   }
 
   /**
-   * Sets up the scroll pane in the photos root with all the photos of the user
+   * Sets up the scroll pane in the photos root with all the user's photos
    * Used in setLayout
    */
   private void setupImagesInAScrollPane() {
@@ -108,12 +112,13 @@ final class PhotosRoot extends SceneRoot {
    */
   private void showNoPhotos(){
     Text noPhotosText = new Text("No photos stored. You can upload photos in \"Upload\"");
-    Css.setText(17, noPhotosText);
+    Css.setTextFont(17, noPhotosText);
     SCROLL_PANE_VBOX.getChildren().add(noPhotosText);
     SCROLL_PANE_VBOX.setAlignment(Pos.CENTER);
     SELECT_ALL_HBOX.setDisable(true);
     DELETE_BUTTON.setDisable(true);
     ADD_TO_ALBUM_BUTTON.setDisable(true);
+    SEARCH_TEXT_FIELD.setDisable(true);
   }
 
   /**
@@ -160,21 +165,35 @@ final class PhotosRoot extends SceneRoot {
   }
 
   /**
+   * Sets up the checkboxes and adds styling to it
+   * Used createNewAlbumButtonPressed
+   */
+  private void setupChoiceBox() {
+    CHOICE_BOX.getItems().clear();
+    CHOICE_BOX.getStyleClass().add("choice-box");
+    CHOICE_BOX.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
+    UserInfo.getUser().getAlbums().forEach(s -> CHOICE_BOX.getItems().add(s.getName()));
+  }
+
+  /**
    * Method for the search functionality.
    * Filters the scroll panes photos, showing a photo if its title contains the search text or one if its tags are equal to the search text.
    * Used in setupSearchBar
    */
   private void filter() {
     SCROLL_PANE_VBOX.getChildren().clear();
+    // Checks if search input is empty, if so show all photos
     if (SEARCH_TEXT_FIELD.getText().trim().equals("")) {
       PHOTO_CONTAINER_LIST.forEach(child -> SCROLL_PANE_VBOX.getChildren().add(child.getPhotoContainerHBox()));
     } else {
       PHOTO_CONTAINER_LIST.forEach(container -> {
+        // Checks if title of photo contains search input
         if (container.getPhoto().getTitle().toLowerCase().contains(SEARCH_TEXT_FIELD.getText().trim().toLowerCase())) {
           SCROLL_PANE_VBOX.getChildren().add(container.getPhotoContainerHBox());
         } else {
           String textInput = SEARCH_TEXT_FIELD.getText().trim().toLowerCase().replaceAll(" ", "");
           String[] multipleTags = textInput.split(",");
+          // Checks if the photo's tags contains the given tags in search input spilt by comma
           if (getPhotoTags(container.getPhoto()).containsAll(Arrays.asList(multipleTags))) {
             SCROLL_PANE_VBOX.getChildren().add(container.getPhotoContainerHBox());
           }
@@ -184,13 +203,27 @@ final class PhotosRoot extends SceneRoot {
   }
 
   /**
+   * Helping method to retrieve all the tags to a specific photo.
+   * Used in filter
+   *
+   * @param photo gets the tags of the photo.
+   * @return all the tags to the specific photo.
+   */
+  private List<String> getPhotoTags(Photo photo) {
+    return photo.getTags().stream()
+            .map(Tags::getTag)
+            .map(String::toLowerCase)
+            .collect(Collectors.toList());
+  }
+
+  /**
    * Method that creates the popup that can create albums and creates the action popup
    * Used in setupAlbumButtons
    */
   private void createNewAlbumButtonPressed() {
-    PopupWindow popupWindow = new PopupWindow(ApplicationManager.getStage(), 500, 100);
+    PopUpWindow popupWindow = new PopUpWindow(ApplicationManager.getStage(), 500, 100);
     popupWindow.getDialogWindow().setTitle("Add to album");
-    popupWindow.getDialogText().setText("Please select the name of the album: ");
+    popupWindow.getDialogText().setText("Please select the name of the album:");
 
     setupChoiceBox();
 
@@ -202,17 +235,6 @@ final class PhotosRoot extends SceneRoot {
     });
 
     popupWindow.getDialogHBox().getChildren().addAll(CHOICE_BOX, addAlbum);
-  }
-
-  /**
-   * Sets up the checkboxes and adds styling to it
-   * Used createNewAlbumButtonPressed
-   */
-  private void setupChoiceBox() {
-    CHOICE_BOX.getItems().clear();
-    CHOICE_BOX.getStyleClass().add("choice-box");
-    CHOICE_BOX.getStylesheets().add("file:src/main/App/Css/ChoiceBoxStyle.css");
-    UserInfo.getUser().getAlbums().forEach(s -> CHOICE_BOX.getItems().add(s.getName()));
   }
 
   /**
@@ -287,19 +309,5 @@ final class PhotosRoot extends SceneRoot {
     if (UserInfo.getUser().getPhotos().isEmpty()) {
         showNoPhotos();
     }
-  }
-
-  /**
-   * Helping method to retrieve all the tags to a specific photo.
-   * Used in filter
-   *
-   * @param photo gets the tags of the photo.
-   * @return all the tags to the specific photo.
-   */
-  private List<String> getPhotoTags(Photo photo) {
-    return photo.getTags().stream()
-        .map(Tags::getTag)
-        .map(String::toLowerCase)
-        .collect(Collectors.toList());
   }
 }

@@ -13,6 +13,7 @@ import java.util.logging.Level;
  * Class that is used to connect to the database
  */
 public class Hibernate {
+
   private static EntityManagerFactory entityManagerFactory;
   private static EntityManager em;
 
@@ -24,45 +25,36 @@ public class Hibernate {
   }
 
   /**
-   * Gets entity manager or makes a new one if the connection is not open anymore
+   * Gets entity manager. Creates a new one if the connection is not open anymore or the entity manager is null
    *
    * @return the entity manager
    */
   public static EntityManager getEm() {
-    if( em == null){
-      em = getEntityManagerFactory().createEntityManager();
-    }
-    if (!em.isOpen()) {
-      em.close();
+    if( em == null || !em.isOpen()){
       em = getEntityManagerFactory().createEntityManager();
     }
     return em;
-
   }
 
   /**
-   * Gets entity manager factory.
+   * Gets entity manager factory. Creates a new one if the connection is not open anymore or the entity manager factory is null
    *
    * @return the entity manager factory
    */
   public static EntityManagerFactory getEntityManagerFactory() {
-    if(entityManagerFactory == null) {
-      entityManagerFactory = Persistence.createEntityManagerFactory("Database", getProperties());
-    }
-    if(!entityManagerFactory.isOpen()){
-      entityManagerFactory.close();
+    if(entityManagerFactory == null || !entityManagerFactory.isOpen()) {
       entityManagerFactory = Persistence.createEntityManagerFactory("Database", getProperties());
     }
     return entityManagerFactory;
   }
 
   /**
-   * Sets up the password and username to the database
+   * Sets up the password, username and url to the database
    *
-   * @return a map with the password and username
+   * @return a map with the password, username and url
    */
-  private static Map getProperties() {
-    Map result = new HashMap();
+  private static Map<String, String> getProperties() {
+    Map<String, String> result = new HashMap<>();
     try (InputStream input = new FileInputStream("config.properties")) {
       Properties prop = new Properties();
       prop.load(input);
@@ -75,7 +67,6 @@ public class Hibernate {
     }
     return result;
   }
-
 
   /**
    * Register a new user in the database
@@ -114,7 +105,7 @@ public class Hibernate {
   /**
    * Update user.
    *
-   * @param user the user.
+   * @param user the user to update.
    */
   public static void updateUser(User user) {
     EntityTransaction et = null;
@@ -222,34 +213,6 @@ public class Hibernate {
       FileLogger.closeHandler();
       return false;
     }
-  }
-
-  /**
-   * Get user id.
-   *
-   * @param username the username.
-   * @return the user id.
-   */
-  public static int getUserID(String username) {
-    EntityTransaction et = null;
-    try {
-      et = getEm().getTransaction();
-      et.begin();
-      User user = getEm().createQuery(
-          "select e from User e where e.username =:username",
-          User.class)
-          .setParameter("username", username)
-          .getSingleResult();
-      et.commit();
-      return user.getId();
-    } catch (Exception e) {
-      if (et != null) {
-        et.rollback();
-      }
-      FileLogger.getLogger().log(Level.FINE, e.getMessage());
-      FileLogger.closeHandler();
-    }
-    return -1;
   }
 
   /**

@@ -2,7 +2,7 @@ import Components.Encrypter;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 
-public class EncrypterTest {
+class EncrypterTest {
 
   @Test
   void getHash_EqualPasswords_ReturnDifferentHashes() {

@@ -3,7 +3,6 @@ package Components;
 import Database.Hibernate;
 import Roots.LoginRoot;
 import Main.ApplicationManager;
-
 import java.util.logging.Level;
 
 /**
@@ -28,9 +27,9 @@ public final class Authentication {
    */
   public static boolean register(String username, String password) {
     try {
-      //Encrypt password
+      // Encrypt password
       String encrypter = Encrypter.encrypt(password, null);
-      //get salt and hash
+      // Get salt and hash
       String hash = Encrypter.getHash(encrypter);
       String salt = Encrypter.getSalt(encrypter);
 
@@ -56,9 +55,9 @@ public final class Authentication {
    */
   public static boolean logIn(String username, String password) {
     try {
-      //Getting salt from db using username
+      // Getting salt from db using username
       String salt = Hibernate.getSalt(username);
-      //generating hash using salt
+      // Generating hash using salt
       String encrypter = Encrypter.encrypt(password, salt);
       String hash = Encrypter.getHash(encrypter);
 

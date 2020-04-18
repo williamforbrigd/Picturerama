@@ -18,7 +18,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -51,7 +50,7 @@ final class UploadRoot extends SceneRoot {
   }
 
   /**
-   * Method that gets cloudinary properties
+   * Method that gets Cloudinary properties
    * Used in uploadComplete
    *
    * @return returns a map with the properties
@@ -70,7 +69,6 @@ final class UploadRoot extends SceneRoot {
     }
     return result;
   }
-
 
   /**
    * Overrides SceneRoot method.

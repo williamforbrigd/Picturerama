@@ -14,11 +14,11 @@ import javafx.stage.Stage;
  * Changes the roots of the scene
  */
 public final class ApplicationManager {
+
   private static Stage stage;
   private static Scene scene;
   private static final double WIDTH = 900.0;
   private static final double HEIGHT = 600.0;
-
 
   /**
    * Private constructor to hinder creation of utility class
@@ -29,15 +29,15 @@ public final class ApplicationManager {
 
   /**
    * Initializes the stage
-   * Can only be used once, when the stage and scene i still null
+   * Can only be used once, when the stage and scene is still null
    *
    * @param primaryStage is the stage used as the main stage through the whole application
    */
   public static void initialize(Stage primaryStage) {
-    if(stage == null && scene == null) {
+    if (stage == null && scene == null) {
       stage = primaryStage;
       stage.setOnCloseRequest(s -> {
-        //Hinders the program closing
+        //Hinders the program from closing
         s.consume();
         //Runs our close program instead
         closeProgram();
@@ -54,7 +54,7 @@ public final class ApplicationManager {
 
       //Sets the escape key to run the closeProgram method
       scene.setOnKeyPressed(e -> {
-        if(e.getCode() == KeyCode.ESCAPE){
+        if (e.getCode() == KeyCode.ESCAPE) {
           closeProgram();
         }
       });
@@ -75,7 +75,7 @@ public final class ApplicationManager {
 
   /**
    * Sets the root of the scene
-   * Uses the borderpane of an object of a SceneRoot class, since the borderpane is the outer layer
+   * Uses the border pane of an object of a SceneRoot class, since the border pane is the outer layer
    *
    * @param root an object of a subclass of the SceneRoot class
    */
@@ -95,5 +95,4 @@ public final class ApplicationManager {
       Hibernate.getEntityManagerFactory().close();
     }
   }
-
 }

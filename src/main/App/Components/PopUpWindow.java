@@ -14,7 +14,8 @@ import javafx.stage.Stage;
 /**
  * Class that creates an universal popup window
  */
-public final class PopupWindow {
+public final class PopUpWindow {
+
     private final Stage DIALOG_WINDOW;
     private final VBox DIALOG_VBOX;
     private final HBox DIALOG_HBOX;
@@ -22,11 +23,11 @@ public final class PopupWindow {
 
     /**
      * Constructor that takes in the width and height of the popup window
+     *
      * @param width the width of the popup
      * @param height the height of the popup
      */
-    public PopupWindow(Stage owner, double width, double height){
-
+    public PopUpWindow(Stage owner, double width, double height){
         DIALOG_WINDOW = new Stage();
         DIALOG_WINDOW.initOwner(owner);
         DIALOG_WINDOW.initModality(Modality.APPLICATION_MODAL);
@@ -38,7 +39,7 @@ public final class PopupWindow {
         DIALOG_VBOX.setSpacing(10);
 
         DIALOG_TEXT = new Text();
-        Css.setText(17, DIALOG_TEXT);
+        Css.setTextFont(17, DIALOG_TEXT);
 
         DIALOG_HBOX = new HBox();
         DIALOG_HBOX.setPadding(new Insets(10,10,10,10));
@@ -65,5 +66,4 @@ public final class PopupWindow {
     public Text getDialogText() {
         return DIALOG_TEXT;
     }
-
 }

@@ -11,15 +11,13 @@ import javafx.scene.layout.GridPane;
  * All other root classes extends this class
  */
 public abstract class SceneRoot {
-    //Making height and class constants to keep every scene the same size
-    private Header header;
 
-    //Creating class scene and grid pane
+    private Header header = new Header();
     private BorderPane borderPane = new BorderPane();
     private GridPane gridPane = new GridPane();
 
     /**
-     * SceneRoot constructor, used by it's subclasses
+     * SceneRoot constructor, used by all its subclasses
      */
     SceneRoot() {
         this.setGridPane();
@@ -51,7 +49,6 @@ public abstract class SceneRoot {
      * Sets the basic layout of the application
      */
     void setLayout() {
-        header = new Header();
         BorderPane.setAlignment(Header.getHBox(), Pos.CENTER);
         BorderPane.setMargin(Header.getHBox(), new Insets(10.0D, 10.0D, 10.0D, 10.0D));
         borderPane.setTop(Header.getHBox());

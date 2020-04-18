@@ -48,26 +48,19 @@ public class AlbumContainer {
     }
 
     /**
-     * Makes a album container that is a button that contains a photo and a checkbox
+     * Makes a album container that is a button that contains an album title and a checkbox
      *
      * @param album a album object
      */
     private void setupAlbumContainer(Album album) {
         albumButton = new Button(album.getName());
-        setupContainerCheckBox();
+        checkBox = new CheckBox();
+        checkBox.getStyleClass().add("check-box");
         albumContainerHBox = new HBox(albumButton, checkBox);
         albumContainerHBox.getStylesheets().add("file:src/main/App/Css/CheckBoxStyle.css");
         albumContainerHBox.setSpacing(10);
         albumContainerHBox.setAlignment(Pos.CENTER_LEFT);
         Css.setContainer(albumButton, albumContainerHBox, 80,160);
         albumButton.setStyle("-fx-font-size: 28");
-    }
-
-    /**
-     * Creates a checkbox and adds the correct styling to it
-     */
-    private void setupContainerCheckBox() {
-        checkBox = new CheckBox();
-        checkBox.getStyleClass().add("check-box");
     }
 }

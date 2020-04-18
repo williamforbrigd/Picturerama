@@ -1,6 +1,5 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-
 import Components.Encrypter;
 import Components.UserInfo;
 import Database.HibernateClasses.User;
@@ -8,7 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class UserInfoTest {
-  static User user;
+
+  private static User user;
 
   @BeforeAll
   static void setup(){

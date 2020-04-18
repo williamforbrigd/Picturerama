@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Level;
 
 /**
  * Class that is used to analyze a image and extract all its metadata
@@ -20,7 +19,7 @@ public final class ImageAnalyzer {
   }
 
   /**
-   * Used to analyze a image
+   * Analyze an image located at given url
    *
    * @param title Is the title of the image that is getting analyzed
    * @param url   Is the url to where the image is saved
@@ -34,6 +33,7 @@ public final class ImageAnalyzer {
     InputStream in = conn.getInputStream();
     javaxt.io.Image image = new javaxt.io.Image(in);
     java.util.HashMap<Integer, Object> exif = image.getExifTags();
+
     Photo photo = new Photo();
     double[] coord = image.getGPSCoordinate();
     photo.setTitle(title);

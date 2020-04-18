@@ -1,11 +1,8 @@
 package Components;
 
 import Database.HibernateClasses.Photo;
-import Database.HibernateClasses.User;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
-
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
@@ -14,30 +11,31 @@ import java.util.List;
 /**
  * Class that is used to create a photo album in the form of a pdf file
  */
-public final class PdfCreator {
+public final class PDFCreator {
 
     private static Document document;
     private static List<Photo> photos;
     private static String albumName;
-
     private static Font smallFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
     private static Font headerFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+
     /**
      * Private constructor to hinder creation of utility class
      */
-    private PdfCreator() {
+    private PDFCreator() {
         throw new IllegalStateException("Can not make instance of utility class");
     }
 
     /**
      * Creates a new pdf document with all the photos, author name, and album name.
-     * @param AlbumPhotos all the photos in the album that is getting made into a Pdf.
-     * @param saveLocation is where the Pdf is going to be saved.
+     *
+     * @param AlbumPhotos all the photos in the album that is getting made into a PDF.
+     * @param saveLocation is where the PDF is going to be saved.
      * @param name is the name of the album.
      * @throws IOException
      * @throws DocumentException
      */
-    public static void createPdf(List<Photo> AlbumPhotos, String saveLocation, String name) throws IOException, DocumentException {
+    public static void createPDF(List<Photo> AlbumPhotos, String saveLocation, String name) throws IOException, DocumentException {
         photos = AlbumPhotos;
         albumName = name;
         document = new Document();
@@ -45,13 +43,12 @@ public final class PdfCreator {
 
         document.open();
         addHeader();
-        addImagesContainer();
-
+        addImageContainers();
         document.close();
     }
 
     /**
-     * Adds the header to the Pdf document.
+     * Adds the header to the PDF document.
      * @throws DocumentException
      */
     private static void addHeader() throws DocumentException {
@@ -68,11 +65,11 @@ public final class PdfCreator {
     }
 
     /**
-     * Adds the image container to the pdf document.
+     * Adds the images to the PDF document.
      * @throws DocumentException
      * @throws IOException
      */
-    private static void addImagesContainer() throws DocumentException, IOException {
+    private static void addImageContainers() throws DocumentException, IOException {
         Paragraph imagesContainer = new Paragraph();
         addEmptyLineTo(imagesContainer, 1);
         
@@ -85,7 +82,7 @@ public final class PdfCreator {
     }
 
     /**
-     * Adds all the images to the Pdf document.
+     * Adds all the images to the PDF document.
      * @throws DocumentException
      * @throws IOException
      */
@@ -112,7 +109,9 @@ public final class PdfCreator {
      * @param image the image that is getting scaled.
      */
     private static void scaleImage(Image image) {
-        if (image.getWidth() > image.getHeight()) {
+        if (image.getWidth() == image.getHeight()) {
+            image.scaleToFit(300, 300);
+        } else if (image.getWidth() > image.getHeight()) {
             image.scaleToFit(300, 600);
         } else {
             image.scaleToFit(600, 300);
@@ -120,7 +119,7 @@ public final class PdfCreator {
     }
 
     /**
-     * Add an empty line to the Pdf document.
+     * Add an empty line to the PDF document.
      *
      * @param paragraph the paragraph to insert an empty line into.
      * @param number the number of empty lines desired.

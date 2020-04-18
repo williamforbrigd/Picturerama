@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
  * Class that is used to display tags of photos
  */
 public final class TagContainer {
+
   private final Label TAG;
   private final Button DELETE_TAG_BUTTON;
   private final HBox CONTAINER;
@@ -37,7 +38,7 @@ public final class TagContainer {
     Css.setTagContainerButton(DELETE_TAG_BUTTON);
   }
 
-  public Button getDeleteTagButton() {
+  Button getDeleteTagButton() {
     return DELETE_TAG_BUTTON;
   }
 

@@ -14,6 +14,7 @@ import java.util.logging.Level;
  * Class for the login root
  */
 public final class LoginRoot extends SceneRoot {
+
   private final Label USERNAME_LABEL = new Label("Username:");
   private final TextField USERNAME_FIELD = new TextField();
   private final Label PASSWORD_LABEL = new Label("Password:");
@@ -41,10 +42,7 @@ public final class LoginRoot extends SceneRoot {
    */
   @Override
   void setLayout() {
-    //Uses the super classes set layout method for setting the base of the layout
     super.setLayout();
-    USERNAME_FIELD.setPromptText("Username");
-    PASSWORD_FIELD.setPromptText("Password");
     super.setPageTitle("Log in");
     super.getGridPane().add(USERNAME_LABEL, 5, 0);
     super.getGridPane().add(USERNAME_FIELD, 5, 1);
@@ -55,13 +53,15 @@ public final class LoginRoot extends SceneRoot {
     super.getGridPane().add(SIGN_UP_BUTTON, 5, 5);
     super.getGridPane().add(LOG_IN_LABEL, 5, 6);
 
+    USERNAME_FIELD.setPromptText("Username");
+    PASSWORD_FIELD.setPromptText("Password");
+
     //Sets styling for the layout components
     Css.setButton(700, 25, 20, LOG_IN_BUTTON, SIGN_UP_BUTTON);
     Css.setTextField(700, 20, 17, USERNAME_FIELD, PASSWORD_FIELD);
     Css.setLabel(13, USERNAME_LABEL, PASSWORD_LABEL);
     Css.setLoadingAnimation(LOADING_ANIMATION);
 
-    //Sets functionality for the layout components
     LOG_IN_BUTTON.setDefaultButton(true);
     LOG_IN_BUTTON.setOnAction(e -> login());
     SIGN_UP_BUTTON.setOnAction(e -> ApplicationManager.setRoot(new SignUpRoot()));
@@ -74,7 +74,7 @@ public final class LoginRoot extends SceneRoot {
   private void login() {
     LOADING_ANIMATION.setVisible(true);
     PauseTransition pause = new PauseTransition(Duration.seconds(1));
-    pause.setOnFinished(e -> {
+    pause.setOnFinished(p -> {
       try {
         if (USERNAME_FIELD.getText().trim().length() == 0 || PASSWORD_FIELD.getText().trim().length() == 0) {
           Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Username or Password is missing", 13, LOG_IN_LABEL);
@@ -85,10 +85,10 @@ public final class LoginRoot extends SceneRoot {
           Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Log in failed", 13, LOG_IN_LABEL);
           LOADING_ANIMATION.setVisible(false);
         }
-      } catch (ExceptionInInitializerError error) {
+      } catch (ExceptionInInitializerError | javax.persistence.PersistenceException e) {
         Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not connect to database", 13, LOG_IN_LABEL);
         LOADING_ANIMATION.setVisible(false);
-        FileLogger.getLogger().log(Level.FINE, error.getMessage());
+        FileLogger.getLogger().log(Level.FINE, e.getMessage());
         FileLogger.closeHandler();
       }
     });

@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "TAGS")
 public class Tags implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
   @Id

@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  * Class that is used to display photo metadata
  */
 public final class PhotoViewer {
-  //The flowPane containing the tag containers
+
   private final FlowPane TAG_CONTAINER = new FlowPane();
   private final Photo PHOTO;
   private final Stage STAGE;
@@ -34,16 +34,15 @@ public final class PhotoViewer {
   }
 
   /**
-   * Setup creates a new stage then sets it up
+   * Setup creates a new stage and then sets it up
    *
    * @return stage, a new stage
    */
   private Stage setup() {
-    // Making new stage here to make unit testing easier, since the method will return a result
-    Stage _stage = new Stage();
-    _stage.initModality(Modality.APPLICATION_MODAL);
-    _stage.initOwner(ApplicationManager.getStage());
-    _stage.setTitle(PHOTO.getTitle());
+    Stage stage = new Stage();
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.initOwner(ApplicationManager.getStage());
+    stage.setTitle(PHOTO.getTitle());
 
     Label photoTitleLabel = new Label();
     photoTitleLabel.setText(PHOTO.getTitle());
@@ -118,12 +117,12 @@ public final class PhotoViewer {
     });
 
     //All closing mechanisms
-    _stage.setOnCloseRequest(e -> {
+    stage.setOnCloseRequest(e -> {
       e.consume();
       updateDatabaseAndClose();
     });
     //Closes stage if it is not the focus, and updates the database
-    _stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+    stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
       if (!isNowFocused) {
         updateDatabaseAndClose();
       }
@@ -141,10 +140,10 @@ public final class PhotoViewer {
 
     Scene scene = new Scene(layout, 600, 560);
 
-    _stage.setMinHeight(560);
-    _stage.setMinWidth(600);
-    _stage.setScene(scene);
-    return _stage;
+    stage.setMinHeight(560);
+    stage.setMinWidth(600);
+    stage.setScene(scene);
+    return stage;
   }
 
   /**
@@ -167,13 +166,13 @@ public final class PhotoViewer {
     int index = UserInfo.getUser().getPhotos().indexOf(PHOTO);
     UserInfo.getUser().getPhotos().get(index).setTags(PHOTO.getTags());
     Hibernate.updateUser(UserInfo.getUser());
-    STAGE.close();
+    this.STAGE.close();
   }
 
   /**
    * Displays the the stage created in the object
    */
   public void display() {
-    STAGE.showAndWait();
+    this.STAGE.showAndWait();
   }
 }

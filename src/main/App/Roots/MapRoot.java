@@ -18,7 +18,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 /**
- * Class for the map root, where the photomap is displayed
+ * Class for the map root, where the map with all the photo locations is displayed
  */
 final class MapRoot extends SceneRoot {
 
@@ -37,7 +37,7 @@ final class MapRoot extends SceneRoot {
   }
 
   /**
-   * Sets the layout of the Map root. The setLayout()-method from SceneRoot is overridden, but also
+   * Sets the layout of the Map root. The setLayout() method from SceneRoot is overridden, but also
    * called in the method in order to modify the method.
    */
   @Override
@@ -53,11 +53,15 @@ final class MapRoot extends SceneRoot {
    * Used in setLayout
    */
   private void setUpMap() {
+    // Adds HTML to the Webview
     WEB_VIEW.getEngine().loadContent(getHtml(), "text/html");
+    // Connects the HTML with java in order to be able to call java methods from the html
     WEB_VIEW.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
       JSObject window = (JSObject) WEB_VIEW.getEngine().executeScript("window");
       window.setMember("java", MAP_BRIDGE);
     });
+
+    // Styles the stack pane which contains the webview
     Rectangle r = new Rectangle();
     r.widthProperty().bind(WEB_VIEW.widthProperty());
     r.heightProperty().bind(WEB_VIEW.heightProperty());
@@ -70,9 +74,10 @@ final class MapRoot extends SceneRoot {
   }
 
   /**
-   * The type Map bridge.
+   * The Map bridge which is used by the HTML
    */
   public final class MapBridge {
+
     /**
      * Open PhotoViewer with the given photo id
      *
@@ -106,7 +111,7 @@ final class MapRoot extends SceneRoot {
    * Get a html string which creates a map with markers where the uploaded photos was photographed
    * Used in setUpMap
    *
-   * @return string with html
+   * @return string with HTML
    */
   private String getHtml() {
     StringBuilder html = new StringBuilder();
@@ -125,7 +130,7 @@ final class MapRoot extends SceneRoot {
     html.append("  var bounds = new google.maps.LatLngBounds();");
 
     for (Photo photo : PHOTO_LIST) {
-      // Only add photos which has a location stored to the map
+      // Only add photos which has a location to the map
       if (photo.getLatitude() != null && photo.getLongitude() != null) {
         String location = "new google.maps.LatLng(" + photo.getLatitude() + "," + photo.getLongitude() + ")";
         html.append("  var image = {url: '").append(photo.getUrl()).append("', scaledSize: new google.maps.Size(").append(getMarkerSize(photo)).append("), origin: new google.maps.Point(0, 0), anchor: new google.maps.Point(30, 30)};");
@@ -180,6 +185,7 @@ final class MapRoot extends SceneRoot {
     try (InputStream input = new FileInputStream("config.properties")) {
       Properties prop = new Properties();
       prop.load(input);
+      // If the Google Maps API Key is not given, the map will still be rendered but with a warning from Google
       if (prop.getProperty("google_maps_api_key") == null) {
         return "";
       } else {
