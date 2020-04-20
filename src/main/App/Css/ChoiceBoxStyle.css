@@ -6,10 +6,12 @@
     -fx-pref-width: 700;
     -fx-pref-height: 20;
 }
+
 .choice-box > .label {
     -fx-font-size: 17;
     -fx-pref-height: 20;
 }
+
 .choice-box .context-menu {
     -fx-font-size: 17;
     -fx-pref-width: 325;

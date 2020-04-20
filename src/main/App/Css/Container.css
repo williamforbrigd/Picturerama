@@ -3,6 +3,7 @@
     -fx-background-color: WHITE;
     -fx-cursor: hand;
 }
+
 .button:focused, .button:hover {
     -fx-background-color: #00000022;
 }

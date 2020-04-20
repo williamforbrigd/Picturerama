@@ -3,6 +3,7 @@
     -fx-background-radius: 5px;
     -fx-cursor: hand;
 }
+
 .button:focused, .button:hover {
     -fx-background-color: #f1f1f1;
 }

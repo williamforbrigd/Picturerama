@@ -6,6 +6,7 @@
     -fx-background-insets: 0;
     -fx-background-color: WHITE;
 }
+
 .button:focused, .button:hover {
     -fx-background-color: #00000022;
     -fx-cursor: hand;

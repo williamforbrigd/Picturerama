@@ -9,14 +9,14 @@ import javafx.scene.control.Button;
  */
 public final class ConfirmationBox {
 
-    private static boolean answer;
+	private static boolean answer;
 
-    /**
-     * Private constructor to hinder the creation of the utility class
-     */
-    private ConfirmationBox() {
-        throw new IllegalStateException("Utility class");
-    }
+	/**
+	 * Private constructor to hinder the creation of the utility class
+	 */
+	private ConfirmationBox() {
+		throw new IllegalStateException("Utility class");
+	}
 
 	/**
 	 * Creates the confirmation box and displays it
@@ -32,7 +32,7 @@ public final class ConfirmationBox {
 		if (width < 200) width = 200;
 		if (height < 100) height = 100;
 
-		PopUpWindow dialogWindow = new PopUpWindow(ApplicationManager.getStage(), width,  height);
+		PopUpWindow dialogWindow = new PopUpWindow(ApplicationManager.getStage(), width, height);
 		dialogWindow.getDialogWindow().close();
 
 		Button yesButton = new Button("Yes");
@@ -47,14 +47,14 @@ public final class ConfirmationBox {
 			dialogWindow.getDialogWindow().close();
 		});
 
-        Css.setButton(width - 100, 30, 15, yesButton, noButton);
+		Css.setButton(width - 100, 30, 15, yesButton, noButton);
 
-        dialogWindow.getDialogWindow().setTitle(title);
-        dialogWindow.getDialogText().setText(message);
-        dialogWindow.getDialogVBox().getChildren().addAll(yesButton, noButton);
+		dialogWindow.getDialogWindow().setTitle(title);
+		dialogWindow.getDialogText().setText(message);
+		dialogWindow.getDialogVBox().getChildren().addAll(yesButton, noButton);
 
-        dialogWindow.getDialogWindow().showAndWait();
+		dialogWindow.getDialogWindow().showAndWait();
 
-        return answer;
-    }
+		return answer;
+	}
 }

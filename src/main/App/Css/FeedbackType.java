@@ -8,15 +8,15 @@ package Css;
  */
 public enum FeedbackType {
 
-  ERROR("red"), SUCCESSFUL("green");
+	ERROR("red"), SUCCESSFUL("green");
 
-  private String color;
+	private String color;
 
-  FeedbackType(String color){
-    this.color = color;
-  }
+	FeedbackType(String color) {
+		this.color = color;
+	}
 
-  String getColor(){
-    return this.color;
-  }
+	String getColor() {
+		return this.color;
+	}
 }
