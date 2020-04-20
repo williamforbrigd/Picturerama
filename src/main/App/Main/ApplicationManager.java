@@ -88,7 +88,7 @@ public final class ApplicationManager {
    * If the user exits the program the connection to the database will be closed
    */
   private static void closeProgram() {
-    boolean close = ConfirmationBox.display("Exit", "Are you sure you want to exit?");
+    boolean close = ConfirmationBox.display(250, 150, "Exit", "Are you sure you want to exit?");
     if (close) {
       stage.close();
       Hibernate.getEm().clear();

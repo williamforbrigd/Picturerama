@@ -9,6 +9,7 @@ import javafx.animation.PauseTransition;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 import java.util.logging.Level;
+import javax.persistence.PersistenceException;
 
 /**
  * Class for the login root
@@ -25,12 +26,17 @@ public final class LoginRoot extends SceneRoot {
   private final ProgressIndicator LOADING_ANIMATION = new ProgressIndicator();
 
   /**
-   * Login constructor
-   * Uses SceneRoot constructor to create an object of the Login class
+   * LoginRoot constructor
+   * Uses SceneRoot constructor to create an object of the LoginRoot class
    */
   public LoginRoot() {
     super();
     this.setLayout();
+  }
+
+  Label getLOG_IN_LABEL() {
+    // Used in DeleteUserRoot to show successful deletion when redirected to the LoginRoot
+    return LOG_IN_LABEL;
   }
 
   /**
@@ -77,15 +83,15 @@ public final class LoginRoot extends SceneRoot {
     pause.setOnFinished(p -> {
       try {
         if (USERNAME_FIELD.getText().trim().length() == 0 || PASSWORD_FIELD.getText().trim().length() == 0) {
-          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Username or Password is missing", 13, LOG_IN_LABEL);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Username or password is missing", 13, LOG_IN_LABEL);
           LOADING_ANIMATION.setVisible(false);
         } else if (Authentication.logIn(USERNAME_FIELD.getText(), PASSWORD_FIELD.getText())) {
           ApplicationManager.setRoot(new MenuRoot());
         } else {
-          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Log in failed", 13, LOG_IN_LABEL);
+          Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Username or password is wrong", 13, LOG_IN_LABEL);
           LOADING_ANIMATION.setVisible(false);
         }
-      } catch (ExceptionInInitializerError | javax.persistence.PersistenceException e) {
+      } catch (ExceptionInInitializerError | PersistenceException e) {
         Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not connect to database", 13, LOG_IN_LABEL);
         LOADING_ANIMATION.setVisible(false);
         FileLogger.getLogger().log(Level.FINE, e.getMessage());

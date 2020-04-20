@@ -21,12 +21,18 @@ public final class ConfirmationBox {
 	/**
 	 * Creates the confirmation box and displays it
 	 *
+	 * @param width   the width of the confirmation box, if less than 200 it is set to 200
+	 * @param height  the height of the confirmation box, if less than 100 it is set to 100
 	 * @param title   the title of the conformation box
-	 * @param message the massage that the confirmation box is going to display
+	 * @param message the message that the confirmation box is going to display
 	 * @return boolean answer of the confirmation box
 	 */
-	public static boolean display(String title, String message) {
-		PopUpWindow dialogWindow = new PopUpWindow(ApplicationManager.getStage(), 250, 150);
+	public static boolean display(int width, int height, String title, String message) {
+		// Makes sure the confirmation box size is at least 200 x 100
+		if (width < 200) width = 200;
+		if (height < 100) height = 100;
+
+		PopUpWindow dialogWindow = new PopUpWindow(ApplicationManager.getStage(), width,  height);
 		dialogWindow.getDialogWindow().close();
 
 		Button yesButton = new Button("Yes");
@@ -41,11 +47,11 @@ public final class ConfirmationBox {
 			dialogWindow.getDialogWindow().close();
 		});
 
-        Css.setButton(150,30,15,yesButton,noButton);
+        Css.setButton(width - 100, 30, 15, yesButton, noButton);
 
         dialogWindow.getDialogWindow().setTitle(title);
         dialogWindow.getDialogText().setText(message);
-        dialogWindow.getDialogVBox().getChildren().addAll(yesButton,noButton);
+        dialogWindow.getDialogVBox().getChildren().addAll(yesButton, noButton);
 
         dialogWindow.getDialogWindow().showAndWait();
 

@@ -111,10 +111,10 @@ final class PhotosRoot extends SceneRoot {
 	}
 
 	/**
-	 * Shows a massage that tells the user that it has no photos
+	 * Shows a message that tells the user that it has no photos
 	 */
 	private void showNoPhotos() {
-		Text noPhotosText = new Text("No photos stored. You can upload photos in \"Upload\"");
+		Text noPhotosText = new Text("No photos uploaded: To upload press the \"Add photo\" button");
 		Css.setTextFont(17, noPhotosText);
 		SCROLL_PANE_VBOX.getChildren().add(noPhotosText);
 		SCROLL_PANE_VBOX.setAlignment(Pos.CENTER);

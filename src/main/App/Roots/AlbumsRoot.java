@@ -32,7 +32,7 @@ final class AlbumsRoot extends SceneRoot {
   private final ScrollPane SCROLL_PANE = new ScrollPane();
   private final VBox SCROLL_PANE_VBOX = new VBox();
   private final Button NEW_ALBUM_BUTTON = new Button("New album");
-  private final Button DELETE_ALBUM_BUTTON = new Button("Delete album");
+  private final Button DELETE_ALBUM_BUTTON = new Button("Delete selected albums");
   private final Text feedbackText = new Text();
   private final List<AlbumContainer> ALBUM_CONTAINER_LIST = new ArrayList<>();
 
@@ -93,7 +93,7 @@ final class AlbumsRoot extends SceneRoot {
     Css.setTextFont(17, feedbackText);
     SCROLL_PANE_VBOX.getChildren().add(feedbackText);
     SCROLL_PANE_VBOX.setAlignment(Pos.CENTER);
-    feedbackText.setText("No albums registered: Add an album by pressing the add album button");
+    feedbackText.setText("No albums registered: Add an album by pressing the \"New album\" button");
     feedbackText.setTextAlignment(TextAlignment.RIGHT);
     DELETE_ALBUM_BUTTON.setDisable(true);
   }

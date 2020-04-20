@@ -4,6 +4,7 @@ import Database.Hibernate;
 import Roots.LoginRoot;
 import Main.ApplicationManager;
 import java.util.logging.Level;
+import javax.persistence.PersistenceException;
 
 /**
  * Authentication class for authenticating username and password for each user
@@ -68,23 +69,73 @@ public final class Authentication {
       } else {
         return false;
       }
-    } catch (ExceptionInInitializerError | NoClassDefFoundError e) {
+    } catch (ExceptionInInitializerError | NoClassDefFoundError | PersistenceException e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
       throw e;
-    } catch (Exception e) {
+    }
+  }
+
+  /**
+   * Checks if a user with a username and password is the current user logged in
+   *
+   * @param username of user
+   * @param password of user
+   * @return if this user is the current user
+   */
+  public static boolean isCurrentUser(String username, String password){
+    try {
+      // Getting salt from db using username
+      String salt = Hibernate.getSalt(username);
+      // Generating hash using salt
+      String encrypter = Encrypter.encrypt(password, salt);
+      String hash = Encrypter.getHash(encrypter);
+
+      // Checks if the current user's hash is equal to the hash from the password entered
+      return UserInfo.getUser().getHash().equals(hash);
+    } catch (ExceptionInInitializerError | NoClassDefFoundError | PersistenceException  e) {
       FileLogger.getLogger().log(Level.FINE, e.getMessage());
       FileLogger.closeHandler();
-      return false;
+      throw e;
+    }
+  }
+
+  /**
+   * Deletes the current logged in user
+   * will compare password from db to the entered password
+   *
+   * @param username of user
+   * @param password of user
+   * @param confirmation if the user confirmed to delete the user
+   * @return if deleting the user was successful
+   */
+  public static boolean deleteUser(String username, String password, boolean confirmation){
+    try {
+      // Checks if this is the current user and the user has given consent
+      if (isCurrentUser(username, password) && confirmation) {
+          Hibernate.deleteUser(username);
+          return true;
+      } else {
+        return false;
+      }
+    } catch (ExceptionInInitializerError | NoClassDefFoundError | PersistenceException e) {
+      FileLogger.getLogger().log(Level.FINE, e.getMessage());
+      FileLogger.closeHandler();
+      throw e;
     }
   }
 
   /**
    * Log out the user and redirect to login scene
+   *
+   * @return loginRoot the root the user is sent to
    */
-  public static void logout() {
+  public static LoginRoot logout() {
     UserInfo.logOut();
     Hibernate.getEm().clear();
-    ApplicationManager.setRoot(new LoginRoot());
+    LoginRoot loginRoot = new LoginRoot();
+    ApplicationManager.setRoot(loginRoot);
+    // Returning loginRoot allows adding a message when logging out the user
+    return loginRoot;
   }
 }
