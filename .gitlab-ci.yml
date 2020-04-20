@@ -1,21 +1,11 @@
 image: maven:latest
 
 stages:
-  - build
   - pages
 
 cache:
   paths:
     - /root/.m2/repository/
-
-
-build:
-  stage: build
-  only:
-    - master
-  script:
-    - echo "BUILDING PROJECT"
-    - mvn clean compile
 
 pages:
   script:
