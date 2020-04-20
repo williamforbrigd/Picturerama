@@ -8,6 +8,7 @@ cache:
     - /root/.m2/repository/
 
 pages:
+  stage: pages
   script:
     - mvn javadoc:javadoc
   artifacts:
