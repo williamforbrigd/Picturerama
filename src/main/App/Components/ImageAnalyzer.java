@@ -44,8 +44,8 @@ public final class ImageAnalyzer {
 		photo.setExposureTime((String) exif.get(0x829A));
 		photo.setAperture((String) exif.get(0x9202));
 		if (coord != null) {
-			photo.setLatitude(coord[0]);
-			photo.setLongitude(coord[1]);
+			photo.setLongitude(coord[0]);
+			photo.setLatitude(coord[1]);
 		}
 		photo.setHeight(image.getHeight());
 		photo.setWidth(image.getWidth());
