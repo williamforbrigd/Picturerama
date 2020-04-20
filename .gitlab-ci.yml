@@ -1,16 +1,9 @@
-image: maven:latest
-
-stages:
-  - pages
-
-cache:
-  paths:
-    - /root/.m2/repository/
-
 pages:
-  stage: pages
+  stage: deploy
   script:
-    - mvn javadoc:javadoc
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public
   artifacts:
     paths:
       - public
