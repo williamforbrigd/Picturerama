@@ -73,7 +73,7 @@ final class DeleteUserRoot extends SceneRoot {
 					Css.playFeedBackLabelTransition(FeedbackType.SUCCESSFUL, "User successfully deleted", 13, Authentication.logout().getLOG_IN_LABEL());
 				}
 			} else {
-				Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Password does not match you current password", 13, FEEDBACK_LABEL);
+				Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Password does not match your current password", 13, FEEDBACK_LABEL);
 			}
 		} catch (ExceptionInInitializerError | PersistenceException e) {
 			Css.playFeedBackLabelTransition(FeedbackType.ERROR, "Could not connect to database", 13, FEEDBACK_LABEL);
