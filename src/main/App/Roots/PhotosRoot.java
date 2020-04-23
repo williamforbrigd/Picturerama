@@ -162,7 +162,7 @@ final class PhotosRoot extends SceneRoot {
 	 */
 	private void setupAlbumButtons() {
 		Css.setButton(700, 25, 20, ADD_TO_ALBUM_BUTTON);
-		ADD_TO_ALBUM_BUTTON.setOnAction(s -> createNewAlbumButtonPressed());
+		ADD_TO_ALBUM_BUTTON.setOnAction(s -> addToAlbumPressed());
 		if (UserInfo.getUser().getAlbums().isEmpty()) {
 			ADD_TO_ALBUM_BUTTON.setDisable(true);
 		}
@@ -224,7 +224,7 @@ final class PhotosRoot extends SceneRoot {
 	 * Method that creates the popup that can create albums and creates the action popup
 	 * Used in setupAlbumButtons
 	 */
-	private void createNewAlbumButtonPressed() {
+	private void addToAlbumPressed() {
 		PopUpWindow popupWindow = new PopUpWindow(ApplicationManager.getStage(), 500, 100);
 		popupWindow.getDialogWindow().setTitle("Add to album");
 		popupWindow.getDialogText().setText("Please select the name of the album:");

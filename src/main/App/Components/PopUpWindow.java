@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -47,6 +48,13 @@ public final class PopUpWindow {
 
 		DIALOG_VBOX.getChildren().addAll(DIALOG_TEXT, DIALOG_HBOX);
 		Scene dialogScene = new Scene(DIALOG_VBOX, width, height);
+		//Sets the escape key to run the closeProgram method
+		dialogScene.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ESCAPE) {
+				DIALOG_WINDOW.close();
+			}
+		});
+
 		DIALOG_WINDOW.setScene(dialogScene);
 		DIALOG_WINDOW.show();
 	}
